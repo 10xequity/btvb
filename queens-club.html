@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- Boomtown Athletics · queens-club · v0.6.0 · 2026-06-20 --><html lang="en"><head>
+<!DOCTYPE html><!-- Boomtown Athletics · queens-club · v0.8.0 · 2026-06-21 --><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><title>Queens Club</title>
 <link rel="canonical" href="https://www.queensclubvb.com/">
@@ -40,16 +40,16 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
 .bt{margin-top:30px;display:inline-block;font-family:"Anton",sans-serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;
  color:#141414;text-decoration:none;text-shadow:0 1px 0 #2b2b2b,0 -1px 0 #000}
 .bt:hover{color:#1c1c1c}
-</style><link rel="icon" type="image/png" href="assets/img/boom-sm.png"></head><body>
+/* ===== Boomtown motion system (emil) ===== */:root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1)}.btn,.btn-ghost{transition:background .18s ease,border-color .18s ease,color .18s ease,transform .12s var(--ease-out),box-shadow .18s ease}.btn:active,.btn-ghost:active{transform:scale(.97)}.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}.reveal.in{opacity:1;transform:none}@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}}.sband{position:relative;overflow:hidden;text-align:center;background:linear-gradient(135deg,#ffe27a,#F8C400 42%,#e0a312);color:#111;padding:14px 16px}.sband b{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:1px;font-size:clamp(16px,2.4vw,24px);position:relative;z-index:1}.sband::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 43%,rgba(255,255,255,.45) 50%,transparent 57%);animation:tbShine 5.5s linear infinite}@keyframes tbShine{0%{transform:translateX(-60%)}100%{transform:translateX(60%)}}#toTop{position:fixed;right:18px;bottom:18px;z-index:60;width:46px;height:46px;border-radius:50%;border:2px solid #F8C400;background:#0a0a0b;color:#F8C400;font-size:20px;line-height:1;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s var(--ease-out,ease),transform .12s ease,background .18s ease}#toTop.show{opacity:1;pointer-events:auto}#toTop:hover{background:#F8C400;color:#0a0a0b}#toTop:active{transform:scale(.92)}@media (prefers-reduced-motion:reduce){#toTop{transition:opacity .25s ease}}.qcphoto{width:min(360px,82%);border-radius:10px;margin:2px auto 6px;aspect-ratio:16/10;object-fit:cover;display:block}.qcinfo{font-size:13px;color:#cfcfe0;margin:8px auto 0;max-width:300px;line-height:1.5}.qcinfo b{color:#f6c733}</style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"></head><body>
 <main class="wrap" id="card">
  <img class="logo" src="assets/img/qc-shine.png" alt="Queens Club">
- <h1>Queens Club</h1>
+ <h1>Queens Club</h1><img class="qcphoto" src="assets/img/action/action-set.jpg" alt="Queens Club women’s volleyball at Boomtown">
  <p class="invite">You have been invited</p>
  <div class="gate">
    <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
    <button id="go" type="button">Enter</button>
  </div>
- <p class="granted">Access granted — entering…</p>
+ <p class="qcinfo">All games <b>7:15–9:15 PM</b> · <b>6 games</b> per night · no late games.</p><p class="granted">Access granted — entering…</p>
  <p class="msg" id="msg" role="status" aria-live="polite"></p>
  <a class="bt" href="https://www.boomtownathletics.com">Boomtown Athletics</a>
 </main>
@@ -60,9 +60,9 @@ function enter(){
  if(!v){shake("Enter your code");return;}
  if(CODE && v.toUpperCase()!==CODE.toUpperCase()){shake("Invalid code");return;}
  msg.textContent="";document.getElementById("card").classList.add("ok");
- setTimeout(function(){location.href="https://www.boomtownathletics.com/womens-league";},900);
+ setTimeout(function(){location.href="https://www.boomtownathletics.com/womens-league#qualify";},900);
 }
 function shake(t){var m=document.getElementById("msg"),c=document.getElementById("card");m.textContent=t;c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");}
 document.getElementById("go").addEventListener("click",enter);
 document.getElementById("code").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
-</script></body></html>
+</script><button id="toTop" aria-label="Back to top" title="Back to top">↑</button><script>(function(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -8% 0px"});document.querySelectorAll(".section, .cine").forEach(function(el){el.classList.add("reveal");io.observe(el);});})();</script><script>(function(){var b=document.getElementById("toTop");if(!b)return;var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;addEventListener("scroll",function(){b.classList.toggle("show",scrollY>520);},{passive:true});b.addEventListener("click",function(){scrollTo({top:0,behavior:rm?"auto":"smooth"});});})();</script></body></html>
