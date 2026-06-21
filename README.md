@@ -17,3 +17,6 @@ index · tournaments · drop-in · womens-league · mens-league · co-ed-leagues
 ## Assets
 Local images in `/assets/img/`. Team/venue photos and partner logos load from Wix/partner URLs.
 `robots.txt` disallows `/queens-club`; `sitemap.xml` excludes it.
+
+---
+_Boomtown Athletics site · v0.6.0 · 2026-06-20_

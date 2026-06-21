@@ -1,0 +1,69 @@
+# Boomtown Athletics — Design System &amp; Decisions
+
+**Last updated:** 2026-06-20
+**Version:** 0.6.0
+**Prompt version:** 1.8.0
+
+## Source of truth
+`design.md` is canonical for **design** decisions. The **GitHub repo** is canonical for **code**.
+On context doubt: re-read this file, re-ground, then proceed.
+
+## HTML Preview
+- Local: `site/index.html`, `site/queens-club.html`
+- Deployed (Cloudflare Pages): _TBD on first push_
+
+## Brand tokens (derived from 2026 logos)
+| Token | Hex | Use |
+|---|---|---|
+| `--ink` | `#0a0a0b` | Page surface |
+| `--ink-2` | `#141417` | Raised panels |
+| `--gold` | `#eec51d` | Boomtown gold (primary accent) |
+| `--gold-2` | `#f6c733` | Hover / Queens Club gold |
+| `--navy` | `#07085b` | Queens Club only |
+| `--bone` | `#f4f2ec` | Body text on dark |
+
+**Type:** Display = **Anton** (condensed, tournament-poster). Body = **Archivo**. Utility/data = **JetBrains Mono** ("scoreboard" times, eyebrows, buttons).
+**Signature:** gold "serve-line" rules + mono scoreboard type for hours/times. Nocturnal gym tone (open 5–11PM).
+**Logos:** `assets/img/boom-logo.png` (transparent, 2026 primary "BOOM"), `assets/img/qc-logo.png` (transparent Queens Club).
+
+## Pages
+Nav: **Home · Women's · Men's · Co-Ed · Training · Tournaments · Drop-In · Contact**. Partners = Home section. Queens Club hidden.
+
+| Page | Status | Schema | Data |
+|---|---|---|---|
+| Home `/` | ✅ built | SportsActivityLocation | IG feed (KV) |
+| Women's League `/womens-league` ⭐ | pending | FAQPage + Event | Sheet: Leagues |
+| Men's League `/mens-league` | pending | FAQPage + Event | Sheet: Leagues |
+| Co-Ed Leagues `/co-ed-leagues` | pending | FAQPage | MPS (featured) + Volo (rec) |
+| Training `/training` | pending | FAQPage | static (adult + youth) |
+| Tournaments `/tournaments` | pending | FAQPage + Event | Sheet: Tournaments |
+| Drop-In `/drop-in` | pending | FAQPage | static |
+| Contact `/contact` | pending | — | static |
+| Queens Club `/queens-club` | ✅ built | none · `noindex` · robots-disallow · sitemap-excluded | → Women's League |
+
+## Data layer (Google Sheet → published CSV per tab)
+- **Leagues:** `title, division(womens|mens), format(2s|4s|6s|indoor), date, time, location, link, status`
+- **Tournaments:** `title, date, location, link, status`
+- **Partners:** `name, logo_url, website, tier(sport|league|gear|community)`
+- Women's `2s`/`4s` rows may carry a Queens Club `link` (hidden until QC goes live).
+
+## Partners (Home, tiered)
+Sport/governing: USAV RMR, AVP · Leagues: Match Point Social, Volo · Gear: lululemon, Rhone, adidas · Community: Colorado Athletics Foundation, Aurora Public Schools, Special Olympics CO, Texas Roadhouse.
+Removed (→ future FieldhouseUSA site): Meet.Play.Chill, Hoop Dream Nation, REAL Futsal, Zara Gymnastics, Rise Up.
+_Logos: currently rendered as wordmark chips; official logo files to be dropped into `assets/img/partners/` or the Partners tab `logo_url`._
+
+## Instagram (locked)
+Behold free JSON → Cloudflare **Worker on Cron (every 12h)** → write to **KV** (+ R2 media re-host for the free >6-post workaround) → site reads `/api/ig`. Origin ≈ 60 hits/mo vs Behold's 1,200 free cap. Use Behold-hosted (`behold.pictures`) / R2 URLs, never raw IG CDN (expires). **v2 path documented separately** (Instagram API w/ Instagram Login, `instagram_business_basic`, 60-day token refresh, token in Worker Secrets).
+
+## Hours (JSON-LD)
+Mon–Fri 17:00–23:00 · Sat 19:00–23:00 · Sun 16:00–23:00.
+
+## SEO
+No Google Business Profile (deliberate — avoids reviews/griefing). Funnel = Instagram + word of mouth + competitive-intent search. `address` = Aurora; `areaServed` = Denver metro. Per page: unique title/meta/H1, OG, FAQPage; Event JSON-LD for leagues/tournaments from the Sheet.
+
+## Change Log
+- **0.6.0 (2026-06-20)** — Home + global pass. **Fixed deploy-blocking bug:** all internal links/assets converted from root-absolute to **relative** paths across all 10 pages (pages now load on the project sub-path / locally; was 404ing every nav + image). Favicon added site-wide = gold spiker mark (cut from 2026 BOOM logo, bg removed); `boom-logo.png` transparent canonical asset added. Home hero bg → new cropped action collage (bottom row removed, top-anchored). Cinematic Tournaments: removed eyebrow + "One-day brackets" + "USAV·AVP·AAU sanctioned"; now **No Membership Fees to Play · More Games, Better Prizes** (gold/white). Cinematic Drop-In: 1-line title, subhead **New? Come Play!**, hours moved to white body line; pills → $10 +fees · Ages 14+ · All levels welcomed. `spike.jpg` reframed to drop the "Colorado Boom" overlay box. Sanctioned band → **OFFICIALLY SANCTIONED BY**. Partner logos hosted locally (lululemon, Shoot360, Team Evo, Nuggets, CAF[dark tile]); added Community: Chance Sports, My Spark Denver, Denver Nuggets. **Motion system (emil-reviewed):** custom ease curves, hero stagger-rise, scroll-reveal (IntersectionObserver, opt-in so reduced-motion/no-JS = full content), button :active press, CTA shine sweep; all gated by prefers-reduced-motion + hover media queries.
+- **0.4.0 (2026-06-20)** — Nav: Leagues dropdown (Women's/Men's/Co-Ed), removed Play-tonight button, Training label. Home: shiny gold-gradient CTA (black/white text), tournaments "Denver Metro's" + spike photo + no "open divisions", drop-in listed as text (no pills), "Want to play everyday?" subhead, card headers-over-subheaders with glowing differentiated gold, fuller mission + About anchor + team photo, "Follow us @boomtownvb / don't miss out", partners intro reworded + logos with names + centered + Home-venue tier removed, new Boomtown FieldhouseUSA section, mailing copy = monthly events (no "alerts"), city SEO. New /facility-rules page (summarized from BT events page). Tournaments → "Volleyball Tournaments" H1, anchor chips, Formats & Rules (Revco 4s, gendered 6s, 4s, short-court doubles) + USAV/AVP links, USAV Qualifier section. Women's: Indoor/Grass programs + indoor qualifying. SEO refreshed across pages.
+- **0.3.0 (2026-06-20)** — Top banner ("Official Volleyball Company · Sanctioned by USAV·AVP·AAU"); hero motto "Play Everyday" (Everyday white) + official-company subhead; subheads moved under titles, white/bold, site-wide. Partners only on Home with new tiers (added AAU, Co-Ed League Partners label, expanded Gear, Facility partners, Town Center community, Boomtown FieldhouseUSA). Tournaments page: traditional venue block, Sanctioned-by strip only, Day column added, Island/sand removed. Drop-In FAQ imported from BT facility FAQ. Training renamed "Volleyball Training", sand removed, Colorado Boom club section (placeholder). Contact: Lost&Found first. IG now 3×3 + Load more. Queens Club: shine-gradient gold logo, centered stacked code gate, embossed "Boomtown Athletics", links to queensclubvb.com→womens-league. Hero images on every page (~20% black gradient).
+- **0.2.0 (2026-06-20)** — Full multi-page demo: all 7 nav pages built (Tournaments, Drop-In, Women's, Men's, Co-Ed, Training, Contact) + Home + Queens Club. Simplified to two fonts (Anton/Archivo); palette locked to yellow titles / gold details / white body, no gray, no mono. Real copy + photos pulled from boomtownvb.com; drop-in (Thu–Mon, 7–11PM, $10+fees) featured site-wide; Tournaments prioritized first. Partner wall with logos incl. Boomtown FieldhouseUSA. IG scroller. Facility hours removed (vary by programming).
+- **0.1.0 (2026-06-20)** — Initialized. Brand tokens from 2026 BOOM + Queens Club logos; theme.css; Home page; Queens Club QR landing; IG feed component (placeholder); robots/sitemap with QC excluded. Remaining pages, Sheet wiring, IG Worker deploy, and official partner logos pending.
