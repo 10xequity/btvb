@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>Queens Club</title>
+<link rel="canonical" href="https://www.queensclubvb.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}html,body{height:100%}
+body{min-height:100svh;display:grid;place-items:center;padding:34px;text-align:center;color:#f4f2ec;
+ font-family:"Archivo",sans-serif;position:relative;overflow:hidden;
+ background:radial-gradient(120% 90% at 50% 10%,#1a1a1a 0%,#0c0c0c 56%,#050505 100%),#050505}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;
+ background:radial-gradient(55% 42% at 50% 36%,rgba(246,199,51,.13),transparent 70%)}
+.wrap{position:relative;z-index:1;width:100%;max-width:440px;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.wrap{animation:none}}
+.logo{width:min(210px,58%);margin:0 auto 22px;display:block;
+ filter:drop-shadow(0 4px 0 rgba(0,0,0,.45)) drop-shadow(0 12px 36px rgba(246,199,51,.25))}
+h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:7px;
+ font-size:clamp(34px,11vw,52px);line-height:1;margin-bottom:14px;
+ background:linear-gradient(180deg,#ffe07a 0%,#f6c733 42%,#cf9a1f 100%);
+ -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f6c733}
+.invite{font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#f6c733;margin-bottom:30px}
+.gate{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:300px;margin:0 auto}
+.gate input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(246,199,51,.4);color:#f4f2ec;
+ font-family:"Archivo",sans-serif;font-size:15px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+ text-align:center;padding:15px 14px;border-radius:3px;outline:none}
+.gate input::placeholder{color:#7a6a2a;letter-spacing:.22em}
+.gate input:focus{border-color:#f6c733;box-shadow:0 0 0 2px rgba(246,199,51,.2)}
+.gate button{width:100%;background:#f6c733;color:#0a0a0a;border:2px solid #f6c733;font-family:"Archivo",sans-serif;
+ font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:14px;border-radius:3px;cursor:pointer;transition:.18s}
+.gate button:hover{background:#ffd54a;border-color:#ffd54a;transform:translateY(-1px)}
+.gate button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.msg{min-height:18px;margin-top:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#d6584e}
+.ok .gate{display:none}.ok .granted{display:block}
+.granted{display:none;color:#f6c733;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.shake{animation:sh .35s}@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.bt{margin-top:30px;display:inline-block;font-family:"Anton",sans-serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;
+ color:#141414;text-decoration:none;text-shadow:0 1px 0 #2b2b2b,0 -1px 0 #000}
+.bt:hover{color:#1c1c1c}
+</style><link rel="icon" type="image/png" href="/assets/img/boom-sm.png"></head><body>
+<main class="wrap" id="card">
+ <img class="logo" src="/assets/img/qc-shine.png" alt="Queens Club">
+ <h1>Queens Club</h1>
+ <p class="invite">You have been invited</p>
+ <div class="gate">
+   <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
+   <button id="go" type="button">Enter</button>
+ </div>
+ <p class="granted">Access granted — entering…</p>
+ <p class="msg" id="msg" role="status" aria-live="polite"></p>
+ <a class="bt" href="https://www.boomtownathletics.com">Boomtown Athletics</a>
+</main>
+<script>
+var CODE="";
+function enter(){
+ var v=document.getElementById("code").value.trim(),msg=document.getElementById("msg");
+ if(!v){shake("Enter your code");return;}
+ if(CODE && v.toUpperCase()!==CODE.toUpperCase()){shake("Invalid code");return;}
+ msg.textContent="";document.getElementById("card").classList.add("ok");
+ setTimeout(function(){location.href="https://www.boomtownathletics.com/womens-league";},900);
+}
+function shake(t){var m=document.getElementById("msg"),c=document.getElementById("card");m.textContent=t;c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");}
+document.getElementById("go").addEventListener("click",enter);
+document.getElementById("code").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
+</script></body></html>

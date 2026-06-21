@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /queens-club
+Disallow: /queens-club.html
+
+Sitemap: https://www.boomtownathletics.com/sitemap.xml
