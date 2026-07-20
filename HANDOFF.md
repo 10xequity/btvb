@@ -1,5 +1,5 @@
 # Boomtown Athletics — Website Rebuild · HANDOFF
-**Version: v0.17.0 · Prompt v2.0.0 · Updated: 2026-07-19**
+**Version: v0.18.0 · Prompt v2.0.0 · Updated: 2026-07-19**
 
 Static site replacing the old Wix build for **Boomtown Athletics** (competitive volleyball,
 Denver metro), hosted inside **Boomtown FieldhouseUSA, 14200 E Alameda Ave, Aurora, CO 80012**.
@@ -82,6 +82,13 @@ v0.1–v0.13 predate this project's searchable history; their outline is from th
 
 ## v0.16.0 addendum (same day)
 schedule.html added (What's On board, widget v3 embedded, hash-filter deep links: #tournaments/#leagues/#events/#partners); tournament nav/CTAs → schedule.html#tournaments; stale placeholder schedule table + ALL raw Sheet links removed from pages; hero LCP fix (eager + fetchpriority=high). Widget-placement gate CLOSED (dedicated page). Remaining gates: host, www/apex, CSV URLs, Pixel ID, push approval.
+
+## v0.18.0 addendum (same day)
+Nav→dropdowns (Tournaments ▾ = Live Schedule/Format & Rules/Skill Levels; Drop-In ▾ = Nights/FAQ) across all 10 pages. Tournaments Formats & Rules populated (USAV 2025–27-based; Revco/4s/6s/2s + scoring), rules links moved to top + Facility Rules chip in hero. New **skill-levels.html** (/skill-levels, sitemap, FAQPage) — content from MPS skill-levels page (owner-authored), grammar-fixed, reframed to Boomtown; linked under Tournaments ▾. **Queens Club rebuilt as the Women's gate:** black/elite, photos removed, animated gold shine crest, code modal (any code passes) → womens-league#qualify, Exit→home; Women's nav now routes through it. womens-league stays directly indexable. Women's League 2nd photo added (balance). Home: mail→cine black gap removed; tournaments image focal raised. Molten tile cleaned (stopgap; owner to paste official asset). Fixed missing </main> on 7 pages. **PUSHED to main (v0.18.0).** Remaining gates: host, www/apex, Pixel ID, DNS.
+
+
+## v0.18.0 addendum (same day)
+Content + nav + gate session, **pushed to `main`**. Nav→dropdowns: **Tournaments ▾** (Live Schedule / Format &amp; Rules / Skill Levels), **Drop-In ▾** (Nights / FAQ). Leagues→Women’s now points at **queens-club.html** (gate). **tournaments.html** Formats &amp; Rules fully populated (USAV 2025–27 + Boomtown mods, Revco/4s/6s/2s + scoring); rulebook links &amp; Facility-Rules chip moved to top. **New skill-levels.html** (/skill-levels; sitemap + footer; FAQPage schema) — owner-authored ladder copy mirroring the MPS partner page, grammar-corrected, refs re-pointed to Boomtown. **queens-club.html** rebuilt as Women’s gate: black/elite, animated gold shine crest, accessible any-code modal → womens-league#qualify, Exit→home; womens-league stays directly indexable. **womens-league.html** Indoor card gets a balancing photo. **index.html** mailing-band/cine seam closed + tournaments cine raised. **Molten** mark de-checkerboarded (stopgap; owner pasting official asset). Remaining gates unchanged: host decision, www/apex, Pixel ID, DNS.
 
 ## Stack / deploy
 - **Code canon:** github.com/10xequity/btvb (`main`). **Deploy:** GitHub Pages

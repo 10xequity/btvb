@@ -1,68 +1,153 @@
-<!DOCTYPE html><!-- Boomtown Athletics · queens-club · v0.13.0 · 2026-06-21 --><html lang="en"><head>
+<!DOCTYPE html><!-- Boomtown Athletics · queens-club · v0.18.0 · 2026-07-19 --><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><title>Queens Club</title>
 <link rel="canonical" href="https://www.queensclubvb.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+:root{--gold:#f6c733;--gold-hi:#ffe07a;--gold-lo:#cf9a1f;--ease-out:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1)}
 *{box-sizing:border-box;margin:0}html,body{height:100%}
 body{min-height:100svh;display:grid;place-items:center;padding:34px;text-align:center;color:#f4f2ec;
- font-family:"Archivo",sans-serif;position:relative;overflow:hidden;
- background:radial-gradient(120% 90% at 50% 10%,#1a1a1a 0%,#0c0c0c 56%,#050505 100%),#050505}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;
+ font-family:"Archivo",sans-serif;position:relative;overflow:hidden;background:#000}
+/* faint noise keeps pure black from banding — no photos, no gradients */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.045;
  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
-/* v0.15.0: gold radial wash removed — glow now lives on the logo drop-shadow only */
-.wrap{position:relative;z-index:1;width:100%;max-width:440px;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.wrap{animation:none}}
-.logo{width:min(210px,58%);margin:0 auto 22px;display:block;
- filter:drop-shadow(0 3px 8px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(246,199,51,.16))}
+.wrap{position:relative;z-index:1;width:100%;max-width:440px;animation:rise .7s var(--ease-out) both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---- exit (top-right) ---- */
+.exit{position:fixed;top:18px;right:18px;z-index:5;font-size:11px;font-weight:700;letter-spacing:.24em;
+ text-transform:uppercase;color:#8a8a8a;text-decoration:none;border:1px solid rgba(255,255,255,.16);
+ border-radius:999px;padding:9px 16px;transition:color .18s ease,border-color .18s ease}
+.exit:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media(hover:hover) and (pointer:fine){.exit:hover{color:var(--gold);border-color:rgba(246,199,51,.55)}}
+
+/* ---- the crest: gold, alive, and the only door ---- */
+.crest{position:relative;display:block;width:min(220px,58%);margin:0 auto 22px;padding:0;border:0;background:none;cursor:pointer}
+.crest img{width:100%;display:block;
+ filter:drop-shadow(0 4px 10px rgba(0,0,0,.65)) drop-shadow(0 0 18px rgba(246,199,51,.22));
+ transition:filter .25s ease,transform .25s var(--ease-out)}
+@media(hover:hover) and (pointer:fine){
+ .crest:hover img{transform:scale(1.03);filter:drop-shadow(0 5px 12px rgba(0,0,0,.7)) drop-shadow(0 0 26px rgba(246,199,51,.4))}}
+.crest:active img{transform:scale(.98)}
+.crest:focus-visible{outline:2px solid var(--gold);outline-offset:8px;border-radius:10px}
+/* animated gold shine: a light band swept across, masked to the crest itself */
+@supports ((mask-image:url("")) or (-webkit-mask-image:url(""))){
+ .crest::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,240,190,.95) 50%,transparent 60%);
+  background-size:260% 100%;background-position:130% 0;background-repeat:no-repeat;
+  -webkit-mask-image:url("assets/img/qc-shine.png");-webkit-mask-size:contain;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center;
+  mask-image:url("assets/img/qc-shine.png");mask-size:contain;mask-repeat:no-repeat;mask-position:center;
+  animation:crestShine 4.2s var(--ease-io) 1.1s infinite}
+ @keyframes crestShine{0%{background-position:130% 0}45%,100%{background-position:-130% 0}}
+}
 h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:7px;
  font-size:clamp(34px,11vw,52px);line-height:1;margin-bottom:14px;
- background:linear-gradient(180deg,#ffe07a 0%,#f6c733 42%,#cf9a1f 100%);
- -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#f6c733}
-.invite{font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#f6c733;margin-bottom:30px}
-.gate{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:300px;margin:0 auto}
+ background:linear-gradient(180deg,var(--gold-hi) 0%,var(--gold) 42%,var(--gold-lo) 100%);
+ -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold)}
+.invite{font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hint{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#6f6f6f;margin-bottom:26px}
+.qctable{width:min(330px,92%);margin:8px auto 4px;border-collapse:collapse;font-size:12.5px}
+.qctable td{padding:8px 12px;border-bottom:1px solid rgba(246,199,51,.18);text-align:left;color:#bdbdc9;letter-spacing:.04em}
+.qctable td:last-child{text-align:right;color:var(--gold);font-weight:700}
+.qctable tr:last-child td{border-bottom:0}
+.bt{margin-top:30px;display:inline-block;font-family:"Anton",sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;
+ color:#6f6f6f;text-decoration:none;transition:color .18s ease}
+@media(hover:hover) and (pointer:fine){.bt:hover{color:var(--gold)}}
+.bt:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---- code modal ---- */
+.veil{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:24px;
+ background:rgba(0,0,0,.72);backdrop-filter:blur(3px);
+ opacity:0;pointer-events:none;transition:opacity .2s ease}
+.veil.open{opacity:1;pointer-events:auto}
+.modal{width:100%;max-width:340px;background:#0a0a0a;border:1px solid rgba(246,199,51,.35);border-radius:8px;
+ padding:30px 26px 26px;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 40px rgba(246,199,51,.07);
+ opacity:0;transform:scale(.95) translateY(6px);transition:opacity .22s var(--ease-out),transform .22s var(--ease-out)}
+.veil.open .modal{opacity:1;transform:none}
+.modal h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:3px;font-size:20px;color:var(--gold);margin-bottom:4px}
+.modal .mi{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8a8a8a;margin-bottom:20px}
+.x{position:absolute;top:10px;right:10px;width:32px;height:32px;border:0;border-radius:6px;background:none;color:#8a8a8a;font-size:18px;line-height:1;cursor:pointer;transition:color .15s ease,background .15s ease}
+.x:hover{color:#fff;background:rgba(255,255,255,.06)}.x:focus-visible{outline:2px solid var(--gold)}
+.gate{display:flex;flex-direction:column;gap:12px}
 .gate input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(246,199,51,.4);color:#f4f2ec;
  font-family:"Archivo",sans-serif;font-size:15px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
  text-align:center;padding:15px 14px;border-radius:3px;outline:none}
 .gate input::placeholder{color:#7a6a2a;letter-spacing:.22em}
-.gate input:focus{border-color:#f6c733;box-shadow:0 0 0 2px rgba(246,199,51,.2)}
-.gate button{width:100%;background:#f6c733;color:#0a0a0a;border:2px solid #f6c733;font-family:"Archivo",sans-serif;
- font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:14px;border-radius:3px;cursor:pointer;transition:.18s}
-.gate button:hover{background:#ffd54a;border-color:#ffd54a;transform:translateY(-1px)}
+.gate input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(246,199,51,.2)}
+.gate button{width:100%;background:var(--gold);color:#0a0a0a;border:2px solid var(--gold);font-family:"Archivo",sans-serif;
+ font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:14px;border-radius:3px;cursor:pointer;
+ transition:background .18s ease,border-color .18s ease,transform .12s var(--ease-out)}
+.gate button:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){.gate button:hover{background:#ffd54a;border-color:#ffd54a}}
 .gate button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.msg{min-height:18px;margin-top:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#d6584e}
-.ok .gate{display:none}.ok .granted{display:block}
-.granted{display:none;color:#f6c733;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.msg{min-height:18px;margin-top:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#d6584e}
+.msg.ok{color:var(--gold)}
 .shake{animation:sh .35s}@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.bt{margin-top:30px;display:inline-block;font-family:"Anton",sans-serif;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;
- color:#141414;text-decoration:none;text-shadow:0 1px 0 #2b2b2b,0 -1px 0 #000}
-.bt:hover{color:#1c1c1c}
-/* ===== Boomtown motion system (emil) ===== */:root{--ease-out:cubic-bezier(.23,1,.32,1);--ease-io:cubic-bezier(.77,0,.175,1)}.btn,.btn-ghost{transition:background .18s ease,border-color .18s ease,color .18s ease,transform .12s var(--ease-out),box-shadow .18s ease}.btn:active,.btn-ghost:active{transform:scale(.97)}.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}.reveal.in{opacity:1;transform:none}@media (prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important}}.sband{position:relative;overflow:hidden;text-align:center;background:linear-gradient(135deg,#ffe27a,#F8C400 42%,#e0a312);color:#111;padding:14px 16px}.sband b{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:1px;font-size:clamp(16px,2.4vw,24px);position:relative;z-index:1}.sband::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 43%,rgba(255,255,255,.45) 50%,transparent 57%);animation:tbShine 5.5s linear infinite}@keyframes tbShine{0%{transform:translateX(-60%)}100%{transform:translateX(60%)}}#toTop{position:fixed;right:18px;bottom:18px;z-index:60;width:46px;height:46px;border-radius:50%;border:2px solid #F8C400;background:#0a0a0b;color:#F8C400;font-size:20px;line-height:1;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s var(--ease-out,ease),transform .12s ease,background .18s ease}#toTop.show{opacity:1;pointer-events:auto}#toTop:hover{background:#F8C400;color:#0a0a0b}#toTop:active{transform:scale(.92)}@media (prefers-reduced-motion:reduce){#toTop{transition:opacity .25s ease}}.qcphoto{width:min(360px,82%);border-radius:10px;margin:2px auto 6px;aspect-ratio:16/10;object-fit:cover;display:block}.qcinfo{font-size:13px;color:#cfcfe0;margin:8px auto 0;max-width:300px;line-height:1.5}.qcinfo b{color:#f6c733}#qcbg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;z-index:0}.qccar{position:relative;width:min(370px,84%);margin:2px auto 10px;aspect-ratio:16/10;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.5)}.qccar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:qcf 18s infinite}.qccar img:nth-child(2){animation-delay:6s}.qccar img:nth-child(3){animation-delay:12s}@keyframes qcf{0%{opacity:0}4%{opacity:1}30%{opacity:1}34%{opacity:0}100%{opacity:0}}@media(prefers-reduced-motion:reduce){.qccar img{animation:none;opacity:0}.qccar img:first-child{opacity:1}}.qctable{width:min(330px,92%);margin:8px auto 4px;border-collapse:collapse;font-size:12.5px}.qctable td{padding:8px 12px;border-bottom:1px solid rgba(246,199,51,.18);text-align:left;color:#cfcfe0;letter-spacing:.04em}.qctable td:last-child{text-align:right;color:#f6c733;font-weight:700}.qctable tr:last-child td{border-bottom:0}</style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"></head><body>
-<img id="qcbg" src="assets/img/community/womens-team-boom.jpg" alt="" aria-hidden="true">
-<main class="wrap" id="card">
- <img class="logo" src="assets/img/qc-shine.png" alt="Queens Club">
- <h1>Queens Club</h1><div class="qccar"><img src="assets/img/community/womens-team-boom.jpg" alt="Queens Club women’s volleyball team at Boomtown" loading="lazy" decoding="async"><img src="assets/img/action/grass-women.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/img/action/action-set.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
- <p class="invite">You have been invited</p>
- <div class="gate">
-   <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
-   <button id="go" type="button">Enter</button>
- </div>
- <table class="qctable"><tr><td>Nights</td><td>Tue &ndash; Sun</td></tr><tr><td>Time</td><td>7:15 &ndash; 9:15 PM</td></tr><tr><td>Games / night</td><td>6 &middot; no late games</td></tr></table><p class="granted">Access granted — entering…</p>
- <p class="msg" id="msg" role="status" aria-live="polite"></p>
- <a class="bt" href="https://www.boomtownathletics.com">Boomtown Athletics</a>
-</main>
-<script>
-var CODE="";
-function enter(){
- var v=document.getElementById("code").value.trim(),msg=document.getElementById("msg");
- if(!v){shake("Enter your code");return;}
- if(CODE && v.toUpperCase()!==CODE.toUpperCase()){shake("Invalid code");return;}
- msg.textContent="";document.getElementById("card").classList.add("ok");
- setTimeout(function(){location.href="https://www.boomtownathletics.com/womens-league#qualify";},900);
+
+@media(prefers-reduced-motion:reduce){
+ .wrap{animation:none}
+ .crest::after{animation:none;background:none}
+ .crest img,.gate button,.modal,.veil{transition:opacity .2s ease}
+ .modal{transform:none}
+ .shake{animation:none}
 }
-function shake(t){var m=document.getElementById("msg"),c=document.getElementById("card");m.textContent=t;c.classList.remove("shake");void c.offsetWidth;c.classList.add("shake");}
-document.getElementById("go").addEventListener("click",enter);
-document.getElementById("code").addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
-</script><button id="toTop" aria-label="Back to top" title="Back to top">↑</button><script>(function(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.1,rootMargin:"0px 0px -8% 0px"});document.querySelectorAll(".section, .cine").forEach(function(el){el.classList.add("reveal");io.observe(el);});})();</script><script>(function(){var b=document.getElementById("toTop");if(!b)return;var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;addEventListener("scroll",function(){b.classList.toggle("show",scrollY>520);},{passive:true});b.addEventListener("click",function(){scrollTo({top:0,behavior:rm?"auto":"smooth"});});})();</script></body></html>
+</style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"></head><body>
+<a class="exit" href="index.html">Exit ✕</a>
+<main class="wrap">
+ <a class="crest" id="crest" href="womens-league.html#qualify" aria-haspopup="dialog" aria-controls="veil"><img src="assets/img/qc-shine.png" alt="Queens Club — tap to enter"></a>
+ <h1>Queens Club</h1>
+ <p class="invite">You have been invited</p>
+ <p class="hint">Tap the crest to enter</p>
+ <table class="qctable"><tr><td>Nights</td><td>Tue &ndash; Sun</td></tr><tr><td>Time</td><td>7:15 &ndash; 9:15 PM</td></tr><tr><td>Games / night</td><td>6 &middot; no late games</td></tr></table>
+ <a class="bt" href="index.html">Boomtown Athletics</a>
+</main>
+
+<div class="veil" id="veil" aria-hidden="true">
+ <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <button class="x" id="mclose" type="button" aria-label="Close">✕</button>
+  <h2 id="mtitle">Members Only</h2>
+  <p class="mi">Enter your invitation code</p>
+  <div class="gate">
+    <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
+    <button id="go" type="button">Enter</button>
+  </div>
+  <p class="msg" id="msg" role="status" aria-live="polite"></p>
+ </div>
+</div>
+
+<script>
+(function(){
+ var veil=document.getElementById("veil"),crest=document.getElementById("crest"),
+     input=document.getElementById("code"),go=document.getElementById("go"),
+     close=document.getElementById("mclose"),msg=document.getElementById("msg"),
+     modal=veil.querySelector(".modal"),last=null;
+ var DEST="womens-league.html#qualify";
+ function open(){last=document.activeElement;veil.classList.add("open");veil.setAttribute("aria-hidden","false");
+   setTimeout(function(){input.focus();},60);}
+ function shut(){veil.classList.remove("open");veil.setAttribute("aria-hidden","true");msg.textContent="";msg.classList.remove("ok");
+   if(last)last.focus();}
+ function shake(t){msg.classList.remove("ok");msg.textContent=t;
+   modal.classList.remove("shake");void modal.offsetWidth;modal.classList.add("shake");}
+ function enter(){
+   var v=input.value.trim();
+   if(!v){shake("Enter your code");return;}
+   msg.classList.add("ok");msg.textContent="Access granted \u2014 entering\u2026";
+   go.disabled=true;
+   setTimeout(function(){location.href=DEST;},700);
+ }
+ crest.addEventListener("click",function(e){e.preventDefault();open();});
+ go.addEventListener("click",enter);
+ close.addEventListener("click",shut);
+ input.addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
+ veil.addEventListener("click",function(e){if(e.target===veil)shut();});
+ document.addEventListener("keydown",function(e){
+   if(e.key==="Escape"&&veil.classList.contains("open"))shut();
+   if(e.key==="Tab"&&veil.classList.contains("open")){
+     var f=[input,go,close],i=f.indexOf(document.activeElement);
+     if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus();}
+     else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}
+   }
+ });
+})();
+</script></body></html>
