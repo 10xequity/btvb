@@ -261,8 +261,8 @@ src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"></nosc
 <script>
 /* =============== CONFIG — paste your two published-CSV links =================
    Leave "" to preview from built-in sample data. */
-const EVENTS_CSV_URL   = "";
-const PARTNERS_CSV_URL = "";
+const EVENTS_CSV_URL   = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7LfAZ_IHxc3cntV3yGVJtFa5vlCADbHrcq_Mc-yKj-EEt4X2pXrlpWgPH18eZPvoLA19NvHwPpds/pub?gid=2097603747&single=true&output=csv"; // baked v0.17.0 2026-07-19
+const PARTNERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7LfAZ_IHxc3cntV3yGVJtFa5vlCADbHrcq_Mc-yKj-EEt4X2pXrlpWgPH18eZPvoLA19NvHwPpds/pub?gid=454802271&single=true&output=csv"; // baked v0.17.0 2026-07-19
 /* ============================================================================ */
 
 const KIND_LABEL = {tournament:"Tournament", league:"League", event:"Event"};
@@ -416,10 +416,12 @@ async function init(){
   if(!EVENTS_CSV_URL && !PARTNERS_CSV_URL){ EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render(); return; }
   skeleton();
   try{
-    const [ev,pt]=await Promise.all([
+    let [ev,pt]=await Promise.all([
       EVENTS_CSV_URL?fetchCSV(EVENTS_CSV_URL):Promise.resolve(SAMPLE_EVENTS),
       PARTNERS_CSV_URL?fetchCSV(PARTNERS_CSV_URL):Promise.resolve(SAMPLE_PARTNERS)
     ]);
+    // v0.17.0: gid order auto-detect — if feeds arrived swapped (Events lacks `type` but has `tier`), swap them
+    if(ev.length&&pt.length&&!("type" in ev[0])&&("tier" in ev[0])&&("type" in pt[0])){const t=ev;ev=pt;pt=t;}
     EVENTS=ev.length?ev:SAMPLE_EVENTS; PARTNERS=pt.length?pt:SAMPLE_PARTNERS; render();
   }catch(e){
     EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render();

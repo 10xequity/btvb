@@ -1,5 +1,5 @@
 # Boomtown Athletics — Website Rebuild · HANDOFF
-**Version: v0.16.0 · Prompt v2.0.0 · Updated: 2026-07-19**
+**Version: v0.17.0 · Prompt v2.0.0 · Updated: 2026-07-19**
 
 Static site replacing the old Wix build for **Boomtown Athletics** (competitive volleyball,
 Denver metro), hosted inside **Boomtown FieldhouseUSA, 14200 E Alameda Ave, Aurora, CO 80012**.
@@ -101,7 +101,7 @@ Mailing list: forms.gle/PPFgrps7jkTrPr4DA · Behold: behold.so (Starter $10/mo r
 
 ## OPEN FLAGS / TODO (priority order)
 1. **Host decision** (Cloudflare Pages vs GitHub Pages) → unblocks canonical/URL strategy,
-   CNAME, DNS cutover. 2. **Publish Events+Partners CSV tabs → send 2 URLs** → wire widget.
+   CNAME, DNS cutover. 2. ~~Publish CSV tabs~~ DONE — URLs baked (v0.17.0); verify live render in browser.
 3. ~~Widget placement~~ DONE → schedule.html. 4. Behold Starter purchase + IG
    Business-account check → replace static 3×3 (or build the Worker→KV→R2 cache; Cloudflare
    MCP available). 5. Meta Pixel ID (approve connector or paste ID). 6. Push v0.15.0 to
