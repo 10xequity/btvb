@@ -1,5 +1,5 @@
 # Boomtown Athletics — Website Rebuild · HANDOFF
-**Version: v0.18.0 · Prompt v2.0.0 · Updated: 2026-07-19**
+**Version: v0.19.0 · Prompt v2.0.0 · Updated: 2026-07-19**
 
 Static site replacing the old Wix build for **Boomtown Athletics** (competitive volleyball,
 Denver metro), hosted inside **Boomtown FieldhouseUSA, 14200 E Alameda Ave, Aurora, CO 80012**.
@@ -89,6 +89,10 @@ Nav→dropdowns (Tournaments ▾ = Live Schedule/Format & Rules/Skill Levels; Dr
 
 ## v0.18.0 addendum (same day)
 Content + nav + gate session, **pushed to `main`**. Nav→dropdowns: **Tournaments ▾** (Live Schedule / Format &amp; Rules / Skill Levels), **Drop-In ▾** (Nights / FAQ). Leagues→Women’s now points at **queens-club.html** (gate). **tournaments.html** Formats &amp; Rules fully populated (USAV 2025–27 + Boomtown mods, Revco/4s/6s/2s + scoring); rulebook links &amp; Facility-Rules chip moved to top. **New skill-levels.html** (/skill-levels; sitemap + footer; FAQPage schema) — owner-authored ladder copy mirroring the MPS partner page, grammar-corrected, refs re-pointed to Boomtown. **queens-club.html** rebuilt as Women’s gate: black/elite, animated gold shine crest, accessible any-code modal → womens-league#qualify, Exit→home; womens-league stays directly indexable. **womens-league.html** Indoor card gets a balancing photo. **index.html** mailing-band/cine seam closed + tournaments cine raised. **Molten** mark de-checkerboarded (stopgap; owner pasting official asset). Remaining gates unchanged: host decision, www/apex, Pixel ID, DNS.
+
+
+## v0.19.0 addendum (same day)
+Instagram feed **now live** on the home grid — client-side fetch of the Behold feed (feeds.behold.so/JgI7koDkWULorgLXnzkz), 9 posts, Behold-hosted square images, loading skeleton, ▶ badge on Reels/video, graceful fallback to the local static set on error. Chose direct client fetch over the Worker→KV cache (fits no-build + free view cap at current traffic; Worker path still documented for scale). Mobile: IG 3→2 col under 560px; new Tournaments/Drop-In dropdowns use existing static-submenu mobile pattern. SEO: BreadcrumbList added to skill-levels.html (+ existing FAQPage). Behold IG gate (item #4) effectively CLOSED for launch via direct feed; upgrade to Worker/KV or Behold Starter only if views approach the free cap. Verify live feed render + QC shine in a browser. Remaining gates unchanged: host, www/apex, Pixel ID, DNS.
 
 ## Stack / deploy
 - **Code canon:** github.com/10xequity/btvb (`main`). **Deploy:** GitHub Pages
