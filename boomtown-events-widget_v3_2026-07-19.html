@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!--
+  Boomtown Athletics — "What's On" live board (events + partners)
+  Version: v3.0.0 · 2026-07-19 — typography: monospace family removed; Anton display + Archivo UI text
+  ------------------------------------------------------------------
+  ONE spreadsheet, two tabs, one filter bar:
+    • Events tab  -> columns include a `type` column (tournament | league | event)
+    • Partners tab -> name, tier, website, logo_url  (logos, not dated events)
+  The buttons [All · Tournaments · Leagues · Events · Partners] filter client-side.
+  Events render as date cards; Partners render as tier-grouped logo tiles.
+
+  GO LIVE (one time):
+    1) In the Sheet: File -> Publish to the web -> pick the tab ->
+       "Comma-separated values (.csv)" -> Publish. Do it for Events AND Partners.
+    2) Paste the two links into EVENTS_CSV_URL and PARTNERS_CSV_URL below.
+    3) Copy the <style>, the .btw section, and the <script> into your page.
+       (Your pages already load Anton / Archivo, so drop the
+        font <link> when pasting in.)
+  Until the URLs are set, it previews from built-in sample data.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boomtown — What's On (v3.0.0 · 2026-07-19)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a0b; --ink-2:#141417; --gold:#eec51d; --gold-2:#f6c733;
+    --bone:#f4f2ec; --mut:#9a988f; --line:#24242a;
+    /* Emil: strong custom curves; built-ins are too weak */
+    --ease-out:cubic-bezier(.23,1,.32,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--bone);
+       font-family:'Archivo',system-ui,sans-serif;line-height:1.5;padding:48px 20px}
+
+  .btw{max-width:1080px;margin:0 auto}
+  .btw__eyebrow{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;
+       letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+  .btw__title{font-family:'Anton',sans-serif;font-weight:400;
+       font-size:clamp(32px,5.5vw,58px);line-height:.96;text-transform:uppercase;
+       margin:0 0 20px;color:var(--bone)}
+  .btw__rule{height:3px;border:0;margin:0 0 22px;
+       background:linear-gradient(90deg,var(--gold) 0 72px,var(--line) 72px 100%)}
+
+  /* ---- filter bar (segmented control) ---- */
+  .btw__filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+  .btw__filter{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;
+       letter-spacing:.08em;text-transform:uppercase;color:var(--bone);
+       background:var(--ink-2);border:1px solid var(--line);border-radius:999px;
+       padding:9px 16px;cursor:pointer;transition:color .15s ease,background .15s ease,border-color .15s ease}
+  .btw__filter[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+  .btw__filter:active{transform:scale(.97)}
+  .btw__filter:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  @media (hover:hover) and (pointer:fine){
+    .btw__filter:not([aria-pressed="true"]):hover{border-color:#40403a;color:#fff}
+  }
+
+  .btw__list{display:grid;gap:12px}
+
+  /* ---- event card ---- */
+  .btc{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:20px;
+       align-items:center;background:var(--ink-2);border:1px solid var(--line);
+       border-left:4px solid var(--gold);border-radius:10px;padding:18px 22px;
+       /* Emil: enter from 0.95/8px, never from nothing; retarget with transitions */
+       opacity:0;transform:translateY(8px);
+       transition:opacity .26s var(--ease-out),transform .26s var(--ease-out)}
+  .btc.is-in{opacity:1;transform:none}
+  .btc__date{font-family:'Archivo',sans-serif;text-align:center;min-width:78px;color:var(--gold-2)}
+  .btc__mon{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+  .btc__day{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:32px;line-height:1}
+  .btc__yr{display:block;font-size:11px;color:var(--mut);margin-top:2px}
+  .btc__body{min-width:0}
+  .btc__kind{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;
+       letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 4px}
+  .btc__name{font-family:'Anton',sans-serif;font-weight:400;font-size:20px;
+       text-transform:uppercase;margin:0 0 6px;color:var(--bone)}
+  .btc__meta{font-family:'Archivo',sans-serif;font-size:12.5px;color:var(--mut);
+       display:flex;flex-wrap:wrap;gap:5px 16px}
+  .btc__meta b{color:var(--bone);font-weight:500}
+
+  .btn{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;
+       letter-spacing:.05em;text-transform:uppercase;text-decoration:none;color:var(--ink);
+       background:var(--gold);border-radius:8px;padding:11px 18px;white-space:nowrap;
+       transition:background .15s ease,transform .12s var(--ease-out)}
+  .btn:active{transform:scale(.97)}
+  .btn:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  @media (hover:hover) and (pointer:fine){ .btn:hover{background:var(--gold-2)} }
+  .btn--muted{font-family:'Archivo',sans-serif;font-size:12px;color:var(--mut)}
+
+  /* ---- partners ---- */
+  .btp__tier{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;
+       letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:22px 0 12px}
+  .btp__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .btp__tile{display:flex;align-items:center;justify-content:center;min-height:84px;
+       background:var(--ink-2);border:1px solid var(--line);border-radius:10px;padding:16px;
+       text-decoration:none;opacity:0;transform:translateY(8px);
+       transition:opacity .26s var(--ease-out),transform .26s var(--ease-out),border-color .15s ease}
+  .btp__tile.is-in{opacity:1;transform:none}
+  @media (hover:hover) and (pointer:fine){ .btp__tile:hover{border-color:var(--gold)} }
+  .btp__tile img{max-height:44px;max-width:100%;object-fit:contain}
+  .btp__word{font-family:'Anton',sans-serif;font-size:16px;text-transform:uppercase;
+       color:var(--bone);text-align:center;letter-spacing:.02em}
+  .btp__cta{margin:18px 0 0;font-family:'Archivo',sans-serif;font-size:12px}
+  .btp__cta a{color:var(--gold);text-decoration:none}
+
+  /* ---- states ---- */
+  .btw__skel{height:80px;border-radius:10px;border:1px solid #1e1e22;
+       background:linear-gradient(90deg,#141417,#1c1c20,#141417);background-size:200% 100%;
+       animation:btsh 1.1s ease-in-out infinite}
+  @keyframes btsh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .btw__note{font-family:'Archivo',sans-serif;font-size:13px;color:var(--mut);
+       border:1px dashed #33333a;border-radius:10px;padding:16px 18px}
+  .btw__sub{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;
+       letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:24px 0 10px}
+
+  @media (max-width:620px){
+    .btc{grid-template-columns:auto 1fr}
+    .btc .btn{grid-column:1 / -1;text-align:center}
+  }
+  /* Emil: reduced motion = keep the opacity fade, drop the movement */
+  @media (prefers-reduced-motion:reduce){
+    .btc,.btp__tile{transition:opacity .2s ease;transform:none}
+    .btw__skel{animation:none}
+    .btn{transition:background .15s ease}
+  }
+</style>
+</head>
+<body>
+
+<section class="btw" aria-label="What's on at Boomtown">
+  <p class="btw__eyebrow">Denver Metro · Play Everyday</p>
+  <h2 class="btw__title">What's On</h2>
+  <hr class="btw__rule">
+
+  <div class="btw__filters" role="group" aria-label="Filter by type">
+    <button class="btw__filter" data-filter="all"        aria-pressed="true">All</button>
+    <button class="btw__filter" data-filter="tournament" aria-pressed="false">Tournaments</button>
+    <button class="btw__filter" data-filter="league"     aria-pressed="false">Leagues</button>
+    <button class="btw__filter" data-filter="event"      aria-pressed="false">Events</button>
+    <button class="btw__filter" data-filter="partner"    aria-pressed="false">Partners</button>
+  </div>
+
+  <div class="btw__list" data-btw-list aria-live="polite"></div>
+</section>
+
+<script>
+/* =============== CONFIG — paste your two published-CSV links =================
+   Leave "" to preview from built-in sample data. */
+const EVENTS_CSV_URL   = "";
+const PARTNERS_CSV_URL = "";
+/* ============================================================================ */
+
+const KIND_LABEL = {tournament:"Tournament", league:"League", event:"Event"};
+const TIER_LABEL = {
+  sport:"Sport & governing", leagues:"Co-Ed league partners",
+  facility:"Facility partners", community:"Community", gear:"Gear"
+};
+const TIER_ORDER = ["sport","leagues","facility","community","gear"];
+
+/* ---- sample data (real rows; used until URLs are set) ---- */
+const SAMPLE_EVENTS = [
+  {type:"tournament",start_date:"2026-08-15",end_date:"",title:"AVP Open Sand Tournament",time:"6 AM – 8 PM",location:"Lakewood Park",registration_link:"",division:"",format:"sand doubles",status:"upcoming",notes:""},
+  {type:"tournament",start_date:"2026-08-28",end_date:"2026-08-30",title:"2026 Mile High Classic",time:"10 AM – 3 PM",location:"Boomtown Fieldhouse (Aurora)",registration_link:"https://forms.gle/eaVgL7CFjmtYHVNo6",division:"",format:"6s",status:"upcoming",notes:""},
+  {type:"tournament",start_date:"2026-09-27",end_date:"",title:"USAV: Boomtown Showdown 2026",time:"8 AM – 3 PM",location:"TBD",registration_link:"https://docs.google.com/forms/d/e/1FAIpQLSceHQWa7nv882uAHzSSyBigD4PTE2tA7u0-hv-EaFkq0P58Xw/viewform",division:"",format:"",status:"upcoming",notes:""},
+  {type:"league",start_date:"",end_date:"",title:"QC Women's 4s Grass Tues (Denver)",time:"6 PM – 8 PM",location:"Eisenhower Park",registration_link:"https://forms.gle/LVroruq8Bck9zWhv7",division:"women's",format:"4s grass",status:"open (rolling)",notes:""},
+  {type:"league",start_date:"",end_date:"",title:"Men's 2s Grass Tues Short Court (Denver)",time:"6 PM – 8 PM",location:"Eisenhower Park",registration_link:"https://forms.gle/UiZHEVpe3KmTPaAM7",division:"men's",format:"2s short court",status:"open (rolling)",notes:""},
+  {type:"event",start_date:"2026-08-22",end_date:"",title:"Inoke's Fundraiser",time:"TBD",location:"TBD",registration_link:"",division:"",format:"",status:"upcoming",notes:""},
+  {type:"event",start_date:"",end_date:"",title:"Women's Free Open Gym Mixer",time:"6:30 PM – 9 PM",location:"Boomtown Fieldhouse (Aurora)",registration_link:"https://forms.gle/yUmuKwpGeRMsWCdt6",division:"women's",format:"",status:"open",notes:""}
+];
+const SAMPLE_PARTNERS = [
+  {name:"USAV RMR",tier:"sport",website:"https://www.rmrvolleyball.org/",logo_url:""},
+  {name:"AVP",tier:"sport",website:"https://avp.com/",logo_url:""},
+  {name:"AAU",tier:"sport",website:"https://www.aausports.org/",logo_url:""},
+  {name:"Match Point Social",tier:"leagues",website:"https://www.matchptsocial.com/",logo_url:""},
+  {name:"Volo",tier:"leagues",website:"https://www.volosports.com/denver",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/volo.png"},
+  {name:"Colorado Boom",tier:"facility",website:"https://www.coloradoboom.com/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/cobo.jpg"},
+  {name:"Team Evo",tier:"facility",website:"https://www.teamevo.org/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/team-evo-black.png"},
+  {name:"Special Olympics CO",tier:"community",website:"https://www.specialolympics.org/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/special-olympics-co.png"},
+  {name:"Denver Nuggets",tier:"community",website:"https://www.nba.com/nuggets",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/nuggets.png"},
+  {name:"adidas",tier:"gear",website:"https://www.adidas.com/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/adidas.png"},
+  {name:"lululemon",tier:"gear",website:"https://shop.lululemon.com/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/lululemon.png"},
+  {name:"Molten",tier:"gear",website:"https://www.moltenusa.com/",logo_url:"https://10xequity.github.io/btvb/assets/img/partners/molten.png"}
+];
+
+const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+const todayISO=new Date().toLocaleDateString("en-CA");
+const listEl=document.querySelector("[data-btw-list]");
+let EVENTS=null, PARTNERS=null, current="all";
+
+/* robust CSV parser: quoted fields, embedded commas/quotes/newlines */
+function parseCSV(text){
+  const rows=[];let row=[],f="",i=0,q=false;text=text.replace(/\r\n?/g,"\n");
+  while(i<text.length){const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;}else q=false;} else f+=c; }
+    else{ if(c==='"')q=true; else if(c===','){row.push(f);f="";}
+          else if(c==='\n'){row.push(f);rows.push(row);row=[];f="";} else f+=c; }
+    i++;}
+  if(f.length||row.length){row.push(f);rows.push(row);}
+  if(!rows.length)return[];
+  const head=rows[0].map(h=>h.trim().toLowerCase());
+  return rows.slice(1).filter(r=>r.some(c=>c&&c.trim())).map(r=>{const o={};head.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;});
+}
+function safeUrl(u){return /^https?:\/\//i.test((u||"").trim())?u.trim():"";}
+function lastDate(r){return r.end_date||r.start_date||"";}
+function eventVisible(r){const st=(r.status||"").toLowerCase();if(st.includes("open"))return true;const d=lastDate(r);return d?d>=todayISO:true;}
+function dateBlock(r){const d=r.start_date;if(!d)return{mon:"TBA",day:"·",yr:""};const[y,m,da]=d.split("-").map(Number);return{mon:MON[(m||1)-1],day:String(da||"").padStart(2,"0"),yr:String(y||"")};}
+
+/* stagger the entrance with transitions (interruptible), gentle 40ms steps */
+function revealAll(nodes){
+  requestAnimationFrame(()=>nodes.forEach((n,i)=>{
+    n.style.transitionDelay=(Math.min(i,8)*40)+"ms";
+    n.classList.add("is-in");
+  }));
+}
+
+function makeCard(r){
+  const el=document.createElement("article");el.className="btc";
+  const dt=document.createElement("div");dt.className="btc__date";const b=dateBlock(r);
+  const mo=document.createElement("span");mo.className="btc__mon";mo.textContent=b.mon;
+  const dy=document.createElement("span");dy.className="btc__day";dy.textContent=b.day;
+  const yr=document.createElement("span");yr.className="btc__yr";yr.textContent=b.yr;
+  dt.append(mo,dy,yr);
+  const body=document.createElement("div");body.className="btc__body";
+  const kind=document.createElement("p");kind.className="btc__kind";kind.textContent=KIND_LABEL[(r.type||"").toLowerCase()]||"";
+  const nm=document.createElement("h3");nm.className="btc__name";nm.textContent=r.title||"Untitled";
+  const meta=document.createElement("div");meta.className="btc__meta";
+  const add=(v,strong)=>{if(!v)return;const s=document.createElement("span");if(strong){const bb=document.createElement("b");bb.textContent=v;s.append(bb);}else s.textContent=v;meta.append(s);};
+  add([r.division,r.format].filter(Boolean).join(" · "),false);
+  add(r.time,false); add(r.location,true);
+  body.append(kind,nm,meta);
+  const link=safeUrl(r.registration_link);let act;
+  if(link){act=document.createElement("a");act.className="btn";act.href=link;act.target="_blank";act.rel="noopener";
+    act.textContent="Register now →";act.setAttribute("aria-label","Register for "+(r.title||"event"));}
+  else{act=document.createElement("span");act.className="btn--muted";
+    const inv=((r.status||"")+(r.notes||"")).toLowerCase().includes("invit");
+    act.textContent=inv?"Invite only":"Details soon";}
+  el.append(dt,body,act);return el;
+}
+
+function renderEvents(rows){
+  const vis=rows.filter(eventVisible);
+  const dated=vis.filter(r=>lastDate(r)).sort((a,b)=>lastDate(a).localeCompare(lastDate(b)));
+  const tba=vis.filter(r=>!lastDate(r));
+  if(!dated.length&&!tba.length){
+    const n=document.createElement("div");n.className="btw__note";
+    n.textContent="Nothing on the calendar yet — check back soon.";listEl.append(n);return;}
+  const nodes=[];
+  dated.forEach(r=>{const c=makeCard(r);listEl.append(c);nodes.push(c);});
+  if(tba.length){const h=document.createElement("p");h.className="btw__sub";h.textContent="Dates to be announced";listEl.append(h);
+    tba.forEach(r=>{const c=makeCard(r);listEl.append(c);nodes.push(c);});}
+  revealAll(nodes);
+}
+
+function renderPartners(rows){
+  if(!rows.length){const n=document.createElement("div");n.className="btw__note";n.textContent="Partners coming soon.";listEl.append(n);return;}
+  const nodes=[];
+  TIER_ORDER.forEach(tier=>{
+    const inTier=rows.filter(r=>(r.tier||"").toLowerCase()===tier);
+    if(!inTier.length)return;
+    const h=document.createElement("p");h.className="btp__tier";h.textContent=TIER_LABEL[tier];listEl.append(h);
+    const grid=document.createElement("div");grid.className="btp__grid";
+    inTier.forEach(r=>{
+      const site=safeUrl(r.website);
+      const tile=document.createElement(site?"a":"div");tile.className="btp__tile";
+      if(site){tile.href=site;tile.target="_blank";tile.rel="noopener";}
+      const logo=safeUrl(r.logo_url);
+      if(logo){const img=document.createElement("img");img.src=logo;img.alt=r.name||"Partner";img.loading="lazy";tile.append(img);}
+      else{const w=document.createElement("span");w.className="btp__word";w.textContent=r.name||"";tile.append(w);}
+      grid.append(tile);nodes.push(tile);
+    });
+    listEl.append(grid);
+  });
+  const cta=document.createElement("p");cta.className="btp__cta";
+  const a=document.createElement("a");a.href="mailto:admin@boomtownvb.com?subject=Becoming%20a%20Sponsor";a.textContent="Become a sponsor →";
+  cta.append(a);listEl.append(cta);
+  revealAll(nodes);
+}
+
+function render(){
+  listEl.innerHTML="";
+  if(current==="partner"){ renderPartners(PARTNERS||[]); return; }
+  const rows = current==="all" ? (EVENTS||[]) : (EVENTS||[]).filter(r=>(r.type||"").toLowerCase()===current);
+  renderEvents(rows);
+}
+
+function setFilter(f){
+  current=f;
+  document.querySelectorAll(".btw__filter").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.filter===f)));
+  render();
+}
+document.querySelectorAll(".btw__filter").forEach(b=>b.addEventListener("click",()=>setFilter(b.dataset.filter)));
+
+function skeleton(){listEl.innerHTML="";for(let k=0;k<4;k++){const s=document.createElement("div");s.className="btw__skel";listEl.append(s);}}
+
+async function fetchCSV(url){const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);return parseCSV(await res.text());}
+
+async function init(){
+  if(!EVENTS_CSV_URL && !PARTNERS_CSV_URL){ EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render(); return; }
+  skeleton();
+  try{
+    const [ev,pt]=await Promise.all([
+      EVENTS_CSV_URL?fetchCSV(EVENTS_CSV_URL):Promise.resolve(SAMPLE_EVENTS),
+      PARTNERS_CSV_URL?fetchCSV(PARTNERS_CSV_URL):Promise.resolve(SAMPLE_PARTNERS)
+    ]);
+    EVENTS=ev.length?ev:SAMPLE_EVENTS; PARTNERS=pt.length?pt:SAMPLE_PARTNERS; render();
+  }catch(e){
+    EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render();
+    const n=document.createElement("div");n.className="btw__note";
+    n.textContent="Showing the last known schedule — live list is updating. Refresh in a few minutes.";
+    listEl.prepend(n);
+  }
+}
+init();
+</script>
+</body>
+</html>

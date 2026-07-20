@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Queens Club intentionally excluded (hidden/noindex). -->
-<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">
-  <url><loc>https://www.boomtownathletics.com/</loc></url>
-  <url><loc>https://www.boomtownathletics.com/tournaments</loc></url>
-  <url><loc>https://www.boomtownathletics.com/drop-in</loc></url>
-  <url><loc>https://www.boomtownathletics.com/womens-league</loc></url>
-  <url><loc>https://www.boomtownathletics.com/mens-league</loc></url>
-  <url><loc>https://www.boomtownathletics.com/co-ed-leagues</loc></url>
-  <url><loc>https://www.boomtownathletics.com/training</loc></url>
-  <url><loc>https://www.boomtownathletics.com/contact</loc></url>
-  <url><loc>https://www.boomtownathletics.com/facility-rules</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.boomtownathletics.com/</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/schedule</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/tournaments</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/drop-in</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/womens-league</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/mens-league</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/co-ed-leagues</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/training</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/contact</loc><lastmod>2026-07-19</lastmod></url>
+  <url><loc>https://www.boomtownathletics.com/facility-rules</loc><lastmod>2026-07-19</lastmod></url>
 </urlset>

@@ -1,7 +1,7 @@
 # Boomtown Athletics — Design System &amp; Decisions
 
-**Last updated:** 2026-06-20
-**Version:** 0.13.0
+**Last updated:** 2026-07-19
+**Version:** 0.16.0
 **Prompt version:** 2.0.0
 
 ## Source of truth
@@ -61,7 +61,108 @@ Mon–Fri 17:00–23:00 · Sat 19:00–23:00 · Sun 16:00–23:00.
 ## SEO
 No Google Business Profile (deliberate — avoids reviews/griefing). Funnel = Instagram + word of mouth + competitive-intent search. `address` = Aurora; `areaServed` = Denver metro. Per page: unique title/meta/H1, OG, FAQPage; Event JSON-LD for leagues/tournaments from the Sheet.
 
+## DATA LAYER (merged from design v0.14.0 — canonical here as of v0.15.0)
+
+## 3. THE DATA LAYER (new — build this)
+
+### 3.1 One spreadsheet, two tabs
+Google Sheet ID currently in use: `11gSs2akMUBsRrR-80HPU8n7HJz5v-oT6HfGmsnFkn-w`
+(the existing sheet is human-formatted and mixed; a cleaned two-tab version was produced this
+session — see `Boomtown_Tournaments_Leagues_clean_v1_2026-06-28.xlsx`).
+
+**Tab A — `Events`** (drives the tournaments/leagues/events board). Columns (header row exact,
+lowercase):
+```
+type | start_date | end_date | title | time | location | registration_link | division | format | status | notes
+```
+- `type` ∈ `tournament` | `league` | `event`  ← the filter column
+- `start_date`,`end_date` = **YYYY-MM-DD** (machine-readable; end blank for single-day)
+- `status` ∈ `upcoming` | `past` | `open (rolling)` | `open (recurring)` | `date TBD`
+- `division` (womens/mens/coed/junior/open), `format` (2s/4s/6s/doubles/grass/sand/short court/indoor)
+- `registration_link` = full https URL (or blank; "Invitational" → leave blank, note it)
+
+**Tab B — `Partners`** (logos, not dated events — deliberately separate):
+```
+name | tier | website | logo_url
+```
+- `tier` ∈ `sport` | `leagues` | `facility` | `community` | `gear`
+  → rendered labels: Sport & governing · Co-Ed league partners · Facility partners · Community · Gear
+- `logo_url` = hosted image (prefer `assets/img/partners/*` on the repo); blank → wordmark tile.
+
+> Partners are a separate tab (not a `type` in Events) because they are not date-based and need a
+> logo layout, not a schedule card. Both tabs live in the **same spreadsheet** and are surfaced by
+> the **same filter bar**.
+
+### 3.2 Publish to web (owner, one time)
+Sheet → **File → Publish to the web → select the tab → Comma-separated values (.csv) → Publish.**
+Do it for **Events** and **Partners**. Gives two CSV URLs the site fetches. (Verified current path,
+2026.) Only publish these two tabs; keep anything private off them (published = publicly readable).
+
+### 3.3 The widget (built this session — reference implementation)
+File: `boomtown-events-widget_v2_2026-06-28.html` (self-contained; previews from built-in sample
+data until the two URLs are pasted in). Behavior:
+
+- **Filter bar:** `All · Tournaments · Leagues · Events · Partners` (segmented pills). `All` = all
+  Events tab rows (date-sorted). `Partners` switches to tier-grouped logo tiles.
+- **Auto-append:** renderer loops every CSV row → one tile per row. Add a row → a tile appears; no
+  code change. Remove/finish a row → tile disappears.
+- **Sorting:** Events sorted by `start_date` ascending (ISO strings sort chronologically). Undated
+  rows collect under a "Dates to be announced" subhead at the bottom. Past events auto-hidden
+  (`lastDate < today`), except league rows whose `status` contains `open` (always shown).
+- **Register button:** rendered only when a valid `https` link exists; else "Invite only"
+  (if status/notes say invitational) or "Details soon".
+- **States:** loading skeleton; fetch failure → falls back to last-known/sample list with a quiet
+  "updating, refresh shortly" note; empty → on-brand "Nothing on the calendar yet — check back soon."
+- **Security:** all sheet text inserted via `textContent` (no `innerHTML` on data) → XSS-safe;
+  links validated `^https?://` (blocks `javascript:`).
+- **Motion (Emil):** custom `--ease-out: cubic-bezier(.23,1,.32,1)`; cards/tiles enter opacity
+  0→1 + translateY(8→0) at 260ms, **staggered 40ms** via transitions (interruptible, not keyframes);
+  buttons `:active { scale(.97) }`; hover gated behind `(hover:hover) and (pointer:fine)`;
+  `prefers-reduced-motion` keeps the opacity fade, drops movement.
+- **A11y:** real focusable `<a>` buttons with aria-labels; `aria-pressed` on filters;
+  `aria-live="polite"` list region; gold/ink contrast AA.
+
+### 3.4 Where it goes
+Paste the `<style>`, the `.btw` section, and the `<script>` into the relevant page(s). Options:
+(a) one combined "What's On" board (home or a `/schedule` page), or (b) drop the same block on
+`tournaments.html` / league pages with the filter defaulted/limited to that type. Fonts already
+load site-wide, so omit the font `<link>` when pasting.
+
+---
+
+## 4. Cutover checklist
+1. Owner publishes Events + Partners tabs → sends two CSV URLs.
+2. Paste URLs into `EVENTS_CSV_URL` / `PARTNERS_CSV_URL`.
+3. Confirm live column headers match §3.1 exactly (lowercase).
+4. Paste widget block into the target page(s); remove duplicate font links.
+5. Verify: add a test row → appears after cache window (~a few min); bad/blank link → no button;
+   past date → hidden; Partners tab → logo tiles by tier.
+6. Commit once. Done — future edits are sheet-only.
+
+## 5. Optional next builds
+- **"Add an event" Google Form** → appends to the Events tab (friendliest entry incl. link field).
+- **Per-page default filter** (e.g., tournaments page loads with `Tournaments` active).
+- Migrate the cleaned xlsx into the live Google Sheet as the two canonical tabs.
+
+## 6. Open flags (carried + new)
+- Cache delay on published CSV is a few minutes (Google doesn't publish an exact TTL) — not instant.
+- Some `location` values are "BTFH" vs "Boomtown Fieldhouse"; normalize in-sheet or in-render
+  (widget already maps BTFH → "Boomtown Fieldhouse (Aurora)" in the cleaned data).
+- Rows flagged for owner review in the cleaned file: "Boomtown Showdown 2026" dated 2025
+  (title/year mismatch); two "Social Den" social events (keep on site?); date-TBD rows.
+- Leagues with a past `start_date` but ongoing play: consider an explicit "active yes/no" instead of
+  date-based past/upcoming.
+
+## 7. If SEO Event rich-results become a priority later
+Keep the exact same sheet. Add a scheduled GitHub Action that pulls the CSV and bakes rows +
+`Event` JSON-LD into static HTML on a cron. This reintroduces a build step (which the owner
+currently declined) but is the reliable path to indexed events. Design already supports it —
+the sheet schema in §3.1 is sufficient to emit `Event` structured data.
+
+
 ## Change Log
+- **0.16.0 (2026-07-19)** — What's On page shipped. New **schedule.html** (canonical /schedule, added to sitemap): tournaments.html shell + embedded widget v3 (anchored extraction; widget body rule stripped so host styles win; no font link). **Hash filters:** schedule.html#tournaments|#leagues|#events|#partners preselects the filter and syncs the buttons. **Link rewiring site-wide:** nav "Tournaments", home "View tournaments"/"Schedule →" and every tournaments.html#schedule CTA → schedule.html#tournaments. tournaments.html keeps Formats/Qualifier/Enter; stale hardcoded placeholder schedule table (fake Mar–May 2026 rows) + its dead JS removed → CTA to the live board. **All raw Google-Sheet links removed** from user-facing pages (v0.14.0 decision: never show the spreadsheet). **Perf fix:** v0.15.0 lazy pass had lazied 9 hero images — reverted to eager + fetchpriority="high" (LCP). CSV URLs pending — widget renders sample data until pasted into EVENTS_CSV_URL/PARTNERS_CSV_URL in schedule.html.
+- **0.15.0 (2026-07-19)** — Audit + regeneration session. **SEO:** sitemap namespace typo fixed (sitemaps.org); lastmod added; all meta descriptions rewritten <=160 chars; og:image:width/height/alt on every indexable page; facility-rules given full OG + WebPage/BreadcrumbList JSON-LD; branded 404.html added; inactive Meta Pixel placeholder (YOUR_PIXEL_ID) on indexable pages. **Perf:** loading="lazy" + decoding="async" on below-the-fold images site-wide (nav logo + hero kept eager). **Widget v3:** JetBrains Mono removed entirely (site never loads it -> browser-default mono fallback caused the bad look); Anton for titles/day numeral, Archivo for all UI text. **Queens Club:** body::after gold radial wash removed; logo glow tightened to drop-shadow(0 3px 8px black) + drop-shadow(0 0 14px gold .16) — subtle rim, no bloom. **Data layer sections of v0.14.0 merged into this file (below); v0.14.0 doc retired.** **Verified:** Behold pricing (Starter $10/mo = 3 feeds/50 posts/hourly — covers both sites; free tier's 6-post cap is the real blocker for the 3x3 grid). **Pending gates:** host (GH Pages vs Cloudflare Pages) drives canonical strategy; CSV URLs; widget placement; Pixel ID; push to main.
 - **0.13.0 (2026-06-21)** — Banner sizing, photo de-dup, video, QC, partner logos. **Banner (#1):** beneath-hero band switched from the large .sband to the slim .topbar sizing on all 9 pages (co-ed now matches siblings). **Photos (#2,#3):** co-ed MPS now a group photo (was a duplicate of the hero); women’s league swapped off the over-used team photo to a unique group shot; alignment object-position added. **Fieldhouse (#4):** facade re-cropped higher so the "Fieldhouse USA" sign is no longer clipped. **COBO (#5):** club block removed from home and embedded on the Training page (its rightful youth/club home); video processed with ffmpeg — Gemini watermark removed via delogo, downscaled 960x540, faststart, dark-bg poster, clean dark container (no white box). **Partner logos (#6):** USAV RMR reverted to the prior RMR mark on a white tile (no black bg); Team Evo recolored to black text; Molten white background removed (transparent PNG). **QC (#7):** added a faded women’s-group background, a 3-photo carousel, and a compact schedule table to fill dead space and add engagement. **CTA (#9):** gold mailing-list band added to the bottom of every sister page. **Mobile (#8):** reviewed — grids/breakpoints/stacking intact, video + QC additions responsive. **Limitation:** Texas Roadhouse / Town Center / Chance Sports / My Spark Denver still use runtime logo sources (clearbit) with text fallback — third-party logo files can’t be downloaded into the repo from the build sandbox; drop official PNGs into assets/img/partners/ to host locally.
 - **0.12.0 (2026-06-21)** — Banner mirror + hero legibility. Removed the top gold banner on every page; the single band beneath each hero now carries the full "Denver, Colorado’s Official Volleyball Company · Sanctioned by USAV · AVP · AAU" copy (the redundant "OFFICIALLY SANCTIONED BY" band retired). Strengthened hero drop-shadow (h1/sub/eyebrow/p) site-wide so text reads cleanly over photos.
 - **0.11.0 (2026-06-21)** — Dead-zone + motion pass. **Blank-area fixes:** replaced all in-body Wix-hosted content photos (co-ed x2, drop-in, training, womens) and the 9 Instagram thumbnails with local assets so nothing 404s when leaving Wix (these had no onerror fallback = hard blanks). **Animations (reduced-motion gated):** Fieldhouse spec numbers count up on scroll; hero serve-line draws in; partner tiles stagger-fade per tier on reveal; IG-card + spec hover states. **Audit:** section padding/grids/breakpoints reviewed — no margin or empty-container defects found; clearbit logos already degrade to wordmark text via onerror. JS syntax-validated.

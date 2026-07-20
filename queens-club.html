@@ -11,13 +11,12 @@ body{min-height:100svh;display:grid;place-items:center;padding:34px;text-align:c
  background:radial-gradient(120% 90% at 50% 10%,#1a1a1a 0%,#0c0c0c 56%,#050505 100%),#050505}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;
  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;
- background:radial-gradient(55% 42% at 50% 36%,rgba(246,199,51,.13),transparent 70%)}
+/* v0.15.0: gold radial wash removed — glow now lives on the logo drop-shadow only */
 .wrap{position:relative;z-index:1;width:100%;max-width:440px;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.wrap{animation:none}}
 .logo{width:min(210px,58%);margin:0 auto 22px;display:block;
- filter:drop-shadow(0 4px 0 rgba(0,0,0,.45)) drop-shadow(0 12px 36px rgba(246,199,51,.25))}
+ filter:drop-shadow(0 3px 8px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(246,199,51,.16))}
 h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:7px;
  font-size:clamp(34px,11vw,52px);line-height:1;margin-bottom:14px;
  background:linear-gradient(180deg,#ffe07a 0%,#f6c733 42%,#cf9a1f 100%);
@@ -44,7 +43,7 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
 <img id="qcbg" src="assets/img/community/womens-team-boom.jpg" alt="" aria-hidden="true">
 <main class="wrap" id="card">
  <img class="logo" src="assets/img/qc-shine.png" alt="Queens Club">
- <h1>Queens Club</h1><div class="qccar"><img src="assets/img/community/womens-team-boom.jpg" alt="Queens Club women’s volleyball team at Boomtown"><img src="assets/img/action/grass-women.jpg" alt="" aria-hidden="true"><img src="assets/img/action/action-set.jpg" alt="" aria-hidden="true"></div>
+ <h1>Queens Club</h1><div class="qccar"><img src="assets/img/community/womens-team-boom.jpg" alt="Queens Club women’s volleyball team at Boomtown" loading="lazy" decoding="async"><img src="assets/img/action/grass-women.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"><img src="assets/img/action/action-set.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
  <p class="invite">You have been invited</p>
  <div class="gate">
    <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
