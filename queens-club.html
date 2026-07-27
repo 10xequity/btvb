@@ -1,4 +1,5 @@
-<!DOCTYPE html><!-- Boomtown Athletics · queens-club · v0.18.0 · 2026-07-19 --><html lang="en"><head>
+<!DOCTYPE html><!-- v0.19.0 · 2026-07-27 · content+media pass (images, IG feed, cards, league/QC/schedule updates) -->
+<!-- Boomtown Athletics · queens-club · v0.18.0 · 2026-07-19 --><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><title>Queens Club</title>
 <link rel="canonical" href="https://www.queensclubvb.com/">
@@ -95,7 +96,7 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
 </style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"></head><body>
 <a class="exit" href="index.html">Exit ✕</a>
 <main class="wrap">
- <a class="crest" id="crest" href="womens-league.html#qualify" aria-haspopup="dialog" aria-controls="veil"><img src="assets/img/qc-shine.png" alt="Queens Club — tap to enter"></a>
+ <a class="crest" id="crest" href="womens-league.html" aria-haspopup="dialog" aria-controls="veil"><img src="assets/img/qc-shine.png" alt="Queens Club — tap to enter"></a>
  <h1>Queens Club</h1>
  <p class="invite">You have been invited</p>
  <p class="hint">Tap the crest to enter</p>
@@ -122,7 +123,7 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
      input=document.getElementById("code"),go=document.getElementById("go"),
      close=document.getElementById("mclose"),msg=document.getElementById("msg"),
      modal=veil.querySelector(".modal"),last=null;
- var DEST="womens-league.html#qualify";
+ var DEST="womens-league.html";
  function open(){last=document.activeElement;veil.classList.add("open");veil.setAttribute("aria-hidden","false");
    setTimeout(function(){input.focus();},60);}
  function shut(){veil.classList.remove("open");veil.setAttribute("aria-hidden","true");msg.textContent="";msg.classList.remove("ok");
