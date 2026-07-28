@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.23.0** · 2026-07-28_
+_Site version: **v0.23.1** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -21,23 +21,31 @@ _Site version: **v0.23.0** · 2026-07-28_
 `robots.txt` disallows `/queens-club` and `/library`; `sitemap.xml` excludes both.
 
 ## Assets
-Local images in `/assets/img/` (69 files, ~15.8 MB total — well under GitHub limits).
+Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
-## What's new in v0.23.0 (2026-07-28)
-Owner content/media pass across 8 pages + the live women's schedule connection.
-- **Home:** tournaments cinematic now uses the **USAV Nationals champions** photo (upscaled to 2400px, face-centered crop); carousel prev/next are now **bare glass triangles** (circle removed); FieldhouseUSA carousel **leads with the exterior sign** and adds the empty-courts shot (9 images).
-- **Women's League:** hero shows ~30% more of the photo (taller crop, heads kept in frame, image upscaled); new title block — *Women's League / Queens Club / "Denver's Elite Women's League"*; **How to qualify moved above Our programs** with a top-cropped action photo and a **Schedule** button (`#schedule` anchor); Indoor/Grass program photos swapped and the two cards equalized; FAQ adds **"What are the rules?"** → `tournaments.html#gendered-4s`; **live WomensLeagues CSV connected** — the ⚠ SAMPLE flag (and its leftover space) is removed when live, and a schema guard falls back to samples if the published tab is wrong.
-- **Men's League:** beach photo + "on the court and off" section removed; Men's 4s photo → `mens-4s-yam-time-champs.jpg` (**file pending upload** — falls back to the prior action shot until it lands); rules note + FAQ link to the gendered-4s rules.
-- **Tournaments:** `id="gendered-4s"` anchor added to the Co-Ed & Gendered 4s rules block.
-- **Co-Ed:** Match Point Social photo → `coed-4s-green-team-fun.jpg` (**pending upload**, falls back to the prior group shot).
-- **Contact:** hero crop shifted to faces (`object-position:50% 30%`).
-- **Training:** hero → `youth-camp.jpg`, cropped to the group (not the ceiling).
-- **Library:** usage labels ground-truthed for **every** asset (grep across all pages), plus a 10-photo **pending-upload batch** listed with export/rename targets; missing thumbnails hide gracefully.
-- **Changed binary asset:** `assets/img/library/womens-usav-nationals-champions.jpg` re-exported at 2400×1412 (Lanczos upscale + unsharp). Upscaling reduces visible pixelation but cannot add true detail — replace with a higher-res original when available.
+## What's new in v0.23.1 (2026-07-28)
+Photo-library metadata + tagging patch. No page layout, data-layer, or renderer-logic changes beyond `library.html`.
+- **Embedded metadata** written into the 10 uploaded team photos + the derived `womens-league-hero.jpg` (11 files under `/assets/img/library/`): IPTC (title, caption/abstract, keywords, by-line, credit, source, copyright, location) + EXIF (ImageDescription, Artist, Copyright, Software, Windows XP title/keywords/comment/subject). Writes touched only the metadata segments — pixels, dimensions (1800×1200; hero 2400×1412), and JPEG quality are unchanged.
+- **No personal names embedded** — keywords use publicly visible jersey/team text (YAM TIME, The Island, Mines, Carry Water, Knights, Fort Hays State, etc.) and category terms only.
+- **`library.html`** DATA schema gained an optional 6th element, a `tags` array; cards now render tag **chips** and the search box matches tags. Backward-compatible: untagged entries render exactly as before.
+- Filenames unchanged (they were already descriptive and two are wired into live pages via `onerror` fallbacks), so no page references break.
 
-> ⚠ **10 new photos are wired but not in the repo yet** (they arrived in chat, not as files). Export each `DSC_*.JPG` at 1800px wide (JPEG q≈82) to the exact paths listed on `/library.html` (the "PENDING" cards) — the two wired pages self-heal the moment the files land. Men's schedule still shows SAMPLE rows (no MensLeagues CSV URL supplied).
+## What's new in v0.23.0 (2026-07-28)
+Photo/content pass across the home, training, women's, men's, co-ed, contact, tournaments, and library pages. No data-layer or renderer changes.
+- **Home — Tournaments band** now uses `womens-usav-nationals-champions.jpg`, framed on the players' faces.
+- **Home — carousel controls** simplified to a bare translucent glass triangle (the circular button background/blur is gone). Full 46px tap target and focus ring retained.
+- **Home — FieldhouseUSA carousel** now **leads with** `fieldhouse-exterior-sign.jpg` and adds `fieldhouse-courts-empty.jpg` to the rotation (9 slides; JS carousel handles the count).
+- **Training hero** → `youth-camp.jpg`, framed on the group (off the ceiling).
+- **Women's League** — hero rebranded to **Queens Club / "Denver's Elite Women's League"** (with a "Women's League" eyebrow); the old "…plus the elite Queens Club" lead line removed; hero image is an **upscaled** (2400px) crop of the champions photo, reframed so no heads are cut. Program photos swapped (**Indoor** → `womens-open-gym-group.jpg`, **Grass** → `womens-league-group.jpg`) and the photo aspect widened 16:7 → 16:10 so group heads aren't cropped. **How to qualify** moved **above** Our Programs and given a side action photo (`tournament-spike-block-action.jpg`) plus a **Schedule** button anchored to the table. Program boxes now equal height. New FAQ **"What are the rules?"** links to the tournaments **gendered-4s** rules.
+- **Men's League** — removed the beach "on the court and off" photo section; the Men's 4s block now shows the men's team photo `mens-team-yamtime.jpg`; added a **gendered-4s rules** link and a matching FAQ.
+- **Co-Ed** — Match Point Social photo → `coed-team-pyramid.jpg`.
+- **Contact hero** re-centered on the group's faces (was cropping to legs).
+- **Tournaments** — added an `#gendered-4s` anchor on the *Co-Ed & Gendered 4s* rule so the women's/men's pages can deep-link to it. **No rule or scoring wording was changed** (side-out default still unconfirmed — owner decision pending).
+- **Library (internal)** — usage labels refreshed to reflect **actual** placements (what's live vs. safe to delete), and **10 new team photos + the derived hero** added and documented.
+
+> **Not done this release:** the "remove the flag + dead space / Live Link" item — no element named/behaving as a "flag" exists in any page's source, and the provided link resolves to the sheet's **Partners** tab. Needs one clarification (which page + what the "flag" is) before it's safe to touch. See HANDOFF §Open.
 
 ## What's new in v0.22.1 (2026-07-28)
 Patch release — league schedule renderer updated to the sheet's **new column schema**. No content or design changes elsewhere.
@@ -64,4 +72,4 @@ Patch release — league schedule renderer updated to the sheet's **new column s
 - Instagram feed embed, self-hosted partner logos, and confirmed men's-page photos are unchanged this release.
 
 ---
-_Boomtown Athletics site · v0.22.1 · 2026-07-28_
+_Boomtown Athletics site · v0.23.0 · 2026-07-28_
