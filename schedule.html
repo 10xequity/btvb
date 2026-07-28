@@ -193,7 +193,7 @@ src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"></nosc
   .btc__kind{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;
        letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 4px}
   .btc__name{font-family:'Anton',sans-serif;font-weight:400;font-size:20px;
-       text-transform:uppercase;margin:0 0 6px;color:var(--bone)}
+       text-transform:uppercase;letter-spacing:.03em;margin:0 0 6px;color:var(--bone)}
   .btc__meta{font-family:'Archivo',sans-serif;font-size:12.5px;color:var(--mut);
        display:flex;flex-wrap:wrap;gap:5px 16px}
   .btc__meta b{color:var(--bone);font-weight:500}
@@ -246,7 +246,7 @@ src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"></nosc
 </style>
 <section class="btw" aria-label="What's on at Boomtown">
   <p class="btw__eyebrow">Denver Metro · Play Everyday</p>
-  <h2 class="btw__title">What's On</h2>
+  <h2 class="btw__title">Come Play!</h2>
   <hr class="btw__rule">
 
   <div class="btw__filters" role="group" aria-label="Filter by type">
@@ -343,6 +343,7 @@ function makeCard(r){
   const nm=document.createElement("h3");nm.className="btc__name";nm.textContent=r.title||"Untitled";
   const meta=document.createElement("div");meta.className="btc__meta";
   const add=(v,strong)=>{if(!v)return;const s=document.createElement("span");if(strong){const bb=document.createElement("b");bb.textContent=v;s.append(bb);}else s.textContent=v;meta.append(s);};
+  add(r.day||r.night,true);
   add([r.division,r.format].filter(Boolean).join(" · "),false);
   add(r.time,false); add(r.location,true);
   body.append(kind,nm,meta);
