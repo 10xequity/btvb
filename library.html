@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
   Boomtown Athletics — INTERNAL IMAGE LIBRARY (not linked, not indexed)
+  v0.23.0 · 2026-07-28 · usage labels ground-truthed for every asset; 10-photo pending-upload batch listed
   v0.22.0 · 2026-07-28
   Purpose: owner reference sheet. Every photo asset in /assets/img with its
   exact repo path + one-tap "copy path". NEW v0.22.0: duplicate review + a
@@ -129,7 +130,7 @@
 
   <div id="out"></div>
 
-  <p class="foot">Boomtown Athletics · image library v0.22.0 · 2026-07-28 · logos (assets/img/partners/) are managed through the Partners sheet tab and are omitted here. Duplicate tags are review hints, not verdicts — you decide what to remove.</p>
+  <p class="foot">Boomtown Athletics · image library v0.23.0 · 2026-07-28 · logos (assets/img/partners/) are managed through the Partners sheet tab and are omitted here. Duplicate tags are review hints, not verdicts — you decide what to remove.</p>
 </div>
 
 <!-- deletion queue bar -->
@@ -161,68 +162,78 @@
    dupeGroup: images sharing a value are near-identical crops/versions — review pair. */
 const DATA = {
   "assets/img": [
-    ["boom-logo.png",459,"Primary transparent 2026 BOOM wordmark (1053×502). Nav / hero / footer logo.","Logo — all pages"],
+    ["boom-logo.png",459,"Primary transparent 2026 BOOM wordmark (1053×502). Nav / hero / footer logo.","Logo — every page"],
     ["boom-sm.png",72,"Small BOOM mark (legacy, 360×172). Superseded by boom-logo.png.",null],
-    ["header-collage.jpg",481,"Home hero action collage (2000×1120).","Home hero"],
-    ["og-cover.jpg",161,"Share card 1200×630 for Facebook / X previews.","OG image — all pages"],
+    ["header-collage.jpg",481,"Home hero action collage (2000×1120).","Home — hero"],
+    ["og-cover.jpg",161,"Share card 1200×630 for Facebook / X previews.","OG image — every page"],
     ["about-team.jpg",187,"Women's team group portrait (1400×935).",null,"team-portrait"],
     ["team.jpg",122,"Team group (legacy crop, 1300×868).",null,"team-portrait"],
-    ["spike.jpg",86,"Spike at the net (legacy near-square 819×868).",null,"spike"],
-    ["favicon.png",21,"Gold spiker favicon.","Favicon"],
-    ["apple-touch-icon.png",13,"iOS home-screen icon.","App icon"],
+    ["spike.jpg",86,"Spike at the net (legacy near-square 819×868). LOW-RES.","Home · Come Play! board · Tournaments","spike"],
+    ["favicon.png",21,"Gold spiker favicon.","Favicon — every page"],
+    ["apple-touch-icon.png",13,"iOS home-screen icon.","App icon — every page"],
     ["qc-shine.png",18,"Queens Club gold shine crest.","Queens Club gate"]
   ],
   "assets/img/action": [
-    ["action-block1.jpg",193,"Blocking at the net — indoor (1800×1202).",null],
-    ["action-block2.jpg",201,"Blocking at the net — alt.",null],
-    ["action-hit1.jpg",255,"Attacker swinging — indoor.",null],
-    ["action-hit2.jpg",267,"Attacker swinging — alt.",null],
+    ["action-block1.jpg",193,"Blocking at the net — indoor (1800×1202).","Home · Facility Rules"],
+    ["action-block2.jpg",201,"Blocking at the net — alt.","Home · Drop-In"],
+    ["action-hit1.jpg",255,"Attacker swinging — indoor.","Home · Drop-In (was Training hero until v0.23.0)"],
+    ["action-hit2.jpg",267,"Attacker swinging — alt.","Home · Men's League hero"],
     ["action-podium.jpg",141,"Players on the podium (843×1123).",null],
-    ["action-set.jpg",244,"Setter delivering — indoor.","Home · FieldhouseUSA carousel"],
-    ["action-spike.jpg",250,"Spike (full frame, 1800×1202).",null,"spike"],
-    ["coed-four.jpg",289,"Co-ed doubles foursome.",null],
-    ["dropin-play-wide.jpg",222,"Live drop-in play (16:9).","Home · Drop-In block"],
+    ["action-set.jpg",244,"Setter delivering — indoor.","Home — FieldhouseUSA carousel"],
+    ["action-spike.jpg",250,"Spike (full frame, 1800×1202).","Home · Come Play! board · Tournaments","spike"],
+    ["coed-four.jpg",289,"Co-ed doubles foursome.","Home · Co-Ed hero · Skill Levels"],
+    ["dropin-play-wide.jpg",222,"Live drop-in play (16:9).","Home — Drop-In block"],
     ["dropin-team-wide.jpg",300,"Drop-in group ready to play (16:9).",null],
-    ["grass-women.jpg",559,"Women's grass/outdoor play (1800×811).",null,"womens-grass"],
+    ["grass-women.jpg",559,"Women's grass/outdoor play (1800×811).","Home (off Women's League as of v0.23.0)","womens-grass"],
     ["tournament-celebration.jpg",58,"Beach tournament celebration. LOW-RES 640×512 — avoid full-bleed.",null],
-    ["tournaments-spike-wide.jpg",202,"Tournament spike, 16:9 crop.","Tournaments cine"],
-    ["youth-camp.jpg",231,"Youth camp / juniors.",null]
+    ["tournaments-spike-wide.jpg",202,"Tournament spike, 16:9 crop.",null],
+    ["youth-camp.jpg",231,"Youth camp / juniors.","Training — hero (v0.23.0)"]
   ],
   "assets/img/community": [
-    ["group-banner1.jpg",358,"Community under the BOOMTOWN banner (1800×811).","Home · About"],
-    ["group-banner2.jpg",381,"Community banner — alt.",null],
-    ["group-court.jpg",369,"Large group on the court.","Home · About carousel"],
-    ["group-home.jpg",391,"Group at the venue.",null],
-    ["group-net.jpg",337,"Group at the net.","Home · About carousel"],
-    ["four-banner.jpg",319,"Four players with banner.","Home · About carousel"],
-    ["womens-team-boom.jpg",388,"Women's league team holding BOOM jerseys (1800×1350).","Home · About carousel"]
+    ["group-banner1.jpg",358,"Community under the BOOMTOWN banner (1800×811).","Home · About carousel — and Contact hero"],
+    ["group-banner2.jpg",381,"Community banner — alt.","Women's League — Queens Club grid"],
+    ["group-court.jpg",369,"Large group on the court.","Home — About carousel"],
+    ["group-home.jpg",391,"Group at the venue.","Co-Ed — fallback while coed-4s-green-team-fun.jpg is pending"],
+    ["group-net.jpg",337,"Group at the net.","Home — About carousel"],
+    ["four-banner.jpg",319,"Four players with banner.","Home — About carousel"],
+    ["womens-team-boom.jpg",388,"Women's league team holding BOOM jerseys (1800×1350).","Home — About carousel"]
   ],
   "assets/img/library": [
-    ["usav-tournament-podium-wide.jpg",50,"Women's team on the USAV podium (wide, 843×474).","Home · Tournaments","usav-podium"],
+    ["usav-tournament-podium-wide.jpg",50,"Women's team on the USAV podium (wide, 843×474). LOW-RES. Off Home as of v0.23.0.",null,"usav-podium"],
     ["usav-tournament-podium.jpg",137,"USAV podium — portrait crop (843×1123).",null,"usav-podium"],
-    ["womens-usav-nationals-champions.jpg",289,"Women's USAV Nationals champions (1800×1059).",null],
-    ["mens-league-observatory.jpg",436,"Men's league players — indoor (811×1800). Men's-page header candidate.",null],
-    ["mens-boomtown-beach.jpg",377,"Men's beach/sand play (1350×1800). Men's-page side-photo candidate.",null],
-    ["tournament-spike-block-action.jpg",179,"Spike vs block at the net — high energy (1800×1202).",null],
-    ["showdown-winners-big-diggs.jpg",459,"Showdown winners — team 'Big Diggs'.",null],
-    ["showdown-winners-rmac-squad.jpg",453,"Showdown winners — RMAC squad.",null],
-    ["womens-league-group.jpg",798,"Women's league large group (1800×1350). Largest file.",null],
-    ["womens-league-team-net.jpg",56,"Women's league team at the net (small, 480×640).",null],
-    ["womens-open-gym-group.jpg",339,"Women's open-gym / mixer group.",null],
-    ["womens-grass-observatory.jpg",495,"Women's grass play, observatory backdrop (811×1800).",null,"womens-grass"],
-    ["volo-coed-group.jpg",239,"Volo co-ed league group.",null],
+    ["womens-usav-nationals-champions.jpg",517,"Women's USAV Nationals champions — upscaled to 2400×1412 in v0.23.0.","Home · Tournaments cine — and Women's League hero"],
+    ["mens-league-observatory.jpg",436,"Men's league players — indoor (811×1800).",null],
+    ["mens-boomtown-beach.jpg",377,"Men's beach/sand play (1350×1800). Off Men's page as of v0.23.0.",null],
+    ["tournament-spike-block-action.jpg",179,"Spike vs block at the net — high energy (1800×1202).","Women's League — qualify photo; Men's League fallback"],
+    ["showdown-winners-big-diggs.jpg",459,"Showdown winners — team 'Big Diggs'.","Women's League — Queens Club grid"],
+    ["showdown-winners-rmac-squad.jpg",453,"Showdown winners — RMAC squad.","Women's League — Queens Club grid"],
+    ["womens-league-group.jpg",798,"Women's league large group (1800×1350). Largest file.","Women's League — Grass card (v0.23.0)"],
+    ["womens-league-team-net.jpg",56,"Women's league team at the net (small, 480×640). Replaced on-site in v0.23.0.",null],
+    ["womens-open-gym-group.jpg",339,"Women's open-gym / mixer group.","Women's League — Indoor card (v0.23.0)"],
+    ["womens-grass-observatory.jpg",495,"Women's grass play, observatory backdrop (811×1800).","Women's League — Queens Club grid","womens-grass"],
+    ["volo-coed-group.jpg",239,"Volo co-ed league group.","Co-Ed — Volo block"],
     ["volo-coed-player.jpg",217,"Volo co-ed player.",null],
-    ["fieldhouse-interior-courts.jpg",347,"FieldhouseUSA interior courts.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-interior-wide.jpg",330,"FieldhouseUSA interior — wide.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-courts-empty.jpg",310,"Empty courts — clean facility shot.",null],
-    ["fieldhouse-tournament-crowd.jpg",165,"Tournament-day crowd (768×1024).","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-exterior-sign.jpg",216,"Fieldhouse exterior with signage.","Home · FieldhouseUSA carousel"]
+    ["fieldhouse-interior-courts.jpg",347,"FieldhouseUSA interior courts.","Home — FieldhouseUSA carousel"],
+    ["fieldhouse-interior-wide.jpg",330,"FieldhouseUSA interior — wide.","Home — FieldhouseUSA carousel"],
+    ["fieldhouse-courts-empty.jpg",310,"Empty courts — clean facility shot.","Home — FieldhouseUSA carousel (added v0.23.0)"],
+    ["fieldhouse-tournament-crowd.jpg",165,"Tournament-day crowd (768×1024).","Home — FieldhouseUSA carousel"],
+    ["fieldhouse-exterior-sign.jpg",216,"Fieldhouse exterior with signage.","Home — FieldhouseUSA carousel (leads, v0.23.0)"],
+    ["womens-league-four-friends.jpg",0,"PENDING — export DSC_1686.JPG → 1800px wide, q82. Four women, Hawkeye/Gannon shirts, courtside at night.",null],
+    ["womens-4s-champs-number-one.jpg",0,"PENDING — export DSC_0365.JPG. Women's 4s winners, #1 fingers with NCAA ball.",null],
+    ["mens-4s-yam-time-champs.jpg",0,"PENDING — export DSC_0377.JPG. Men's 4s champs, teal 'Yam Time' jerseys.","Men's League — wired, shows fallback until file lands"],
+    ["womens-4s-team-black.jpg",0,"PENDING — export DSC_0378.JPG. Four women in black at the net.",null],
+    ["coed-4s-island-team.jpg",0,"PENDING — export DSC_0385.JPG. Co-ed four, Island volleyball tank.",null],
+    ["womens-open-gym-banner-crowd.jpg",0,"PENDING — export DSC_0389.JPG. Big women's group under the BOOMTOWN banner — strong hero candidate.",null],
+    ["coed-4s-green-team-fun.jpg",0,"PENDING — export DSC_0864.JPG. Green-shirt four, playful pyramid pose.","Co-Ed — Match Point Social block; wired, shows fallback until file lands"],
+    ["coed-4s-mines-champs.jpg",0,"PENDING — export DSC_0995.JPG. Co-ed four with Molten ball, Mines shirt.",null],
+    ["coed-4s-team-braids.jpg",0,"PENDING — export DSC_1035.JPG. Co-ed four at the net, black + red shirts.",null],
+    ["womens-team-five-boomtown.jpg",0,"PENDING — export DSC_1135.JPG. Five players incl. B-M-TOWN shirt.",null]
   ],
   "assets/img/venue": [
-    ["fieldhouse-exterior-front.jpg",397,"Fieldhouse storefront, 14200 E Alameda Ave (1600×1961).","Home · FieldhouseUSA background"],
-    ["fieldhouse-court.jpg",144,"Indoor court, epoxy + hardwood.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-lounge.jpg",185,"Players lounge, leather seating.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-bar.jpg",179,"Bar & café, pendant lighting.","Home · FieldhouseUSA carousel"]
+    ["fieldhouse-exterior-front.jpg",397,"Fieldhouse storefront, 14200 E Alameda Ave (1600×1961).","Home — FieldhouseUSA background"],
+    ["fieldhouse-court.jpg",144,"Indoor court, epoxy + hardwood.","Home — FieldhouseUSA carousel"],
+    ["fieldhouse-lounge.jpg",185,"Players lounge, leather seating.","Home — FieldhouseUSA carousel"],
+    ["fieldhouse-bar.jpg",179,"Bar & café, pendant lighting.","Home — FieldhouseUSA carousel"]
   ]
 };
 
@@ -277,7 +288,7 @@ function render(filter){
       const card=document.createElement("div");card.className="card"+(sel.has(path)?" sel":"");
       const thumb=document.createElement("div");thumb.className="thumb";
       const img=document.createElement("img");img.loading="lazy";img.decoding="async";
-      img.src=path;img.alt=desc;
+      img.src=path;img.alt=desc;img.addEventListener("error",function(){img.style.display="none";});
       thumb.append(img);
       if(used){const b=document.createElement("span");b.className="used";b.textContent="In use";b.title=used;thumb.append(b);}
       if(dgrp && dupeCount[dgrp]>1){const d=document.createElement("span");d.className="dupe";d.textContent="dupe? "+dgrp;thumb.append(d);}

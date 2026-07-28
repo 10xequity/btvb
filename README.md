@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.22.1** · 2026-07-28_
+_Site version: **v0.23.0** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,20 @@ _Site version: **v0.22.1** · 2026-07-28_
 Local images in `/assets/img/` (69 files, ~15.8 MB total — well under GitHub limits).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.23.0 (2026-07-28)
+Owner content/media pass across 8 pages + the live women's schedule connection.
+- **Home:** tournaments cinematic now uses the **USAV Nationals champions** photo (upscaled to 2400px, face-centered crop); carousel prev/next are now **bare glass triangles** (circle removed); FieldhouseUSA carousel **leads with the exterior sign** and adds the empty-courts shot (9 images).
+- **Women's League:** hero shows ~30% more of the photo (taller crop, heads kept in frame, image upscaled); new title block — *Women's League / Queens Club / "Denver's Elite Women's League"*; **How to qualify moved above Our programs** with a top-cropped action photo and a **Schedule** button (`#schedule` anchor); Indoor/Grass program photos swapped and the two cards equalized; FAQ adds **"What are the rules?"** → `tournaments.html#gendered-4s`; **live WomensLeagues CSV connected** — the ⚠ SAMPLE flag (and its leftover space) is removed when live, and a schema guard falls back to samples if the published tab is wrong.
+- **Men's League:** beach photo + "on the court and off" section removed; Men's 4s photo → `mens-4s-yam-time-champs.jpg` (**file pending upload** — falls back to the prior action shot until it lands); rules note + FAQ link to the gendered-4s rules.
+- **Tournaments:** `id="gendered-4s"` anchor added to the Co-Ed & Gendered 4s rules block.
+- **Co-Ed:** Match Point Social photo → `coed-4s-green-team-fun.jpg` (**pending upload**, falls back to the prior group shot).
+- **Contact:** hero crop shifted to faces (`object-position:50% 30%`).
+- **Training:** hero → `youth-camp.jpg`, cropped to the group (not the ceiling).
+- **Library:** usage labels ground-truthed for **every** asset (grep across all pages), plus a 10-photo **pending-upload batch** listed with export/rename targets; missing thumbnails hide gracefully.
+- **Changed binary asset:** `assets/img/library/womens-usav-nationals-champions.jpg` re-exported at 2400×1412 (Lanczos upscale + unsharp). Upscaling reduces visible pixelation but cannot add true detail — replace with a higher-res original when available.
+
+> ⚠ **10 new photos are wired but not in the repo yet** (they arrived in chat, not as files). Export each `DSC_*.JPG` at 1800px wide (JPEG q≈82) to the exact paths listed on `/library.html` (the "PENDING" cards) — the two wired pages self-heal the moment the files land. Men's schedule still shows SAMPLE rows (no MensLeagues CSV URL supplied).
 
 ## What's new in v0.22.1 (2026-07-28)
 Patch release — league schedule renderer updated to the sheet's **new column schema**. No content or design changes elsewhere.
