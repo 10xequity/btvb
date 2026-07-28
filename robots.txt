@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /queens-club
 Disallow: /queens-club.html
+Disallow: /library
+Disallow: /library.html
 
 Sitemap: https://www.boomtownathletics.com/sitemap.xml

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--
+  Boomtown Athletics — INTERNAL IMAGE LIBRARY (not linked, not indexed)
+  v0.20.0 · 2026-07-27
+  Purpose: owner reference sheet. Every photo asset in /assets/img with its
+  exact repo path + a one-tap "copy path" so you can tell which file to drop
+  into which slot. NOT in the nav, NOT in sitemap.xml, robots-disallowed.
+  To find it: type the URL directly -> /library.html
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<title>Boomtown — Image Library (internal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0a0a0b;--ink-2:#141417;--gold:#eec51d;--gold-2:#f6c733;
+        --bone:#f4f2ec;--mut:#9a988f;--line:#24242a;--ease:cubic-bezier(.23,1,.32,1)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--bone);
+       font-family:'Archivo',system-ui,sans-serif;line-height:1.5;padding:40px 20px}
+  .wrap{max-width:1180px;margin:0 auto}
+  .eyebrow{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.18em;
+       text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+  h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,5vw,52px);
+       line-height:.96;text-transform:uppercase;margin:0 0 8px;letter-spacing:.01em}
+  .lead{color:var(--mut);font-size:14px;max-width:70ch;margin:0 0 6px}
+  .warn{color:var(--gold-2);font-size:12.5px;font-weight:600;margin:0 0 20px}
+  .rule{height:3px;border:0;margin:0 0 22px;
+       background:linear-gradient(90deg,var(--gold) 0 72px,var(--line) 72px 100%)}
+  .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 24px}
+  .search{flex:1;min-width:220px;background:var(--ink-2);border:1px solid var(--line);
+       border-radius:10px;color:var(--bone);font:inherit;font-size:15px;padding:12px 14px}
+  .search:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  .count{font-weight:700;font-size:13px;color:var(--mut);white-space:nowrap}
+  .sec{font-family:'Anton',sans-serif;font-size:20px;text-transform:uppercase;
+       letter-spacing:.02em;margin:26px 0 4px;color:var(--bone)}
+  .secpath{font-family:'Archivo';font-size:12px;color:var(--mut);margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .card{background:var(--ink-2);border:1px solid var(--line);border-radius:12px;
+       overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s ease,transform .15s var(--ease)}
+  @media (hover:hover){.card:hover{border-color:var(--gold)}}
+  .thumb{aspect-ratio:4/3;background:#0e0e10;overflow:hidden;position:relative}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;background:#0e0e10}
+  .used{position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);
+       font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+       padding:3px 8px;border-radius:999px}
+  .body{padding:12px 13px;display:flex;flex-direction:column;gap:7px;flex:1}
+  .fname{font-weight:700;font-size:13.5px;word-break:break-word}
+  .desc{font-size:12.5px;color:var(--mut);flex:1}
+  .path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;
+       color:var(--gold-2);background:#0e0e10;border:1px solid var(--line);border-radius:7px;
+       padding:7px 9px;word-break:break-all;user-select:all}
+  .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+  .sz{font-size:11px;color:var(--mut)}
+  .copy{font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.04em;
+       text-transform:uppercase;color:var(--ink);background:var(--gold);border:0;border-radius:7px;
+       padding:7px 11px;cursor:pointer;transition:background .15s ease,transform .12s var(--ease)}
+  .copy:active{transform:scale(.96)}
+  .copy:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  @media (hover:hover){.copy:hover{background:var(--gold-2)}}
+  .copy.ok{background:#3ecf8e}
+  .empty{color:var(--mut);font-size:14px;padding:30px 0}
+  .foot{color:var(--mut);font-size:12px;margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
+  @media (prefers-reduced-motion:reduce){.card,.copy{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Internal · Not linked · Not indexed</p>
+  <h1>Image Library</h1>
+  <p class="lead">Every photo in <code>/assets/img</code>. Search by name, tap <b>Copy path</b>, and tell me which file to drop into which slot. Gold badge = currently placed on the live site.</p>
+  <p class="warn">Keep this URL private — it is hidden from the menu, sitemap, and search engines, but anyone with the link can open it.</p>
+  <hr class="rule">
+
+  <div class="tools">
+    <input class="search" id="q" type="search" placeholder="Search filename or description… (e.g. mens, podium, grass)" aria-label="Search images">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div id="out"></div>
+
+  <p class="foot">Boomtown Athletics · image library v0.20.0 · 2026-07-27 · logos (assets/img/partners/) are managed through the Partners sheet tab and are omitted here.</p>
+</div>
+
+<script>
+/* folder -> [ [file, sizeKB, description, usedLabelOrNull] ] */
+const DATA = {
+  "assets/img": [
+    ["boom-logo.png",470,"Primary transparent 2026 BOOM wordmark. Nav / hero / footer logo.","Logo — all pages"],
+    ["boom-sm.png",74,"Small BOOM mark (legacy).",null],
+    ["header-collage.jpg",493,"Home hero action collage (2000×1120).","Home hero"],
+    ["og-cover.jpg",165,"Share card 1200×630 for Facebook / X previews.","OG image — all pages"],
+    ["about-team.jpg",191,"Women's team group portrait.",null],
+    ["team.jpg",125,"Team group (legacy crop).",null],
+    ["spike.jpg",88,"Spike at the net (legacy near-square crop).",null],
+    ["favicon.png",22,"Gold spiker favicon.","Favicon"],
+    ["apple-touch-icon.png",13,"iOS home-screen icon.","App icon"],
+    ["qc-shine.png",18,"Queens Club gold shine crest.","Queens Club gate"]
+  ],
+  "assets/img/action": [
+    ["action-block1.jpg",198,"Blocking at the net — indoor.",null],
+    ["action-block2.jpg",206,"Blocking at the net — alt.",null],
+    ["action-hit1.jpg",262,"Attacker swinging — indoor.",null],
+    ["action-hit2.jpg",274,"Attacker swinging — alt.",null],
+    ["action-podium.jpg",145,"Players on the podium.",null],
+    ["action-set.jpg",250,"Setter delivering — indoor.","Home · FieldhouseUSA carousel"],
+    ["action-spike.jpg",257,"Spike (full frame, square-ish).",null],
+    ["coed-four.jpg",296,"Co-ed doubles foursome.",null],
+    ["dropin-play-wide.jpg",228,"Live drop-in play (16:9).","Home · Drop-In block"],
+    ["dropin-team-wide.jpg",308,"Drop-in group ready to play (16:9).",null],
+    ["grass-women.jpg",573,"Women's grass/outdoor play.",null],
+    ["tournament-celebration.jpg",60,"Beach tournament celebration. LOW-RES 640px — avoid full-bleed.",null],
+    ["tournaments-spike-wide.jpg",207,"Tournament spike, 16:9 crop.","Tournaments cine"],
+    ["youth-camp.jpg",237,"Youth camp / juniors.",null]
+  ],
+  "assets/img/community": [
+    ["group-banner1.jpg",367,"Community under the BOOMTOWN banner.","Home · About"],
+    ["group-banner2.jpg",391,"Community banner — alt.",null],
+    ["group-court.jpg",378,"Large group on the court.","Home · About carousel"],
+    ["group-home.jpg",400,"Group at the venue.",null],
+    ["group-net.jpg",346,"Group at the net.","Home · About carousel"],
+    ["four-banner.jpg",328,"Four players with banner.","Home · About carousel"],
+    ["womens-team-boom.jpg",398,"Women's league team holding BOOM jerseys.","Home · About carousel"]
+  ],
+  "assets/img/library": [
+    ["usav-tournament-podium-wide.jpg",52,"Women's team on the USA Volleyball podium with medals (wide).","Home · Tournaments"],
+    ["usav-tournament-podium.jpg",141,"USAV podium — full/portrait crop.",null],
+    ["womens-usav-nationals-champions.jpg",297,"Women's USAV Nationals champions.",null],
+    ["mens-league-observatory.jpg",447,"Men's league players — indoor. Strong men's-page header candidate.",null],
+    ["mens-boomtown-beach.jpg",387,"Men's beach/sand play. Men's-page side-photo candidate.",null],
+    ["tournament-spike-block-action.jpg",184,"Spike vs block at the net — high energy.",null],
+    ["showdown-winners-big-diggs.jpg",471,"Showdown tournament winners — team 'Big Diggs'.",null],
+    ["showdown-winners-rmac-squad.jpg",464,"Showdown tournament winners — RMAC squad.",null],
+    ["womens-league-group.jpg",818,"Women's league large group.",null],
+    ["womens-league-team-net.jpg",57,"Women's league team at the net (small file).",null],
+    ["womens-open-gym-group.jpg",348,"Women's open-gym / mixer group.",null],
+    ["womens-grass-observatory.jpg",508,"Women's grass play, observatory backdrop.","Home · FieldhouseUSA carousel (flagged for removal)"],
+    ["volo-coed-group.jpg",245,"Volo co-ed league group.",null],
+    ["volo-coed-player.jpg",222,"Volo co-ed player.",null],
+    ["fieldhouse-interior-courts.jpg",356,"FieldhouseUSA interior courts.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-interior-wide.jpg",339,"FieldhouseUSA interior — wide.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-courts-empty.jpg",318,"Empty courts — clean facility shot.",null],
+    ["fieldhouse-tournament-crowd.jpg",170,"Tournament-day crowd at the Fieldhouse.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-exterior-sign.jpg",222,"Fieldhouse exterior with signage.","Home · FieldhouseUSA carousel"]
+  ],
+  "assets/img/venue": [
+    ["fieldhouse-exterior-front.jpg",407,"Fieldhouse storefront, 14200 E Alameda Ave.","Home · FieldhouseUSA background"],
+    ["fieldhouse-court.jpg",148,"Indoor court, epoxy + hardwood.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-lounge.jpg",190,"Players lounge, leather seating.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-bar.jpg",184,"Bar & café, pendant lighting.","Home · FieldhouseUSA carousel"]
+  ]
+};
+
+const out=document.getElementById("out");
+const countEl=document.getElementById("count");
+let total=0;
+
+function render(filter){
+  filter=(filter||"").trim().toLowerCase();
+  out.innerHTML="";
+  let shown=0;
+  for(const folder of Object.keys(DATA)){
+    const items=DATA[folder].filter(it=>{
+      if(!filter)return true;
+      return (folder+" "+it[0]+" "+it[2]).toLowerCase().includes(filter);
+    });
+    if(!items.length)continue;
+    const h=document.createElement("h2");h.className="sec";h.textContent=folder.replace("assets/img","").replace("/","")||"Root (assets/img)";
+    if(folder==="assets/img")h.textContent="Root";
+    const p=document.createElement("p");p.className="secpath";p.textContent=folder+"/";
+    const grid=document.createElement("div");grid.className="grid";
+    items.forEach(it=>{
+      const [file,kb,desc,used]=it;
+      const path=folder+"/"+file;
+      const card=document.createElement("div");card.className="card";
+      const thumb=document.createElement("div");thumb.className="thumb";
+      const img=document.createElement("img");img.loading="lazy";img.decoding="async";
+      img.src=path;img.alt=desc;
+      thumb.append(img);
+      if(used){const b=document.createElement("span");b.className="used";b.textContent="In use";b.title=used;thumb.append(b);}
+      const body=document.createElement("div");body.className="body";
+      const fn=document.createElement("div");fn.className="fname";fn.textContent=file;
+      const ds=document.createElement("div");ds.className="desc";ds.textContent=used?desc+" — "+used:desc;
+      const pth=document.createElement("div");pth.className="path";pth.textContent=path;
+      const row=document.createElement("div");row.className="row";
+      const sz=document.createElement("span");sz.className="sz";sz.textContent=kb+" KB";
+      const btn=document.createElement("button");btn.className="copy";btn.type="button";btn.textContent="Copy path";
+      btn.addEventListener("click",async()=>{
+        try{await navigator.clipboard.writeText(path);}catch(e){
+          const r=document.createRange();r.selectNode(pth);getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand("copy");getSelection().removeAllRanges();
+        }
+        btn.textContent="Copied ✓";btn.classList.add("ok");
+        setTimeout(()=>{btn.textContent="Copy path";btn.classList.remove("ok");},1400);
+      });
+      row.append(sz,btn);
+      body.append(fn,ds,pth,row);
+      card.append(thumb,body);grid.append(card);shown++;
+    });
+    out.append(h,p,grid);
+  }
+  if(!shown){const e=document.createElement("p");e.className="empty";e.textContent="No images match \u201c"+filter+"\u201d.";out.append(e);}
+  countEl.textContent=shown+" / "+total+" images";
+}
+for(const f of Object.keys(DATA))total+=DATA[f].length;
+document.getElementById("q").addEventListener("input",e=>render(e.target.value));
+render("");
+</script>
+</body>
+</html>
