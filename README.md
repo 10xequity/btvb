@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.23.1** · 2026-07-28_
+_Site version: **v0.24.0** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,15 @@ _Site version: **v0.23.1** · 2026-07-28_
 Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.24.0 (2026-07-28)
+League-schedule + tournaments-photo release. Files changed: `womens-league.html`, `mens-league.html`, `tournaments.html`, `design.md`, `README.md`.
+- **League pages — removed the "⚠ SAMPLE ROWS" flag text.** Both schedule tables now render rows with no warning banner in either sample or live mode. The only remaining sample-vs-live signal is an invisible `console.warn` on fetch failure (developer-facing, not shown to visitors).
+- **League pages — added a header schema guard.** After fetching a CSV, if the header row lacks `title`/`start_date` the renderer silently falls back to the built-in sample rows instead of painting `undefined` cells. This matters because the women's URL supplied earlier (gid `454802271`) actually resolves to the **Partners** tab — without the guard it would fill the table with blank rows. The renderer was tested against the live sheet's WomensLeagues (6 rows) and MensLeagues (2 rows) content: dates format timezone-safe (`2026-8-25` → "Tuesday, August 25, 2026"), stale prose in `end_date` is ignored, and non-URL registration cells show "Coming soon".
+- **Tournaments (#15b) — decorative schedule photo.** A tournament action photo now sits beside the Schedule section in the existing `.split` 2-col grid (collapses to a single column at ≤840px; `width`/`height` set to avoid layout shift).
+- **`design.md` changelog caught up.** The 0.20.0 → 0.24.0 entries are now pasted in (it previously stopped at 0.19.0).
+
+**Not done this release (blocked — needs owner input):** self-hosting the ~14 externally-hotlinked partner logos (the sandbox cannot reach `clearbit.com`/`wixstatic.com` — send the source PNGs); the MensLeagues + WomensLeagues published-CSV URLs (the tables stay on samples until pasted into `window.__LEAGUE_CSV__`); the Instagram feed fix; high-res originals for the 3 low-res images; and confirmation of the scoring default. A `git rm` list for 4 unreferenced/duplicate partner files is in the handoff.
 
 ## What's new in v0.23.1 (2026-07-28)
 Photo-library metadata + tagging patch. No page layout, data-layer, or renderer-logic changes beyond `library.html`.

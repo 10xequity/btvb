@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.23.0 · 2026-07-28 · removed beach 'on the court and off' section; Men's 4s photo → mens-team-yamtime (upload #3); added gendered-4s rules link + FAQ -->
+<!DOCTYPE html><!-- v0.24.0 · 2026-07-28 · league schedule: removed the ⚠ SAMPLE-ROWS flag text; added header schema guard (wrong/missing headers → silent fallback to samples) -->
 <!-- v0.19.0 · 2026-07-27 · content+media pass (images, IG feed, cards, league/QC/schedule updates) -->
 <!-- v0.18.0 · 2026-07-27 · canonical/og:url/JSON-LD self-URLs → .html so they resolve on GitHub Pages -->
 <!-- Boomtown Athletics · mens-league · v0.18.0 · 2026-06-21 --><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
@@ -250,9 +250,14 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
     {title:"Kings Club Pre-Season",day:"Tuesday",format:"4s",time:"7 PM \u2013 9 PM",start_date:"2026-08-25",end_date:"",registration_link:"https://forms.gle/8H61cZH25gUqL3qy8"}
   ];
   skeleton();
-  if(!CSV){ render(PLACEHOLDER); paintNote("⚠ SAMPLE ROWS — live schedule not connected yet. Paste the published CSV URL to go live.","stub"); return; }
+  if(!CSV){ render(PLACEHOLDER); return; }
   fetch(CSV).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();})
-    .then(function(t){var objs=toObjects(parseCSV(t));render(objs);paintNote("");})
-    .catch(function(e){console.warn("[league feed] falling back to sample:",e);render(PLACEHOLDER);paintNote("⚠ SAMPLE ROWS — couldn’t load live schedule.","stub");});
+    .then(function(t){
+      var rows=parseCSV(t);
+      var head=(rows[0]||[]).map(function(h){return h.trim().toLowerCase();});
+      if(head.indexOf("title")<0 || head.indexOf("start_date")<0){ console.warn("[league feed] wrong tab/headers ("+head.join(",")+"); using samples"); render(PLACEHOLDER); return; }
+      render(toObjects(rows));
+    })
+    .catch(function(e){console.warn("[league feed] falling back to sample:",e);render(PLACEHOLDER);});
 })();
 </script></body></html>
