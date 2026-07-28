@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.24.0** · 2026-07-28_
+_Site version: **v0.25.0** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,14 @@ _Site version: **v0.24.0** · 2026-07-28_
 Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.25.0 (2026-07-28)
+**League schedules are live.** Both tables now pull real rows from the Google Sheet instead of the built-in samples. Files changed: `womens-league.html`, `mens-league.html`, `README.md`, `design.md`.
+- **Wired both published-CSV feeds** into `window.__LEAGUE_CSV__`, using the site's existing entire-document publish token with each tab's `gid` (WomensLeagues `1645496886`, MensLeagues `1824462476`) — the same token already driving the Events board on `schedule.html`. No renderer changes: the v0.24.0 header schema guard still confirms the CSV has `title`+`start_date` before rendering, and falls back to samples on a wrong tab.
+- **Verified** against the live tab contents: WomensLeagues renders 6 rows, MensLeagues 2 rows; dates format timezone-safe ("Tuesday, August 25, 2026"), and rows whose registration cell is `TBD`/`Invitiational` show "Coming soon".
+- **Instagram feed:** no code change. The home grid already targets the correct Behold feed; the feed now populates because the owner added the site to Behold's domain allowlist. (Behold is fetched browser-side, so no Cloudflare change was needed.)
+
+**Still open (owner-deferred or pending):** self-hosting the externally-hotlinked partner logos (deferred — hotlinks + `onerror` fallbacks retained); placing the 7 library-only team photos (kept in the library for future use); high-res re-exports of the 3 low-res images; scoring-default confirmation. The `git rm` hygiene list is in the handoff.
 
 ## What's new in v0.24.0 (2026-07-28)
 League-schedule + tournaments-photo release. Files changed: `womens-league.html`, `mens-league.html`, `tournaments.html`, `design.md`, `README.md`.
