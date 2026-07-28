@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <!--
   Boomtown Athletics — INTERNAL IMAGE LIBRARY (not linked, not indexed)
-  v0.20.0 · 2026-07-27
+  v0.22.0 · 2026-07-28
   Purpose: owner reference sheet. Every photo asset in /assets/img with its
-  exact repo path + a one-tap "copy path" so you can tell which file to drop
-  into which slot. NOT in the nav, NOT in sitemap.xml, robots-disallowed.
-  To find it: type the URL directly -> /library.html
+  exact repo path + one-tap "copy path". NEW v0.22.0: duplicate review + a
+  deletion QUEUE. This page is static (GitHub Pages) and CANNOT delete repo
+  files itself — instead you tick images, then Copy the generated `git rm`
+  commands and run them locally (or hand them to Claude). Queue persists in
+  this browser via localStorage. NOT in nav, NOT in sitemap, robots-disallowed.
+  Find it: type the URL directly -> /library.html
 -->
 <html lang="en">
 <head>
@@ -18,10 +21,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{--ink:#0a0a0b;--ink-2:#141417;--gold:#eec51d;--gold-2:#f6c733;
-        --bone:#f4f2ec;--mut:#9a988f;--line:#24242a;--ease:cubic-bezier(.23,1,.32,1)}
+        --bone:#f4f2ec;--mut:#9a988f;--line:#24242a;--red:#ff5c5c;--ease:cubic-bezier(.23,1,.32,1)}
   *{box-sizing:border-box}
   body{margin:0;background:var(--ink);color:var(--bone);
-       font-family:'Archivo',system-ui,sans-serif;line-height:1.5;padding:40px 20px}
+       font-family:'Archivo',system-ui,sans-serif;line-height:1.5;padding:40px 20px 120px}
   .wrap{max-width:1180px;margin:0 auto}
   .eyebrow{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.18em;
        text-transform:uppercase;color:var(--gold);margin:0 0 6px}
@@ -35,6 +38,12 @@
   .search{flex:1;min-width:220px;background:var(--ink-2);border:1px solid var(--line);
        border-radius:10px;color:var(--bone);font:inherit;font-size:15px;padding:12px 14px}
   .search:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  .tgl{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.03em;
+       text-transform:uppercase;color:var(--bone);background:var(--ink-2);border:1px solid var(--line);
+       border-radius:10px;padding:11px 13px;cursor:pointer;white-space:nowrap;transition:border-color .15s ease}
+  .tgl:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  .tgl[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+  @media (hover:hover){.tgl:hover{border-color:var(--gold)}}
   .count{font-weight:700;font-size:13px;color:var(--mut);white-space:nowrap}
   .sec{font-family:'Anton',sans-serif;font-size:20px;text-transform:uppercase;
        letter-spacing:.02em;margin:26px 0 4px;color:var(--bone)}
@@ -43,11 +52,21 @@
   .card{background:var(--ink-2);border:1px solid var(--line);border-radius:12px;
        overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s ease,transform .15s var(--ease)}
   @media (hover:hover){.card:hover{border-color:var(--gold)}}
+  .card.sel{border-color:var(--red);box-shadow:0 0 0 2px rgba(255,92,92,.35)}
   .thumb{aspect-ratio:4/3;background:#0e0e10;overflow:hidden;position:relative}
   .thumb img{width:100%;height:100%;object-fit:cover;display:block;background:#0e0e10}
+  .card.sel .thumb img{opacity:.45}
   .used{position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);
        font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
        padding:3px 8px;border-radius:999px}
+  .dupe{position:absolute;bottom:8px;left:8px;background:#3a2f00;color:var(--gold-2);
+       border:1px solid var(--gold-2);font-size:10px;font-weight:700;letter-spacing:.04em;
+       text-transform:uppercase;padding:3px 8px;border-radius:999px}
+  /* selection checkbox */
+  .pickwrap{position:absolute;top:6px;right:6px;z-index:2}
+  .pick{width:26px;height:26px;cursor:pointer;accent-color:var(--red);
+       background:rgba(0,0,0,.5);border-radius:6px}
+  .pick:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
   .body{padding:12px 13px;display:flex;flex-direction:column;gap:7px;flex:1}
   .fname{font-weight:700;font-size:13.5px;word-break:break-word}
   .desc{font-size:12.5px;color:var(--mut);flex:1}
@@ -65,123 +84,213 @@
   .copy.ok{background:#3ecf8e}
   .empty{color:var(--mut);font-size:14px;padding:30px 0}
   .foot{color:var(--mut);font-size:12px;margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
-  @media (prefers-reduced-motion:reduce){.card,.copy{transition:none}}
+  /* deletion queue bar */
+  .selbar{position:fixed;left:0;right:0;bottom:0;z-index:20;transform:translateY(110%);
+       transition:transform .25s var(--ease);background:#17110f;border-top:2px solid var(--red);
+       box-shadow:0 -8px 30px rgba(0,0,0,.5)}
+  .selbar.show{transform:none}
+  .selbar .inner{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;gap:12px;
+       align-items:center;flex-wrap:wrap}
+  .selbar .n{font-family:'Anton',sans-serif;font-size:20px;color:var(--red)}
+  .selbar .nk{font-size:12px;color:var(--mut)}
+  .selbar .sp{flex:1}
+  .selbar button{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.03em;
+       text-transform:uppercase;border-radius:9px;padding:11px 14px;cursor:pointer;border:1px solid var(--line)}
+  .b-rm{background:var(--red);color:#1a0000;border-color:var(--red)}
+  .b-ghost{background:transparent;color:var(--bone)}
+  .selbar button:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+  .modal{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:none;
+       align-items:center;justify-content:center;padding:20px}
+  .modal.show{display:flex}
+  .sheet{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;
+       max-width:680px;width:100%;padding:20px}
+  .sheet h2{font-family:'Anton',sans-serif;font-weight:400;font-size:22px;margin:0 0 6px;text-transform:uppercase}
+  .sheet p{font-size:12.5px;color:var(--mut);margin:0 0 12px}
+  .sheet textarea{width:100%;min-height:170px;background:#0e0e10;border:1px solid var(--line);
+       border-radius:9px;color:var(--gold-2);font-family:ui-monospace,Menlo,monospace;font-size:12.5px;padding:12px}
+  .sheet .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  @media (prefers-reduced-motion:reduce){.card,.copy,.selbar{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <p class="eyebrow">Internal · Not linked · Not indexed</p>
   <h1>Image Library</h1>
-  <p class="lead">Every photo in <code>/assets/img</code>. Search by name, tap <b>Copy path</b>, and tell me which file to drop into which slot. Gold badge = currently placed on the live site.</p>
-  <p class="warn">Keep this URL private — it is hidden from the menu, sitemap, and search engines, but anyone with the link can open it.</p>
+  <p class="lead">Every photo in <code>/assets/img</code>. Search, tap <b>Copy path</b>, and tell me which file goes in which slot. Gold badge = live on the site. <b>New:</b> tick the red box on any image to add it to a deletion queue, then <b>Copy git rm</b> and run it (this page can’t delete repo files itself). “Likely duplicates” groups near-identical shots for review.</p>
+  <p class="warn">Keep this URL private — hidden from menu, sitemap, and search engines, but anyone with the link can open it.</p>
   <hr class="rule">
 
   <div class="tools">
     <input class="search" id="q" type="search" placeholder="Search filename or description… (e.g. mens, podium, grass)" aria-label="Search images">
+    <button class="tgl" id="dupBtn" type="button" aria-pressed="false">Likely duplicates</button>
+    <button class="tgl" id="selOnly" type="button" aria-pressed="false">Selected only</button>
     <span class="count" id="count"></span>
   </div>
 
   <div id="out"></div>
 
-  <p class="foot">Boomtown Athletics · image library v0.20.0 · 2026-07-27 · logos (assets/img/partners/) are managed through the Partners sheet tab and are omitted here.</p>
+  <p class="foot">Boomtown Athletics · image library v0.22.0 · 2026-07-28 · logos (assets/img/partners/) are managed through the Partners sheet tab and are omitted here. Duplicate tags are review hints, not verdicts — you decide what to remove.</p>
+</div>
+
+<!-- deletion queue bar -->
+<div class="selbar" id="selbar" role="region" aria-label="Deletion queue">
+  <div class="inner">
+    <span class="n" id="selN">0</span><span class="nk" id="selKB">selected</span>
+    <span class="sp"></span>
+    <button class="b-rm" id="exRm" type="button">Copy git rm</button>
+    <button class="b-ghost" id="exList" type="button">Copy path list</button>
+    <button class="b-ghost" id="selClear" type="button">Clear</button>
+  </div>
+</div>
+
+<!-- export modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet">
+    <h2 id="mTitle">Delete these files</h2>
+    <p>Run this from the repo root, then commit &amp; push. Recoverable from git history if you change your mind.</p>
+    <textarea id="mText" readonly aria-label="Deletion commands"></textarea>
+    <div class="actions">
+      <button class="b-ghost tgl" id="mCopy" type="button">Copy</button>
+      <button class="b-ghost tgl" id="mClose" type="button">Close</button>
+    </div>
+  </div>
 </div>
 
 <script>
-/* folder -> [ [file, sizeKB, description, usedLabelOrNull] ] */
+/* folder -> [ [file, sizeKB, description, usedLabelOrNull, dupeGroupOrNull] ]
+   dupeGroup: images sharing a value are near-identical crops/versions — review pair. */
 const DATA = {
   "assets/img": [
-    ["boom-logo.png",470,"Primary transparent 2026 BOOM wordmark. Nav / hero / footer logo.","Logo — all pages"],
-    ["boom-sm.png",74,"Small BOOM mark (legacy).",null],
-    ["header-collage.jpg",493,"Home hero action collage (2000×1120).","Home hero"],
-    ["og-cover.jpg",165,"Share card 1200×630 for Facebook / X previews.","OG image — all pages"],
-    ["about-team.jpg",191,"Women's team group portrait.",null],
-    ["team.jpg",125,"Team group (legacy crop).",null],
-    ["spike.jpg",88,"Spike at the net (legacy near-square crop).",null],
-    ["favicon.png",22,"Gold spiker favicon.","Favicon"],
+    ["boom-logo.png",459,"Primary transparent 2026 BOOM wordmark (1053×502). Nav / hero / footer logo.","Logo — all pages"],
+    ["boom-sm.png",72,"Small BOOM mark (legacy, 360×172). Superseded by boom-logo.png.",null],
+    ["header-collage.jpg",481,"Home hero action collage (2000×1120).","Home hero"],
+    ["og-cover.jpg",161,"Share card 1200×630 for Facebook / X previews.","OG image — all pages"],
+    ["about-team.jpg",187,"Women's team group portrait (1400×935).",null,"team-portrait"],
+    ["team.jpg",122,"Team group (legacy crop, 1300×868).",null,"team-portrait"],
+    ["spike.jpg",86,"Spike at the net (legacy near-square 819×868).",null,"spike"],
+    ["favicon.png",21,"Gold spiker favicon.","Favicon"],
     ["apple-touch-icon.png",13,"iOS home-screen icon.","App icon"],
     ["qc-shine.png",18,"Queens Club gold shine crest.","Queens Club gate"]
   ],
   "assets/img/action": [
-    ["action-block1.jpg",198,"Blocking at the net — indoor.",null],
-    ["action-block2.jpg",206,"Blocking at the net — alt.",null],
-    ["action-hit1.jpg",262,"Attacker swinging — indoor.",null],
-    ["action-hit2.jpg",274,"Attacker swinging — alt.",null],
-    ["action-podium.jpg",145,"Players on the podium.",null],
-    ["action-set.jpg",250,"Setter delivering — indoor.","Home · FieldhouseUSA carousel"],
-    ["action-spike.jpg",257,"Spike (full frame, square-ish).",null],
-    ["coed-four.jpg",296,"Co-ed doubles foursome.",null],
-    ["dropin-play-wide.jpg",228,"Live drop-in play (16:9).","Home · Drop-In block"],
-    ["dropin-team-wide.jpg",308,"Drop-in group ready to play (16:9).",null],
-    ["grass-women.jpg",573,"Women's grass/outdoor play.",null],
-    ["tournament-celebration.jpg",60,"Beach tournament celebration. LOW-RES 640px — avoid full-bleed.",null],
-    ["tournaments-spike-wide.jpg",207,"Tournament spike, 16:9 crop.","Tournaments cine"],
-    ["youth-camp.jpg",237,"Youth camp / juniors.",null]
+    ["action-block1.jpg",193,"Blocking at the net — indoor (1800×1202).",null],
+    ["action-block2.jpg",201,"Blocking at the net — alt.",null],
+    ["action-hit1.jpg",255,"Attacker swinging — indoor.",null],
+    ["action-hit2.jpg",267,"Attacker swinging — alt.",null],
+    ["action-podium.jpg",141,"Players on the podium (843×1123).",null],
+    ["action-set.jpg",244,"Setter delivering — indoor.","Home · FieldhouseUSA carousel"],
+    ["action-spike.jpg",250,"Spike (full frame, 1800×1202).",null,"spike"],
+    ["coed-four.jpg",289,"Co-ed doubles foursome.",null],
+    ["dropin-play-wide.jpg",222,"Live drop-in play (16:9).","Home · Drop-In block"],
+    ["dropin-team-wide.jpg",300,"Drop-in group ready to play (16:9).",null],
+    ["grass-women.jpg",559,"Women's grass/outdoor play (1800×811).",null,"womens-grass"],
+    ["tournament-celebration.jpg",58,"Beach tournament celebration. LOW-RES 640×512 — avoid full-bleed.",null],
+    ["tournaments-spike-wide.jpg",202,"Tournament spike, 16:9 crop.","Tournaments cine"],
+    ["youth-camp.jpg",231,"Youth camp / juniors.",null]
   ],
   "assets/img/community": [
-    ["group-banner1.jpg",367,"Community under the BOOMTOWN banner.","Home · About"],
-    ["group-banner2.jpg",391,"Community banner — alt.",null],
-    ["group-court.jpg",378,"Large group on the court.","Home · About carousel"],
-    ["group-home.jpg",400,"Group at the venue.",null],
-    ["group-net.jpg",346,"Group at the net.","Home · About carousel"],
-    ["four-banner.jpg",328,"Four players with banner.","Home · About carousel"],
-    ["womens-team-boom.jpg",398,"Women's league team holding BOOM jerseys.","Home · About carousel"]
+    ["group-banner1.jpg",358,"Community under the BOOMTOWN banner (1800×811).","Home · About"],
+    ["group-banner2.jpg",381,"Community banner — alt.",null],
+    ["group-court.jpg",369,"Large group on the court.","Home · About carousel"],
+    ["group-home.jpg",391,"Group at the venue.",null],
+    ["group-net.jpg",337,"Group at the net.","Home · About carousel"],
+    ["four-banner.jpg",319,"Four players with banner.","Home · About carousel"],
+    ["womens-team-boom.jpg",388,"Women's league team holding BOOM jerseys (1800×1350).","Home · About carousel"]
   ],
   "assets/img/library": [
-    ["usav-tournament-podium-wide.jpg",52,"Women's team on the USA Volleyball podium with medals (wide).","Home · Tournaments"],
-    ["usav-tournament-podium.jpg",141,"USAV podium — full/portrait crop.",null],
-    ["womens-usav-nationals-champions.jpg",297,"Women's USAV Nationals champions.",null],
-    ["mens-league-observatory.jpg",447,"Men's league players — indoor. Strong men's-page header candidate.",null],
-    ["mens-boomtown-beach.jpg",387,"Men's beach/sand play. Men's-page side-photo candidate.",null],
-    ["tournament-spike-block-action.jpg",184,"Spike vs block at the net — high energy.",null],
-    ["showdown-winners-big-diggs.jpg",471,"Showdown tournament winners — team 'Big Diggs'.",null],
-    ["showdown-winners-rmac-squad.jpg",464,"Showdown tournament winners — RMAC squad.",null],
-    ["womens-league-group.jpg",818,"Women's league large group.",null],
-    ["womens-league-team-net.jpg",57,"Women's league team at the net (small file).",null],
-    ["womens-open-gym-group.jpg",348,"Women's open-gym / mixer group.",null],
-    ["womens-grass-observatory.jpg",508,"Women's grass play, observatory backdrop.","Home · FieldhouseUSA carousel (flagged for removal)"],
-    ["volo-coed-group.jpg",245,"Volo co-ed league group.",null],
-    ["volo-coed-player.jpg",222,"Volo co-ed player.",null],
-    ["fieldhouse-interior-courts.jpg",356,"FieldhouseUSA interior courts.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-interior-wide.jpg",339,"FieldhouseUSA interior — wide.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-courts-empty.jpg",318,"Empty courts — clean facility shot.",null],
-    ["fieldhouse-tournament-crowd.jpg",170,"Tournament-day crowd at the Fieldhouse.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-exterior-sign.jpg",222,"Fieldhouse exterior with signage.","Home · FieldhouseUSA carousel"]
+    ["usav-tournament-podium-wide.jpg",50,"Women's team on the USAV podium (wide, 843×474).","Home · Tournaments","usav-podium"],
+    ["usav-tournament-podium.jpg",137,"USAV podium — portrait crop (843×1123).",null,"usav-podium"],
+    ["womens-usav-nationals-champions.jpg",289,"Women's USAV Nationals champions (1800×1059).",null],
+    ["mens-league-observatory.jpg",436,"Men's league players — indoor (811×1800). Men's-page header candidate.",null],
+    ["mens-boomtown-beach.jpg",377,"Men's beach/sand play (1350×1800). Men's-page side-photo candidate.",null],
+    ["tournament-spike-block-action.jpg",179,"Spike vs block at the net — high energy (1800×1202).",null],
+    ["showdown-winners-big-diggs.jpg",459,"Showdown winners — team 'Big Diggs'.",null],
+    ["showdown-winners-rmac-squad.jpg",453,"Showdown winners — RMAC squad.",null],
+    ["womens-league-group.jpg",798,"Women's league large group (1800×1350). Largest file.",null],
+    ["womens-league-team-net.jpg",56,"Women's league team at the net (small, 480×640).",null],
+    ["womens-open-gym-group.jpg",339,"Women's open-gym / mixer group.",null],
+    ["womens-grass-observatory.jpg",495,"Women's grass play, observatory backdrop (811×1800).",null,"womens-grass"],
+    ["volo-coed-group.jpg",239,"Volo co-ed league group.",null],
+    ["volo-coed-player.jpg",217,"Volo co-ed player.",null],
+    ["fieldhouse-interior-courts.jpg",347,"FieldhouseUSA interior courts.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-interior-wide.jpg",330,"FieldhouseUSA interior — wide.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-courts-empty.jpg",310,"Empty courts — clean facility shot.",null],
+    ["fieldhouse-tournament-crowd.jpg",165,"Tournament-day crowd (768×1024).","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-exterior-sign.jpg",216,"Fieldhouse exterior with signage.","Home · FieldhouseUSA carousel"]
   ],
   "assets/img/venue": [
-    ["fieldhouse-exterior-front.jpg",407,"Fieldhouse storefront, 14200 E Alameda Ave.","Home · FieldhouseUSA background"],
-    ["fieldhouse-court.jpg",148,"Indoor court, epoxy + hardwood.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-lounge.jpg",190,"Players lounge, leather seating.","Home · FieldhouseUSA carousel"],
-    ["fieldhouse-bar.jpg",184,"Bar & café, pendant lighting.","Home · FieldhouseUSA carousel"]
+    ["fieldhouse-exterior-front.jpg",397,"Fieldhouse storefront, 14200 E Alameda Ave (1600×1961).","Home · FieldhouseUSA background"],
+    ["fieldhouse-court.jpg",144,"Indoor court, epoxy + hardwood.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-lounge.jpg",185,"Players lounge, leather seating.","Home · FieldhouseUSA carousel"],
+    ["fieldhouse-bar.jpg",179,"Bar & café, pendant lighting.","Home · FieldhouseUSA carousel"]
   ]
 };
 
+const LSKEY="bt_lib_delqueue_v1";
 const out=document.getElementById("out");
 const countEl=document.getElementById("count");
-let total=0;
+const dupBtn=document.getElementById("dupBtn");
+const selOnly=document.getElementById("selOnly");
+let total=0, dupOnly=false, selMode=false;
+
+// selection set (persisted)
+let sel=new Set();
+try{const raw=localStorage.getItem(LSKEY); if(raw) sel=new Set(JSON.parse(raw));}catch(e){}
+function persist(){try{localStorage.setItem(LSKEY,JSON.stringify([...sel]));}catch(e){}}
+
+// KB lookup for selected paths
+const KB={};
+for(const folder of Object.keys(DATA)) DATA[folder].forEach(it=>KB[folder+"/"+it[0]]=it[1]);
+
+// which dupe groups actually have 2+ members
+const dupeCount={};
+for(const folder of Object.keys(DATA)) DATA[folder].forEach(it=>{const g=it[4]; if(g) dupeCount[g]=(dupeCount[g]||0)+1;});
+
+function updateBar(){
+  const n=sel.size;
+  document.getElementById("selN").textContent=n;
+  let kb=0; sel.forEach(p=>kb+=(KB[p]||0));
+  document.getElementById("selKB").textContent=n? ("selected · "+kb+" KB") : "selected";
+  document.getElementById("selbar").classList.toggle("show",n>0);
+}
 
 function render(filter){
   filter=(filter||"").trim().toLowerCase();
   out.innerHTML="";
   let shown=0;
   for(const folder of Object.keys(DATA)){
-    const items=DATA[folder].filter(it=>{
+    let items=DATA[folder].filter(it=>{
+      if(dupOnly && !(it[4] && dupeCount[it[4]]>1)) return false;
+      if(selMode && !sel.has(folder+"/"+it[0])) return false;
       if(!filter)return true;
       return (folder+" "+it[0]+" "+it[2]).toLowerCase().includes(filter);
     });
+    if(dupOnly) items=items.slice().sort((a,b)=>(a[4]||"").localeCompare(b[4]||""));
     if(!items.length)continue;
-    const h=document.createElement("h2");h.className="sec";h.textContent=folder.replace("assets/img","").replace("/","")||"Root (assets/img)";
-    if(folder==="assets/img")h.textContent="Root";
+    const h=document.createElement("h2");h.className="sec";
+    h.textContent=(folder==="assets/img")?"Root":folder.replace("assets/img/","");
     const p=document.createElement("p");p.className="secpath";p.textContent=folder+"/";
     const grid=document.createElement("div");grid.className="grid";
     items.forEach(it=>{
-      const [file,kb,desc,used]=it;
+      const [file,kb,desc,used,dgrp]=it;
       const path=folder+"/"+file;
-      const card=document.createElement("div");card.className="card";
+      const card=document.createElement("div");card.className="card"+(sel.has(path)?" sel":"");
       const thumb=document.createElement("div");thumb.className="thumb";
       const img=document.createElement("img");img.loading="lazy";img.decoding="async";
       img.src=path;img.alt=desc;
       thumb.append(img);
       if(used){const b=document.createElement("span");b.className="used";b.textContent="In use";b.title=used;thumb.append(b);}
+      if(dgrp && dupeCount[dgrp]>1){const d=document.createElement("span");d.className="dupe";d.textContent="dupe? "+dgrp;thumb.append(d);}
+      // selection checkbox
+      const pw=document.createElement("div");pw.className="pickwrap";
+      const cb=document.createElement("input");cb.type="checkbox";cb.className="pick";
+      cb.checked=sel.has(path);cb.setAttribute("aria-label","Select "+path+" for deletion");
+      cb.addEventListener("change",()=>{
+        if(cb.checked){sel.add(path);card.classList.add("sel");}
+        else{sel.delete(path);card.classList.remove("sel");}
+        persist();updateBar(); if(selMode) render(document.getElementById("q").value);
+      });
+      pw.append(cb);thumb.append(pw);
       const body=document.createElement("div");body.className="body";
       const fn=document.createElement("div");fn.className="fname";fn.textContent=file;
       const ds=document.createElement("div");ds.className="desc";ds.textContent=used?desc+" — "+used:desc;
@@ -202,12 +311,40 @@ function render(filter){
     });
     out.append(h,p,grid);
   }
-  if(!shown){const e=document.createElement("p");e.className="empty";e.textContent="No images match \u201c"+filter+"\u201d.";out.append(e);}
+  if(!shown){const e=document.createElement("p");e.className="empty";
+    e.textContent=selMode?"Nothing selected yet — tick the red box on images you want to remove.":"No images match \u201c"+filter+"\u201d.";out.append(e);}
   countEl.textContent=shown+" / "+total+" images";
 }
 for(const f of Object.keys(DATA))total+=DATA[f].length;
+
 document.getElementById("q").addEventListener("input",e=>render(e.target.value));
-render("");
+dupBtn.addEventListener("click",()=>{dupOnly=!dupOnly;dupBtn.setAttribute("aria-pressed",dupOnly);render(document.getElementById("q").value);});
+selOnly.addEventListener("click",()=>{selMode=!selMode;selOnly.setAttribute("aria-pressed",selMode);render(document.getElementById("q").value);});
+
+// queue exports
+function paths(){return [...sel].sort();}
+function openModal(text){document.getElementById("mText").value=text;document.getElementById("modal").classList.add("show");}
+document.getElementById("exRm").addEventListener("click",()=>{
+  if(!sel.size)return;
+  const cmd="# Boomtown image cleanup — "+sel.size+" file(s)\n# run from repo root, then: git commit -m \"chore: remove duplicate/unused images\" && git push\n"
+    + paths().map(p=>'git rm "'+p+'"').join("\n");
+  openModal(cmd);
+});
+document.getElementById("exList").addEventListener("click",()=>{ if(sel.size) openModal(paths().join("\n")); });
+document.getElementById("selClear").addEventListener("click",()=>{
+  if(!sel.size)return;
+  if(confirm("Clear all "+sel.size+" selected?")){sel.clear();persist();updateBar();render(document.getElementById("q").value);}
+});
+document.getElementById("mClose").addEventListener("click",()=>document.getElementById("modal").classList.remove("show"));
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("show");});
+document.getElementById("mCopy").addEventListener("click",async e=>{
+  const t=document.getElementById("mText").value;
+  try{await navigator.clipboard.writeText(t);}catch(err){const ta=document.getElementById("mText");ta.select();document.execCommand("copy");}
+  e.target.textContent="Copied ✓";setTimeout(()=>e.target.textContent="Copy",1400);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("modal").classList.remove("show");});
+
+updateBar();render("");
 </script>
 </body>
 </html>

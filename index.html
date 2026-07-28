@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.20.0 · 2026-07-27 · photo swaps + carousel additions -->
+<!DOCTYPE html><!-- v0.22.0 · 2026-07-28 · JS carousels (glass prev/next controls) + Meta Pixel active -->
 <!-- v0.19.0 · 2026-07-27 · content+media pass (images, IG feed, cards, league/QC/schedule updates) -->
 <!-- Boomtown Athletics · index · v0.19.0 · 2026-07-19 --><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
@@ -165,21 +165,34 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .fh::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,10,11,.42),rgba(10,10,11,.35) 45%,rgba(10,10,11,.46)),radial-gradient(120% 80% at 82% 0%,rgba(238,197,29,.05),transparent 60%)}
 /* Partner section "serve-line" treatment (item 6 · option A) */
 /* mobile (item 8) */
-@media(max-width:560px){.fhcar{aspect-ratio:4/3}.fh-bg{opacity:.12}main .cine{min-height:clamp(360px,64vh,460px)}.hero{aspect-ratio:auto;height:auto;min-height:clamp(440px,84vh,560px);max-height:none;padding:30px 20px}.hero-logo{width:min(320px,88%);margin-bottom:16px}}@media(min-width:901px){.has-sub::after{content:"";position:absolute;left:0;right:8px;top:100%;height:14px}.submenu{top:100%;padding-top:8px}}.abcar{position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden}.abcar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:fhfade 30s infinite}.abcar img:nth-child(2){animation-delay:6s}.abcar img:nth-child(3){animation-delay:12s}.abcar img:nth-child(4){animation-delay:18s}.abcar img:nth-child(5){animation-delay:24s}@media (prefers-reduced-motion:reduce){.abcar img{animation:none;opacity:0}.abcar img:first-child{opacity:1}}.club-partner{display:flex;gap:22px;align-items:center;flex-wrap:wrap;background:#141417;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:20px;margin:26px 0 6px;text-align:left}.club-vid{width:min(260px,70vw);aspect-ratio:1;border-radius:10px;background:#fff;object-fit:contain}.club-partner h3{color:#fff;font-family:"Anton",sans-serif;font-size:26px;margin:4px 0 8px}.club-partner>div{flex:1;min-width:240px}@keyframes fhfade30{}@media (prefers-reduced-motion:no-preference){.hero .serve{width:0;animation:serveGrow .7s var(--ease-out) .42s forwards}@keyframes serveGrow{to{width:118px}}#partners .ptier .ptile{opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease-out),transform .45s var(--ease-out)}#partners .ptier.in .ptile{opacity:1;transform:none}#partners .ptier.in .ptile:nth-child(2){transition-delay:.04s}#partners .ptier.in .ptile:nth-child(3){transition-delay:.08s}#partners .ptier.in .ptile:nth-child(4){transition-delay:.12s}#partners .ptier.in .ptile:nth-child(5){transition-delay:.16s}#partners .ptier.in .ptile:nth-child(6){transition-delay:.2s}#partners .ptier.in .ptile:nth-child(7){transition-delay:.24s}#partners .ptier.in .ptile:nth-child(8){transition-delay:.28s}#partners .ptier.in .ptile:nth-child(9){transition-delay:.32s}.spec b{transition:color .3s ease}.spec:hover b{color:#f6c733}.ig-card{transition:transform .35s var(--ease-out),box-shadow .35s ease}.ig-card:hover{box-shadow:0 10px 26px rgba(0,0,0,.5)}}</style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"Boomtown Athletics","description":"Denver, Colorado's official volleyball company — tournaments, women's, men's & co-ed leagues, training and nightly drop-in at Boomtown FieldhouseUSA, Aurora.","url":"https://www.boomtownathletics.com/","image":"https://www.boomtownathletics.com/assets/img/og-cover.jpg","logo":"https://www.boomtownathletics.com/assets/img/boom-logo.png","email":"admin@boomtownathletics.com","sport":"Volleyball","address":{"@type":"PostalAddress","streetAddress":"14200 E Alameda Ave","addressLocality":"Aurora","addressRegion":"CO","postalCode":"80012","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":39.7036,"longitude":-104.8253},"areaServed":[{"@type":"City","name":"Aurora"},{"@type":"City","name":"Denver"},{"@type":"City","name":"Centennial"},{"@type":"City","name":"Lakewood"},{"@type":"City","name":"Littleton"},{"@type":"City","name":"Englewood"},{"@type":"City","name":"Parker"},{"@type":"City","name":"Highlands Ranch"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"19:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"16:00","closes":"23:00"}],"sameAs":["https://www.instagram.com/boomtownvb","https://www.facebook.com/groups/boomtownvb"]}</script>
-<!-- ============ Meta Pixel (INACTIVE placeholder · added v0.15.0 2026-07-19) ============
-     To activate: replace YOUR_PIXEL_ID (2 places) with the numeric Pixel ID from
-     Meta Events Manager, then delete this opening comment line and the closing one.
+@media(max-width:560px){.fhcar{aspect-ratio:4/3}.fh-bg{opacity:.12}main .cine{min-height:clamp(360px,64vh,460px)}.hero{aspect-ratio:auto;height:auto;min-height:clamp(440px,84vh,560px);max-height:none;padding:30px 20px}.hero-logo{width:min(320px,88%);margin-bottom:16px}}@media(min-width:901px){.has-sub::after{content:"";position:absolute;left:0;right:8px;top:100%;height:14px}.submenu{top:100%;padding-top:8px}}.abcar{position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden}.abcar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:fhfade 30s infinite}.abcar img:nth-child(2){animation-delay:6s}.abcar img:nth-child(3){animation-delay:12s}.abcar img:nth-child(4){animation-delay:18s}.abcar img:nth-child(5){animation-delay:24s}@media (prefers-reduced-motion:reduce){.abcar img{animation:none;opacity:0}.abcar img:first-child{opacity:1}}.club-partner{display:flex;gap:22px;align-items:center;flex-wrap:wrap;background:#141417;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:20px;margin:26px 0 6px;text-align:left}.club-vid{width:min(260px,70vw);aspect-ratio:1;border-radius:10px;background:#fff;object-fit:contain}.club-partner h3{color:#fff;font-family:"Anton",sans-serif;font-size:26px;margin:4px 0 8px}.club-partner>div{flex:1;min-width:240px}@keyframes fhfade30{}@media (prefers-reduced-motion:no-preference){.hero .serve{width:0;animation:serveGrow .7s var(--ease-out) .42s forwards}@keyframes serveGrow{to{width:118px}}#partners .ptier .ptile{opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease-out),transform .45s var(--ease-out)}#partners .ptier.in .ptile{opacity:1;transform:none}#partners .ptier.in .ptile:nth-child(2){transition-delay:.04s}#partners .ptier.in .ptile:nth-child(3){transition-delay:.08s}#partners .ptier.in .ptile:nth-child(4){transition-delay:.12s}#partners .ptier.in .ptile:nth-child(5){transition-delay:.16s}#partners .ptier.in .ptile:nth-child(6){transition-delay:.2s}#partners .ptier.in .ptile:nth-child(7){transition-delay:.24s}#partners .ptier.in .ptile:nth-child(8){transition-delay:.28s}#partners .ptier.in .ptile:nth-child(9){transition-delay:.32s}.spec b{transition:color .3s ease}.spec:hover b{color:#f6c733}.ig-card{transition:transform .35s var(--ease-out),box-shadow .35s ease}.ig-card:hover{box-shadow:0 10px 26px rgba(0,0,0,.5)}}
+/* --- v0.22.0 JS carousel controls (#4): glass triangle prev/next --- */
+.abcar,.fhcar{position:relative}
+.car-js img{animation:none!important;opacity:0;transition:opacity .8s var(--ease)}
+.car-js img.on{opacity:1}
+.carbtn{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:46px;height:46px;
+  display:grid;place-items:center;padding:0;border:1px solid rgba(255,255,255,.42);
+  background:rgba(18,18,22,.28);backdrop-filter:blur(9px) saturate(1.2);-webkit-backdrop-filter:blur(9px) saturate(1.2);
+  border-radius:50%;cursor:pointer;color:#fff;transition:background .15s ease,border-color .15s ease,transform .12s var(--ease)}
+.carbtn.prev{left:12px}.carbtn.next{right:12px}
+.carbtn svg{width:15px;height:15px;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.55))}
+@media (hover:hover){.carbtn:hover{background:rgba(18,18,22,.52);border-color:#fff}}
+.carbtn:active{transform:translateY(-50%) scale(.94)}
+.carbtn:focus-visible{outline:3px solid var(--gold-2);outline-offset:3px}
+@media(max-width:560px){.carbtn{width:40px;height:40px}}
+@media (prefers-reduced-motion:reduce){.car-js img{transition:none}.carbtn{transition:none}}
+</style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"Boomtown Athletics","description":"Denver, Colorado's official volleyball company — tournaments, women's, men's & co-ed leagues, training and nightly drop-in at Boomtown FieldhouseUSA, Aurora.","url":"https://www.boomtownathletics.com/","image":"https://www.boomtownathletics.com/assets/img/og-cover.jpg","logo":"https://www.boomtownathletics.com/assets/img/boom-logo.png","email":"admin@boomtownathletics.com","sport":"Volleyball","address":{"@type":"PostalAddress","streetAddress":"14200 E Alameda Ave","addressLocality":"Aurora","addressRegion":"CO","postalCode":"80012","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":39.7036,"longitude":-104.8253},"areaServed":[{"@type":"City","name":"Aurora"},{"@type":"City","name":"Denver"},{"@type":"City","name":"Centennial"},{"@type":"City","name":"Lakewood"},{"@type":"City","name":"Littleton"},{"@type":"City","name":"Englewood"},{"@type":"City","name":"Parker"},{"@type":"City","name":"Highlands Ranch"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"19:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"16:00","closes":"23:00"}],"sameAs":["https://www.instagram.com/boomtownvb","https://www.facebook.com/groups/boomtownvb"]}</script>
+<!-- Meta Pixel · ACTIVE · ID 120232615176120623 · activated v0.22.0 2026-07-28 -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init','YOUR_PIXEL_ID');fbq('track','PageView');
+fbq('init','120232615176120623');fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"></noscript>
-======================================================================================== -->
+src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"></noscript>
 </head><body><header class="head"><nav class="nav wrap" aria-label="Primary">
 <a class="nav-logo" href="index.html" aria-label="Boomtown Athletics home"><img src="assets/img/boom-logo.png" alt="Boomtown Athletics"></a>
 <button class="burger" aria-expanded="false" aria-controls="m">Menu</button>
@@ -281,4 +294,32 @@ src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"></nosc
 (function(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(function(el){el.classList.add('reveal');io.observe(el);});})();
-</script><script>(function(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;o.unobserve(e.target);e.target.querySelectorAll(".spec b").forEach(function(b){var t=b.textContent.trim(),n=parseInt(t,10);if(isNaN(n))return;var s2=0,step=Math.max(1,Math.ceil(n/24));b.textContent="0";var iv=setInterval(function(){s2+=step;if(s2>=n){s2=n;clearInterval(iv);}b.textContent=String(s2);},28);});});},{threshold:.4});document.querySelectorAll(".specs").forEach(function(el){o.observe(el);});})();</script><button id="toTop" aria-label="Back to top" title="Back to top">↑</button><script>(function(){var b=document.getElementById("toTop");if(!b)return;var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;addEventListener("scroll",function(){b.classList.toggle("show",scrollY>520);},{passive:true});b.addEventListener("click",function(){scrollTo({top:0,behavior:rm?"auto":"smooth"});});})();</script></body></html>
+</script><script>(function(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;o.unobserve(e.target);e.target.querySelectorAll(".spec b").forEach(function(b){var t=b.textContent.trim(),n=parseInt(t,10);if(isNaN(n))return;var s2=0,step=Math.max(1,Math.ceil(n/24));b.textContent="0";var iv=setInterval(function(){s2+=step;if(s2>=n){s2=n;clearInterval(iv);}b.textContent=String(s2);},28);});});},{threshold:.4});document.querySelectorAll(".specs").forEach(function(el){o.observe(el);});})();</script><button id="toTop" aria-label="Back to top" title="Back to top">↑</button><script>(function(){var b=document.getElementById("toTop");if(!b)return;var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;addEventListener("scroll",function(){b.classList.toggle("show",scrollY>520);},{passive:true});b.addEventListener("click",function(){scrollTo({top:0,behavior:rm?"auto":"smooth"});});})();</script><script>
+/* v0.22.0 #4 — convert .abcar/.fhcar CSS crossfades to accessible JS carousels.
+   Degrades gracefully: if this script doesn't run, the CSS crossfade still plays. */
+(function(){
+  var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var SVG={prev:'<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="16,4 6,12 16,20" fill="currentColor"/></svg>',
+           next:'<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="8,4 18,12 8,20" fill="currentColor"/></svg>'};
+  function initCar(el,ms){
+    var imgs=[].slice.call(el.querySelectorAll("img"));
+    if(imgs.length<2)return;
+    el.classList.add("car-js");
+    var i=0; imgs.forEach(function(im,k){im.classList.toggle("on",k===0);});
+    function show(n){imgs[i].classList.remove("on");i=(n+imgs.length)%imgs.length;imgs[i].classList.add("on");}
+    function mk(dir){var b=document.createElement("button");b.type="button";b.className="carbtn "+dir;
+      b.setAttribute("aria-label",dir==="prev"?"Previous photo":"Next photo");b.innerHTML=SVG[dir];
+      b.addEventListener("click",function(){show(i+(dir==="next"?1:-1));reset();});return b;}
+    el.appendChild(mk("prev"));el.appendChild(mk("next"));
+    var timer=null;
+    function start(){if(rm||timer)return;timer=setInterval(function(){show(i+1);},ms);}
+    function stop(){if(timer){clearInterval(timer);timer=null;}}
+    function reset(){stop();start();}
+    el.addEventListener("pointerenter",stop);el.addEventListener("pointerleave",start);
+    el.addEventListener("focusin",stop);el.addEventListener("focusout",start);
+    start();
+  }
+  document.querySelectorAll(".abcar").forEach(function(el){initCar(el,5000);});
+  document.querySelectorAll(".fhcar").forEach(function(el){initCar(el,4500);});
+})();
+</script></body></html>
