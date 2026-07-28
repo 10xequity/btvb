@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.23.0 · 2026-07-28 · home tournaments band → womens-usav-nationals-champions; carousel controls → bare glass triangles (circle removed); FieldhouseUSA carousel now leads with fieldhouse-exterior-sign + adds fieldhouse-courts-empty -->
+<!DOCTYPE html><!-- v0.26.0 · 2026-07-28 · IG grid fix: .t chip + .pl badge inherited inset/padding from .ig-card span (chip covered 94% of every tile as a solid yellow panel); per-image onerror -> local fallback; card() now built via DOM props (no innerHTML from feed data) -->
 <!-- v0.19.0 · 2026-07-27 · content+media pass (images, IG feed, cards, league/QC/schedule updates) -->
 <!-- Boomtown Athletics · index · v0.19.0 · 2026-07-19 --><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
@@ -71,8 +71,8 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .ig-card{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
 .ig-card img{width:100%;height:100%;object-fit:cover;transition:.35s}.ig-card:hover img{transform:scale(1.05)}
 .ig-card span{position:absolute;inset:auto 0 0 0;font-size:12px;line-height:1.35;padding:24px 11px 10px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.85));display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ig-card .t{position:absolute;top:9px;left:9px;font-size:11px;font-weight:700;color:#111;background:#F8C400;padding:3px 8px;border-radius:4px}
-.ig-more{display:flex;justify-content:center;margin-top:22px}.ig-skel{aspect-ratio:1;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(90deg,#141417,#1c1c20,#141417);background-size:200% 100%;animation:igsh 1.1s ease-in-out infinite}@keyframes igsh{0%{background-position:200% 0}100%{background-position:-200% 0}}.ig-card .pl{position:absolute;top:9px;right:9px;font-size:11px;color:#fff;background:rgba(0,0,0,.55);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}@media (prefers-reduced-motion:reduce){.ig-skel{animation:none}}
+.ig-card .t{position:absolute;inset:9px auto auto 9px;font-size:11px;font-weight:700;color:#111;background:#F8C400;padding:3px 8px;border-radius:4px}
+.ig-more{display:flex;justify-content:center;margin-top:22px}.ig-skel{aspect-ratio:1;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(90deg,#141417,#1c1c20,#141417);background-size:200% 100%;animation:igsh 1.1s ease-in-out infinite}@keyframes igsh{0%{background-position:200% 0}100%{background-position:-200% 0}}.ig-card .pl{position:absolute;inset:9px 9px auto auto;padding:0;font-size:11px;color:#fff;background:rgba(0,0,0,.55);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}@media (prefers-reduced-motion:reduce){.ig-skel{animation:none}}
 .pwrap{text-align:center}.pwrap h2{text-align:center}.pwrap .sub{margin-inline:auto}
 .ptier{padding-block:18px;border-top:1px solid rgba(255,255,255,.12)}.ptier:first-of-type{border-top:0}
 .ptier-h{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#e6a92b;text-shadow:0 0 12px rgba(230,169,43,.4);margin-bottom:16px;text-align:center}
@@ -261,11 +261,23 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
   function trim(s,n){s=(s||"").split("\n")[0].trim();return s.length>n?s.slice(0,n-1).trim()+"\u2026":s;}
   function skel(k){for(var i=0;i<k;i++){var d=document.createElement("div");d.className="ig-card ig-skel";g.appendChild(d);}}
   function clearSkel(){Array.prototype.forEach.call(g.querySelectorAll(".ig-skel"),function(e){e.remove();});}
+  var IG_FB=["assets/img/action/action-spike.jpg","assets/img/community/womens-team-boom.jpg","assets/img/action/action-set.jpg","assets/img/community/group-court.jpg","assets/img/action/action-hit1.jpg","assets/img/community/group-banner1.jpg"];
+  var fbTick=0;
   function card(it){
     var a=document.createElement("a");a.href=it.href||"https://www.instagram.com/boomtownvb";a.target="_blank";a.rel="noopener";a.className="ig-card";
-    var alt=esc(it.alt||"Boomtown Athletics on Instagram");
-    var badge=it.video?'<span class="pl" aria-hidden="true">\u25b6</span>':"";
-    a.innerHTML='<img loading="lazy" decoding="async" width="700" height="700" alt="'+alt+'" src="'+it.img+'">'+badge+'<span class="t">@boomtownvb</span>'+(it.cap?'<span>'+esc(it.cap)+'</span>':"");
+    var im=document.createElement("img");
+    im.loading="lazy";im.decoding="async";im.width=700;im.height=700;
+    im.alt=it.alt||"Boomtown Athletics on Instagram";
+    im.addEventListener("error",function(){
+      if(im.getAttribute("data-fb")){return;}
+      im.setAttribute("data-fb","1");
+      im.src=IG_FB[fbTick++%IG_FB.length];
+    });
+    im.src=it.img||"";
+    a.appendChild(im);
+    if(it.video){var p=document.createElement("span");p.className="pl";p.setAttribute("aria-hidden","true");p.textContent="\u25b6";a.appendChild(p);}
+    var t=document.createElement("span");t.className="t";t.textContent="@boomtownvb";a.appendChild(t);
+    if(it.cap){var c=document.createElement("span");c.textContent=it.cap;a.appendChild(c);}
     return a;
   }
   function renderMore(){

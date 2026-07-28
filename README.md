@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.25.0** · 2026-07-28_
+_Site version: **v0.26.0** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,19 @@ _Site version: **v0.25.0** · 2026-07-28_
 Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.26.0 (2026-07-28)
+**The Instagram grid actually shows the photos now.** The feed and the images were never the problem — a CSS cascade bug was painting a solid yellow panel over every tile. Files changed: all 11 indexable pages, `README.md`, `design.md`.
+
+- **Fixed the yellow tiles (the real bug).** `.ig-card span` (the caption) sets `inset:auto 0 0 0`, and `.ig-card .t` (the yellow `@boomtownvb` chip) overrode only `top`/`left` — never `right`/`bottom`. Those leaked through, so the chip anchored at (9,9) and stretched to the bottom-right corner: **measured 336×336 inside a 347×347 tile, covering 94% of every card.** Now `inset:9px auto auto 9px` → the chip renders at 96×21 (1.7% of the tile) and the photo is visible.
+- **Fixed the reel badge.** Same leak, second victim: `.ig-card .pl` also inherited `padding:24px 11px 10px`, and because the site is `box-sizing:border-box` that padding (34px) exceeded `height:26px`, flooring the badge at **26×34** — an oval with an off-centre ▶. Now `inset:9px 9px auto auto;padding:0` → a true 26px circle.
+- **Applied on all 11 indexable pages.** The IG card CSS is duplicated across every page (each page inlines its own CSS), though only `index.html` carries the grid markup. The other 10 rules are inert today; they were fixed anyway so the bug can't resurface if a page is ever copied as a template.
+- **Hardened each tile against image failure.** IG cards previously had no `onerror` path — only a whole-feed fallback — so a single blocked or failed image left a permanently empty tile. Each `<img>` now falls back once to a committed local photo (guarded by a `data-fb` flag so it can't loop).
+- **Removed a feed-data injection vector.** `card()` built its markup with `innerHTML` and interpolated the feed's image URL straight into a `src="..."` attribute unescaped. It now builds the card with DOM properties (`createElement`/`textContent`), so nothing from the feed is ever parsed as HTML.
+- **Confirmed: side-out is the tournament scoring default.** Open since v0.22.0. No code change was needed — `tournaments.html` already stated it correctly; the decision is simply recorded now.
+- **Corrected the record:** the IG images are served from **`behold.pictures`**, not `hop.behold.pictures` as earlier docs claimed.
+
+**Still open (owner-deferred or pending):** partner-logo self-host (deferred — external hotlinks + `onerror` fallbacks retained); placement of the 7 library-only team photos (deferred); high-res re-exports of the 3 low-res images (deferred); sheet data hygiene; the `git rm` list in the handoff.
 
 ## What's new in v0.25.0 (2026-07-28)
 **League schedules are live.** Both tables now pull real rows from the Google Sheet instead of the built-in samples. Files changed: `womens-league.html`, `mens-league.html`, `README.md`, `design.md`.
