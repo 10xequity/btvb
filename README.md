@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.26.0** · 2026-07-28_
+_Site version: **v0.27.0** · 2026-07-28_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,22 @@ _Site version: **v0.26.0** · 2026-07-28_
 Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.27.0 (2026-07-28)
+**Housekeeping release — no visible change to any page.** Every edited file was verified against the
+live repo and the live Google Sheet rather than trusted from the previous handoff, and that turned up
+three documented "facts" that were wrong. Files changed: all 11 indexable pages, `README.md`, `design.md`.
+
+- **Removed 18 stale duplicate version comments** across the 11 indexable pages. Line 1 (`<!DOCTYPE html><!-- vX.Y.Z ... -->`) is the single canonical version header, but lines 2–4 still carried leftover `v0.18.0`/`v0.19.0` comments from older releases — up to three per page on `womens-league`, `mens-league` and `co-ed-leagues`. They flatly contradicted line 1, and they cost real time: a session reading line 2 concludes `main` is six releases stale. Removal was comment-scoped, not line-based, because on most pages the last stale comment shared its line with `<html lang="en">`.
+- **Removed 3 dead `esc()` functions** (`index.html`, `womens-league.html`, `mens-league.html`). The one in `index.html` was the leftover HTML escaper orphaned when v0.26.0 rebuilt `card()` with DOM properties; the two league pages held empty `function esc(){}` stubs. Each was verified uncalled before removal, and the league renderers were confirmed to build every cell with `textContent` — so no escaping behaviour was lost.
+- **Corrected: the sheet *can* be read from a tooling environment.** Since v0.25.0 the docs have stated that CSV data is "browser-verified, not sandbox-verified" because `docs.google.com` blocks automated fetchers. That is true of a plain HTTP fetch but not of the **Google Drive MCP**, which reads the file through the Drive API. All 7 tabs were read directly this release. (Caveat: that reads the *source sheet*, not the published-CSV cache the browser sees, so publish latency is still unobservable.)
+- **Corrected: the external partner-logo count.** The brief said "~14 hotlinks on index + tournaments". Actual: **22** — `logo.clearbit.com` ×18 and `static.wixstatic.com` ×4 — across **three** pages: `index.html` (16), `schedule.html` (3), `tournaments.html` (3). `schedule.html` was missing from every prior list.
+- **Documented the Cloudflare Worker.** `boomtown-api.vvisuth.workers.dev`, unexplained since v0.26.0, was read via the Cloudflare MCP: it is the backend of a **separate members-platform project** (`10xequity/btplatform`), self-reporting `v0.32.0`, with 139 API routes, a D1 database, Square payments and Brevo email. It is **not** a proxy for this site and has no bearing on the CSV or Behold constraints. Out of scope for this repo by owner decision.
+- **Verified and closed:** `main` really is at v0.26.0 (IG `inset` fix present on all 11 pages, both league gids wired, `card()` free of `innerHTML`, Meta Pixel on all 11). The one remaining `innerHTML` in `index.html` is the carousel's own static SVG icon constant, not feed data.
+
+**Owner actions shipped alongside (not repo files):** `SHEET-CLEANUP_v0.27.0_2026-07-28.md` (exact cell-level edit list) and `repo-hygiene_v0.27.0_2026-07-28.sh` (verified `git rm` script with a read-only pre-flight).
+
+**Still open (owner-deferred or pending):** partner-logo self-host (deferred — 22 external hotlinks retain `onerror` text fallbacks); placement of the 7 library-only team photos; high-res re-exports of the 3 low-res images; sheet data hygiene; the `git rm` list; `boomtownvb.com` → 301 redirect when the domain transfers.
 
 ## What's new in v0.26.0 (2026-07-28)
 **The Instagram grid actually shows the photos now.** The feed and the images were never the problem — a CSS cascade bug was painting a solid yellow panel over every tile. Files changed: all 11 indexable pages, `README.md`, `design.md`.
