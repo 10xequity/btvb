@@ -1,0 +1,22 @@
+# Shell scripts must keep LF endings. Checked out with CRLF on Windows, bash fails
+# with `$'\r': command not found` or a bad-interpreter error on the shebang, and the
+# heredocs inside scripts/validate.sh break. Added v0.28.0.
+*.sh text eol=lf
+
+# HTML/CSS/JS/Markdown normalise to LF in the repo; Git may present them per-platform.
+*.html text
+*.css  text
+*.js   text
+*.md   text
+*.xml  text
+*.txt  text
+
+# Never touch binaries.
+*.jpg  binary
+*.jpeg binary
+*.png  binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.mp4  binary
+*.pdf  binary

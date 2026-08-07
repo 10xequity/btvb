@@ -3,13 +3,13 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.27.0** · 2026-07-28_
+_Site version: **v0.28.0** · 2026-08-06_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
 - **Custom domain:** `www.boomtownathletics.com` via `CNAME`, fronted by **Cloudflare** (DNS + CDN/proxy). `www` is canonical.
 - **Build step:** none. It is plain HTML/CSS/JS; each page inlines its own CSS/JS.
-- **Deploy:** commit to `main`; GitHub Pages publishes automatically. To ship a zip like this one, extract it at the repo root (overwriting the listed files) and commit.
+- **Deploy:** commit to `main`; GitHub Pages publishes automatically. **There is no staging environment — a push to `main` is a publish.** Work on a branch and open a PR. (The old "extract a zip at the repo root" workflow is retired as of v0.28.0; edits are made directly in the checkout. See `CLAUDE.md`.)
 - **URLs use `.html`.** GitHub Pages does **not** auto-rewrite extensionless URLs, so internal links and canonical/OG/JSON-LD self-URLs are written with `.html`. (This corrects an earlier README that described Cloudflare Pages clean-URL behavior — that is not how this site is served.)
 
 ## Pages (13)
@@ -21,9 +21,73 @@ _Site version: **v0.27.0** · 2026-07-28_
 `robots.txt` disallows `/queens-club` and `/library`; `sitemap.xml` excludes both.
 
 ## Assets
-Local images in `/assets/img/` (~80 files, ~19 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`). As of v0.23.1 those 11 files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright).
+Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`; v0.28.0 removed 4 orphaned partner logos). As of v0.23.1 those 11 library files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright). Full inventory with dimensions and per-page usage: `docs/ASSET-LIBRARY_v0.28.0_2026-08-06.md`.
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.28.0 (2026-08-06)
+**Tooling handoff to Claude Code. No site file changed — nothing on any page looks different.**
+
+The project moved from "a chat session ships a zip" to "Claude Code edits this repo directly."
+That made a pile of hand-maintained prose replaceable with things a machine can check.
+
+**Added**
+- **`CLAUDE.md`** (repo root) — loads automatically in every Claude Code session. Holds the
+  frozen constants, the three bug classes that have hit production, and the verify-don't-inherit
+  rule. Replaces the old `EXEC-PROMPT` format, which existed only to brief a session with no
+  repo access.
+- **`scripts/validate.sh`** — **77 automated checks**, run before every commit. Covers version
+  headers, HTML tag balance, inline JavaScript syntax, JSON-LD, the renderer's `textContent`
+  safety, the `.ig-card` inset invariant, all frozen constants, asset-path resolution,
+  placeholder text, and the date-parser guard. **77/77 pass on this baseline.**
+- **`docs/DESIGN-SYSTEM_v0.28.0_2026-08-06.md`** — the colours, type scale, spacing and
+  components, extracted from the actual code. The site has almost no CSS variables, so this
+  document *is* the token system.
+- **`docs/ASSET-LIBRARY_v0.28.0_2026-08-06.md`** — all 81 images with dimensions, file sizes,
+  and which pages use each one. Supersedes both stale manifests.
+- **`docs/HANDOFF_v0.28.0_2026-08-06.md`** and three slash commands (`/validate`, `/release`,
+  `/verify-sheet`).
+
+**Removed** — repo hygiene, 7 files deleted + 1 archived, all re-verified unreferenced against
+the checkout immediately before removal:
+- 4 orphan partner logos: `molten.jpg`, `real-colorado.png`, `team-evo.png`, `usav.png`.
+  The near-collisions `molten.png` and `team-evo-black.png` are **live and were kept** —
+  confirmed present afterwards.
+- `boomtown-events-widget_v3_2026-07-19.html` — a stale standalone widget no page links to.
+- Both superseded manifests: `assets/img/ASSET-MANIFEST.md`, `WIX-IMAGE-MANIFEST_2026-07-19.md`.
+- The root `HANDOFF.md` was **moved, not deleted**, to
+  `docs/HANDOFF_ARCHIVE_pre-v0.28.0.md`. A stale handoff at repo root is the single most
+  likely thing for a future session to mistake for current state.
+
+**Record corrections** — the sixth release running that an inherited "fact" was wrong:
+- **The v0.28.0 tooling above was authored on 2026-08-06 but never committed.** `main` sat at
+  v0.27.0 until this commit. Every "delivered" claim about `CLAUDE.md`, `validate.sh` and the
+  `docs/` set was true of a folder on the owner's machine, not of the repo.
+- **The `boomtownvb.com` → `boomtownathletics.com` 301 is already live.** Verified 2026-08-06:
+  `https://www.boomtownvb.com` returns `301`. Three documents listed it as "deferred until the
+  domain transfers." It has been done for some time; the open-work list was simply never
+  re-checked.
+- **`validate.sh` needs Python 3, and never said so.** It shells out to `python3` at five
+  points with no availability guard. On a machine without Python every one of those checks
+  fails for an environmental reason — the first run here reported *40 passed, 37 failed*, all
+  37 spurious. With Python 3.12.10 installed: **77 passed, 0 failed.**
+- **`docs/ASSET-LIBRARY` said "81 image files"; the real count was 80** (76 after this
+  release's deletions). The per-file tables were correct — only the summary line was off.
+- The **Instagram grid lives on `index.html` only**, not "all 11 indexable pages." The `.pl`
+  chip rule exists on one page; the other ten carry an inert partial copy of the CSS with no
+  markup to apply it to. Nothing is broken — but the feature's surface area is one page.
+- **`womens-open-gym-group.jpg` is already placed** on `womens-league.html`. Four team photos
+  are genuinely unplaced, not seven.
+- The **"`molten.png` / `team-evo-black.png` are live on 3 pages"** warning counted
+  `boomtown-events-widget_v3`, a file already on the deletion list. They are live on two real
+  pages. Still don't delete them.
+- The **one-version-comment-per-page rule was only ever enforced on the 11 indexable pages.**
+  `queens-club.html` sits at v0.19.0, `404.html` at v0.15.0, and `library.html` has no version
+  comment at all. Harmless, now recorded.
+
+**Still blocked on owner-supplied files or decisions:** partner logo PNGs (22 external
+hotlinks across three pages), high-res originals for three low-resolution images, placement
+for four team photos, and four sheet-data questions. See `docs/HANDOFF_v0.28.0_2026-08-06.md` §4.
 
 ## What's new in v0.27.0 (2026-07-28)
 **Housekeeping release — no visible change to any page.** Every edited file was verified against the
@@ -118,4 +182,4 @@ Patch release — league schedule renderer updated to the sheet's **new column s
 - Instagram feed embed, self-hosted partner logos, and confirmed men's-page photos are unchanged this release.
 
 ---
-_Boomtown Athletics site · v0.23.0 · 2026-07-28_
+_Boomtown Athletics site · v0.28.0 · 2026-08-06_
