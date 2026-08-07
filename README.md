@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.28.0** · 2026-08-06_
+_Site version: **v0.29.0** · 2026-08-07_
 
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
@@ -24,6 +24,45 @@ _Site version: **v0.28.0** · 2026-08-06_
 Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`; v0.28.0 removed 4 orphaned partner logos). As of v0.23.1 those 11 library files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright). Full inventory with dimensions and per-page usage: `docs/ASSET-LIBRARY_v0.28.0_2026-08-06.md`.
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.29.0 (2026-08-07)
+**An announcement popup on the home page, and the Queens Club code prompt removed.**
+Files changed: `index.html`, `queens-club.html`, `README.md`, `design.md`.
+
+**Home page — announcement modal.** Opens once per browser session, about a second after the
+page loads. Five signups, in the order requested: Queens Club Mixer and Queens Club Pre-Season
+Qualifier under *Women's 4s*; Kings Club Mixer and Kings Club Pre-Season under *Men's 4s*; the
+USAV Boomtown Showdown under *Tournament*. Every date, time, venue and registration link was
+read from the live Google Sheet, not written from memory.
+
+- **Each item expires on its own date.** Every entry carries a "show until" date. Once that
+  date passes the item disappears from the popup, a section heading whose items have all
+  passed disappears with it, and once everything has passed **the popup stops appearing
+  entirely.** The site will not advertise a mixer that finished last week.
+- **Closes on the ✕, the Escape key, or a click outside.** Keyboard focus is moved into the
+  dialog and trapped there while it is open, then returned. Honours reduced-motion.
+- **Verified in a real browser**, not assumed: opens on first visit, stays closed on the second
+  visit in the same session, hides the two mixers when the clock is moved to Aug 20, hides the
+  whole *Men's 4s* heading when both men's items have passed, and does not open at all on
+  Oct 1. No console errors.
+
+**Queens Club — invitation-code prompt removed.** Tapping the crest now goes straight to the
+women's league page. `[FACT]` The prompt was never a security control: it accepted **any**
+non-empty text and let you through. Nothing was protected before, so nothing is exposed now —
+the only change is that visitors stop being asked for a code that did nothing. The CSS and
+script behind it are gone; a comment in the file records why, so it isn't rebuilt by accident.
+**If real access control is ever needed it has to be server-side** — anything in this repo is
+downloadable by anyone.
+
+Also fixed on that page: a stale second version comment on line 2 (`v0.18.0`) that contradicted
+line 1, removed comment-scoped rather than by deleting the line, since it shared its line with
+the `<html>` tag.
+
+**Needs your answer — one date is contradictory in the sheet.** The Queens Club Pre-Season
+Qualifier row has `day` = "Tues & Wed" and `start_date` = Tuesday Aug 25, but its `end_date`
+cell reads "Sunday, August 23, 2026" — two days *before* it starts. The popup shows **"Tue &
+Wed · From Aug 25"**, matching `start_date`, which is what the league tables already use. If
+Sunday the 23rd is right, the popup and the sheet both need correcting.
 
 ## What's new in v0.28.0 (2026-08-06)
 **Tooling handoff to Claude Code. No site file changed — nothing on any page looks different.**
@@ -182,4 +221,4 @@ Patch release — league schedule renderer updated to the sheet's **new column s
 - Instagram feed embed, self-hosted partner logos, and confirmed men's-page photos are unchanged this release.
 
 ---
-_Boomtown Athletics site · v0.28.0 · 2026-08-06_
+_Boomtown Athletics site · v0.29.0 · 2026-08-07_

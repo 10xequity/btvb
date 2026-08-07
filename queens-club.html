@@ -1,5 +1,5 @@
-<!DOCTYPE html><!-- v0.19.0 · 2026-07-27 · content+media pass (images, IG feed, cards, league/QC/schedule updates) -->
-<!-- Boomtown Athletics · queens-club · v0.18.0 · 2026-07-19 --><html lang="en"><head>
+<!DOCTYPE html><!-- v0.29.0 · 2026-08-07 · invitation-code gate removed (crest now links straight through); stale line-2 version comment purged -->
+<html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><title>Queens Club</title>
 <link rel="canonical" href="https://www.queensclubvb.com/">
@@ -57,46 +57,19 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
 @media(hover:hover) and (pointer:fine){.bt:hover{color:var(--gold)}}
 .bt:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
-/* ---- code modal ---- */
-.veil{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:24px;
- background:rgba(0,0,0,.72);backdrop-filter:blur(3px);
- opacity:0;pointer-events:none;transition:opacity .2s ease}
-.veil.open{opacity:1;pointer-events:auto}
-.modal{width:100%;max-width:340px;background:#0a0a0a;border:1px solid rgba(246,199,51,.35);border-radius:8px;
- padding:30px 26px 26px;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 40px rgba(246,199,51,.07);
- opacity:0;transform:scale(.95) translateY(6px);transition:opacity .22s var(--ease-out),transform .22s var(--ease-out)}
-.veil.open .modal{opacity:1;transform:none}
-.modal h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:3px;font-size:20px;color:var(--gold);margin-bottom:4px}
-.modal .mi{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8a8a8a;margin-bottom:20px}
-.x{position:absolute;top:10px;right:10px;width:32px;height:32px;border:0;border-radius:6px;background:none;color:#8a8a8a;font-size:18px;line-height:1;cursor:pointer;transition:color .15s ease,background .15s ease}
-.x:hover{color:#fff;background:rgba(255,255,255,.06)}.x:focus-visible{outline:2px solid var(--gold)}
-.gate{display:flex;flex-direction:column;gap:12px}
-.gate input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(246,199,51,.4);color:#f4f2ec;
- font-family:"Archivo",sans-serif;font-size:15px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
- text-align:center;padding:15px 14px;border-radius:3px;outline:none}
-.gate input::placeholder{color:#7a6a2a;letter-spacing:.22em}
-.gate input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(246,199,51,.2)}
-.gate button{width:100%;background:var(--gold);color:#0a0a0a;border:2px solid var(--gold);font-family:"Archivo",sans-serif;
- font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:14px;border-radius:3px;cursor:pointer;
- transition:background .18s ease,border-color .18s ease,transform .12s var(--ease-out)}
-.gate button:active{transform:scale(.97)}
-@media(hover:hover) and (pointer:fine){.gate button:hover{background:#ffd54a;border-color:#ffd54a}}
-.gate button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.msg{min-height:18px;margin-top:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#d6584e}
-.msg.ok{color:var(--gold)}
-.shake{animation:sh .35s}@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* v0.29.0 — the invitation-code modal (.veil/.modal/.gate/.msg/.shake) was removed here.
+   It never validated anything: any non-empty string was accepted. The crest is a plain
+   link again. Re-add a real gate server-side if access control is ever actually needed. */
 
 @media(prefers-reduced-motion:reduce){
  .wrap{animation:none}
  .crest::after{animation:none;background:none}
- .crest img,.gate button,.modal,.veil{transition:opacity .2s ease}
- .modal{transform:none}
- .shake{animation:none}
+ .crest img{transition:opacity .2s ease}
 }
 </style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"></head><body>
 <a class="exit" href="index.html">Exit ✕</a>
 <main class="wrap">
- <a class="crest" id="crest" href="womens-league.html" aria-haspopup="dialog" aria-controls="veil"><img src="assets/img/qc-shine.png" alt="Queens Club — tap to enter"></a>
+ <a class="crest" id="crest" href="womens-league.html"><img src="assets/img/qc-shine.png" alt="Queens Club — tap to enter"></a>
  <h1>Queens Club</h1>
  <p class="invite">You have been invited</p>
  <p class="hint">Tap the crest to enter</p>
@@ -104,51 +77,4 @@ h1{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;lette
  <a class="bt" href="index.html">Boomtown Athletics</a>
 </main>
 
-<div class="veil" id="veil" aria-hidden="true">
- <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
-  <button class="x" id="mclose" type="button" aria-label="Close">✕</button>
-  <h2 id="mtitle">Members Only</h2>
-  <p class="mi">Enter your invitation code</p>
-  <div class="gate">
-    <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="Enter code" aria-label="Invitation code" maxlength="24">
-    <button id="go" type="button">Enter</button>
-  </div>
-  <p class="msg" id="msg" role="status" aria-live="polite"></p>
- </div>
-</div>
-
-<script>
-(function(){
- var veil=document.getElementById("veil"),crest=document.getElementById("crest"),
-     input=document.getElementById("code"),go=document.getElementById("go"),
-     close=document.getElementById("mclose"),msg=document.getElementById("msg"),
-     modal=veil.querySelector(".modal"),last=null;
- var DEST="womens-league.html";
- function open(){last=document.activeElement;veil.classList.add("open");veil.setAttribute("aria-hidden","false");
-   setTimeout(function(){input.focus();},60);}
- function shut(){veil.classList.remove("open");veil.setAttribute("aria-hidden","true");msg.textContent="";msg.classList.remove("ok");
-   if(last)last.focus();}
- function shake(t){msg.classList.remove("ok");msg.textContent=t;
-   modal.classList.remove("shake");void modal.offsetWidth;modal.classList.add("shake");}
- function enter(){
-   var v=input.value.trim();
-   if(!v){shake("Enter your code");return;}
-   msg.classList.add("ok");msg.textContent="Access granted \u2014 entering\u2026";
-   go.disabled=true;
-   setTimeout(function(){location.href=DEST;},700);
- }
- crest.addEventListener("click",function(e){e.preventDefault();open();});
- go.addEventListener("click",enter);
- close.addEventListener("click",shut);
- input.addEventListener("keydown",function(e){if(e.key==="Enter")enter();});
- veil.addEventListener("click",function(e){if(e.target===veil)shut();});
- document.addEventListener("keydown",function(e){
-   if(e.key==="Escape"&&veil.classList.contains("open"))shut();
-   if(e.key==="Tab"&&veil.classList.contains("open")){
-     var f=[input,go,close],i=f.indexOf(document.activeElement);
-     if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus();}
-     else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}
-   }
- });
-})();
-</script></body></html>
+</body></html>
