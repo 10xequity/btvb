@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.27.0 · 2026-07-28 · header/dead-code hygiene: removed stale duplicate version comments (line 1 is the single canonical header); no rendered change; dead esc helper removed -->
+<!DOCTYPE html><!-- v0.29.0 · 2026-08-07 · announcement modal on entry: mixers, pre-season 4s and the Boomtown Showdown, each item auto-expiring on its own date -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -180,6 +180,48 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .carbtn:focus-visible{outline:3px solid var(--gold-2);outline-offset:3px}
 @media(max-width:560px){.carbtn{width:40px;height:40px}.carbtn svg{width:19px;height:19px}}
 @media (prefers-reduced-motion:reduce){.car-js img{transition:none}.carbtn{transition:none}}
+/* ---- v0.29.0 announcement modal ---- */
+.anv{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:24px;
+ background:rgba(0,0,0,.94);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ opacity:0;pointer-events:none;transition:opacity .22s var(--ease-out)}
+.anv[hidden]{display:none}
+.anv.open{opacity:1;pointer-events:auto}
+.anm{width:100%;max-width:560px;max-height:calc(100svh - 48px);overflow-y:auto;
+ background:#000;border:1px solid rgba(255,255,255,.18);border-radius:6px;
+ padding:clamp(24px,4vw,34px);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.9);
+ opacity:0;transform:translateY(8px);transition:opacity .24s var(--ease-out),transform .24s var(--ease-out)}
+.anv.open .anm{opacity:1;transform:none}
+.anx{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:6px;background:none;
+ color:#9a988f;font-size:18px;line-height:1;cursor:pointer;transition:color .15s ease,background .15s ease}
+@media(hover:hover) and (pointer:fine){.anx:hover{color:#fff;background:rgba(255,255,255,.06)}}
+.anx:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
+.anm .ey{margin-bottom:6px}
+.anm h2{font-family:"Anton",sans-serif;font-weight:400;text-transform:uppercase;line-height:.97;letter-spacing:.5px;
+ font-size:clamp(28px,4.4vw,40px);color:#F8C400;margin:0 0 8px;padding-right:34px}
+.ansub{font-size:15px;color:#cfcdc7;max-width:60ch;margin:0 0 18px}
+.angrp{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#e6a92b;
+ padding-top:16px;margin:0 0 10px;border-top:1px solid rgba(255,255,255,.12)}
+.angrp.first{padding-top:0;border-top:0}
+.anitem{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;
+ background:#000;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:14px;margin-bottom:10px}
+.antxt{flex:1 1 250px;min-width:0}
+.antxt b{display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.antxt .andesc{display:block;font-size:13.5px;color:#cfcdc7;margin-bottom:4px}
+.antxt .anmeta{display:block;font-size:12.5px;color:#9a988f}
+.ancta{flex:0 0 auto;background:#F8C400;color:#111;border:2px solid #F8C400;border-radius:3px;
+ font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
+ padding:10px 18px;transition:background .18s ease,border-color .18s ease}
+@media(hover:hover) and (pointer:fine){.ancta:hover{background:#ffd633;border-color:#ffd633}}
+.ancta:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.anall{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+ text-transform:uppercase;color:#e6a92b;text-decoration:none}
+@media(hover:hover) and (pointer:fine){.anall:hover{color:#F8C400}}
+.anall:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
+@media(max-width:560px){.ancta{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){
+ .anv,.anm{transition:opacity .2s ease}
+ .anm{transform:none}
+}
 </style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"Boomtown Athletics","description":"Denver, Colorado's official volleyball company — tournaments, women's, men's & co-ed leagues, training and nightly drop-in at Boomtown FieldhouseUSA, Aurora.","url":"https://www.boomtownathletics.com/","image":"https://www.boomtownathletics.com/assets/img/og-cover.jpg","logo":"https://www.boomtownathletics.com/assets/img/boom-logo.png","email":"admin@boomtownathletics.com","sport":"Volleyball","address":{"@type":"PostalAddress","streetAddress":"14200 E Alameda Ave","addressLocality":"Aurora","addressRegion":"CO","postalCode":"80012","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":39.7036,"longitude":-104.8253},"areaServed":[{"@type":"City","name":"Aurora"},{"@type":"City","name":"Denver"},{"@type":"City","name":"Centennial"},{"@type":"City","name":"Lakewood"},{"@type":"City","name":"Littleton"},{"@type":"City","name":"Englewood"},{"@type":"City","name":"Parker"},{"@type":"City","name":"Highlands Ranch"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"19:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"16:00","closes":"23:00"}],"sameAs":["https://www.instagram.com/boomtownvb","https://www.facebook.com/groups/boomtownvb"]}</script>
 <!-- Meta Pixel · ACTIVE · ID 120232615176120623 · activated v0.22.0 2026-07-28 -->
 <script>
@@ -332,5 +374,139 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
   }
   document.querySelectorAll(".abcar").forEach(function(el){initCar(el,5000);});
   document.querySelectorAll(".fhcar").forEach(function(el){initCar(el,4500);});
+})();
+</script>
+
+<!-- v0.29.0 announcement modal. Each .anitem carries data-until = the last date it should be
+     shown; the script hides expired items, drops empty group headings, and does not open the
+     modal at all once every item has passed. Update the dates and links here when the season
+     turns over. -->
+<div class="anv" id="anv" hidden>
+ <div class="anm" role="dialog" aria-modal="true" aria-labelledby="antitle" aria-describedby="ansub">
+  <button class="anx" id="anx" type="button" aria-label="Close announcement">&#10005;</button>
+  <p class="ey">Registration open</p>
+  <h2 id="antitle">4s Season Starts August&nbsp;11</h2>
+  <p class="ansub" id="ansub">Two weeks of mixers to meet players and find a team, then pre-season 4s. All indoors at Boomtown Fieldhouse.</p>
+
+  <p class="angrp first">Women&rsquo;s 4s</p>
+  <div class="anitem" data-until="2026-08-19">
+   <div class="antxt">
+    <b>Queens Club Mixer &amp; Open Gym</b>
+    <span class="andesc">Two weeks of open 4s. Come solo &mdash; meet players, find a team.</span>
+    <span class="anmeta">Tue &amp; Wed &middot; From Aug 11 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
+   </div>
+   <a class="ancta" href="https://forms.gle/ictnJgtT7TwkR82Y7" target="_blank" rel="noopener">Register</a>
+  </div>
+  <div class="anitem" data-until="2026-08-26">
+   <div class="antxt">
+    <b>Queens Club Pre-Season Qualifier</b>
+    <span class="andesc">Qualify for the women&rsquo;s 4s season.</span>
+    <span class="anmeta">Tue &amp; Wed &middot; From Aug 25 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
+   </div>
+   <a class="ancta" href="https://forms.gle/JWm9ns6rhDzL9ucC9" target="_blank" rel="noopener">Sign up</a>
+  </div>
+
+  <p class="angrp">Men&rsquo;s 4s</p>
+  <div class="anitem" data-until="2026-08-18">
+   <div class="antxt">
+    <b>Kings Club Mixer &amp; Open Gym</b>
+    <span class="andesc">Two weeks of open 4s. Come solo &mdash; meet players, build a roster.</span>
+    <span class="anmeta">Tuesdays &middot; From Aug 11 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
+   </div>
+   <a class="ancta" href="https://forms.gle/jWJfuUynMaXen8Wm7" target="_blank" rel="noopener">Register</a>
+  </div>
+  <div class="anitem" data-until="2026-08-25">
+   <div class="antxt">
+    <b>Kings Club Pre-Season</b>
+    <span class="andesc">Men&rsquo;s 4s pre-season ahead of the Kings Club season.</span>
+    <span class="anmeta">Tuesdays &middot; From Aug 25 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
+   </div>
+   <a class="ancta" href="https://forms.gle/8H61cZH25gUqL3qy8" target="_blank" rel="noopener">Sign up</a>
+  </div>
+
+  <p class="angrp">Tournament</p>
+  <div class="anitem" data-until="2026-09-27">
+   <div class="antxt">
+    <b>USAV Boomtown Showdown</b>
+    <span class="andesc">Sanctioned women&rsquo;s and men&rsquo;s 4s. One day, outdoors.</span>
+    <span class="anmeta">Sun, Sep 27 &middot; 8 AM&ndash;3 PM &middot; Eisenhower Park</span>
+   </div>
+   <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSceHQWa7nv882uAHzSSyBigD4PTE2tA7u0-hv-EaFkq0P58Xw/viewform" target="_blank" rel="noopener">Enter</a>
+  </div>
+
+  <a class="anall" href="schedule.html">See the full schedule &rarr;</a>
+ </div>
+</div>
+
+<script>
+(function(){
+  var veil=document.getElementById("anv");
+  if(!veil)return;
+  /* Once per day: the stored value is the local calendar date it was last shown.
+     Local parts, not toISOString(), which is UTC and would flip the day at 6 PM Denver. */
+  var KEY="bt_announce_2026_fall";
+  function stamp(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+  try{if(localStorage.getItem(KEY)===stamp())return;}catch(e){}
+
+  /* Hide anything already past. Dates are built from parts so they stay local-midnight —
+     new Date("2026-08-19") would parse as UTC and roll back a day in Denver. */
+  var today=new Date();today.setHours(0,0,0,0);
+  var items=veil.querySelectorAll(".anitem"),live=0,i;
+  for(i=0;i<items.length;i++){
+    var u=items[i].getAttribute("data-until"),p=u?u.split("-"):null;
+    if(p&&p.length===3){
+      var d=new Date(+p[0],+p[1]-1,+p[2]);
+      if(d<today){items[i].hidden=true;continue;}
+    }
+    live++;
+  }
+  if(!live)return;
+
+  /* Drop any group heading whose items have all expired. */
+  var groups=veil.querySelectorAll(".angrp");
+  for(i=0;i<groups.length;i++){
+    var n=groups[i].nextElementSibling,any=false;
+    while(n&&!n.classList.contains("angrp")){
+      if(n.classList.contains("anitem")&&!n.hidden){any=true;break;}
+      n=n.nextElementSibling;
+    }
+    if(!any)groups[i].hidden=true;
+  }
+  var vis=veil.querySelectorAll(".angrp:not([hidden])");
+  if(vis.length)vis[0].classList.add("first");
+
+  var card=veil.querySelector(".anm"),closeBtn=document.getElementById("anx"),last=null;
+  function focusable(){
+    return Array.prototype.filter.call(
+      card.querySelectorAll("a[href],button:not([disabled])"),
+      function(el){return el.offsetParent!==null;});
+  }
+  function open(){
+    last=document.activeElement;
+    veil.hidden=false;
+    void veil.offsetWidth;
+    veil.classList.add("open");
+    try{localStorage.setItem(KEY,stamp());}catch(e){}
+    setTimeout(function(){closeBtn.focus();},60);
+    document.addEventListener("keydown",onKey);
+  }
+  function shut(){
+    veil.classList.remove("open");
+    document.removeEventListener("keydown",onKey);
+    setTimeout(function(){veil.hidden=true;},240);
+    if(last&&last.focus)last.focus();
+  }
+  function onKey(e){
+    if(e.key==="Escape"){shut();return;}
+    if(e.key!=="Tab")return;
+    var f=focusable();
+    if(!f.length)return;
+    var idx=f.indexOf(document.activeElement);
+    if(e.shiftKey&&idx<=0){e.preventDefault();f[f.length-1].focus();}
+    else if(!e.shiftKey&&idx===f.length-1){e.preventDefault();f[0].focus();}
+  }
+  closeBtn.addEventListener("click",shut);
+  veil.addEventListener("click",function(e){if(e.target===veil)shut();});
+  setTimeout(open,700);
 })();
 </script></body></html>
