@@ -29,11 +29,14 @@ all photos are committed to the repo.
 **An announcement popup on the home page, and the Queens Club code prompt removed.**
 Files changed: `index.html`, `queens-club.html`, `README.md`, `design.md`.
 
-**Home page — announcement modal.** Opens once per browser session, about a second after the
+**Home page — announcement modal.** Opens **once per day** per visitor, about a second after the
 page loads. Five signups, in the order requested: Queens Club Mixer and Queens Club Pre-Season
 Qualifier under *Women's 4s*; Kings Club Mixer and Kings Club Pre-Season under *Men's 4s*; the
 USAV Boomtown Showdown under *Tournament*. Every date, time, venue and registration link was
 read from the live Google Sheet, not written from memory.
+
+Styled in **true black** (`#000` card and rows on a 94%-black backdrop) rather than the site's
+usual near-black grey, so it reads as a distinct overlay rather than another page section.
 
 - **Each item expires on its own date.** Every entry carries a "show until" date. Once that
   date passes the item disappears from the popup, a section heading whose items have all
@@ -41,10 +44,11 @@ read from the live Google Sheet, not written from memory.
   entirely.** The site will not advertise a mixer that finished last week.
 - **Closes on the ✕, the Escape key, or a click outside.** Keyboard focus is moved into the
   dialog and trapped there while it is open, then returned. Honours reduced-motion.
-- **Verified in a real browser**, not assumed: opens on first visit, stays closed on the second
-  visit in the same session, hides the two mixers when the clock is moved to Aug 20, hides the
-  whole *Men's 4s* heading when both men's items have passed, and does not open at all on
-  Oct 1. No console errors.
+- **Verified in a real browser**, not assumed: opens on first visit and records the date;
+  stays closed on a reload the same day; **reopens by itself once the clock rolls to the next
+  day**, with no storage cleared; hides the two mixers when the clock is moved to Aug 20;
+  hides the whole *Men's 4s* heading when both men's items have passed; and does not open at
+  all on Oct 1. No console errors.
 
 **Queens Club — invitation-code prompt removed.** Tapping the crest now goes straight to the
 women's league page. `[FACT]` The prompt was never a security control: it accepted **any**
@@ -57,6 +61,14 @@ downloadable by anyone.
 Also fixed on that page: a stale second version comment on line 2 (`v0.18.0`) that contradicted
 line 1, removed comment-scoped rather than by deleting the line, since it shared its line with
 the `<html>` tag.
+
+**Women's league page — hero button.** The hero's first button was **"Player registration"**,
+pointing at an external Google Form. It is now **"League Registration"** and jumps down to the
+**Schedule** table on the same page, where each league has its own Register button. No new tab.
+
+Also corrected there: the FAQ answer *"What is Queens Club?"* still said **"entry is by
+invitation code"** — untrue as of this release, since the code prompt is gone. Fixed in both
+the visible answer and the FAQ structured data Google reads, so the two stay in sync.
 
 **Needs your answer — one date is contradictory in the sheet.** The Queens Club Pre-Season
 Qualifier row has `day` = "Tues & Wed" and `start_date` = Tuesday Aug 25, but its `end_date`

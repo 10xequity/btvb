@@ -182,13 +182,13 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 @media (prefers-reduced-motion:reduce){.car-js img{transition:none}.carbtn{transition:none}}
 /* ---- v0.29.0 announcement modal ---- */
 .anv{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:24px;
- background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+ background:rgba(0,0,0,.94);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
  opacity:0;pointer-events:none;transition:opacity .22s var(--ease-out)}
 .anv[hidden]{display:none}
 .anv.open{opacity:1;pointer-events:auto}
 .anm{width:100%;max-width:560px;max-height:calc(100svh - 48px);overflow-y:auto;
- background:#121214;border:1px solid rgba(255,255,255,.12);border-radius:6px;
- padding:clamp(24px,4vw,34px);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.7);
+ background:#000;border:1px solid rgba(255,255,255,.18);border-radius:6px;
+ padding:clamp(24px,4vw,34px);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.9);
  opacity:0;transform:translateY(8px);transition:opacity .24s var(--ease-out),transform .24s var(--ease-out)}
 .anv.open .anm{opacity:1;transform:none}
 .anx{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:6px;background:none;
@@ -203,7 +203,7 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
  padding-top:16px;margin:0 0 10px;border-top:1px solid rgba(255,255,255,.12)}
 .angrp.first{padding-top:0;border-top:0}
 .anitem{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;
- background:#1b1b1e;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:14px;margin-bottom:10px}
+ background:#000;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:14px;margin-bottom:10px}
 .antxt{flex:1 1 250px;min-width:0}
 .antxt b{display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
 .antxt .andesc{display:block;font-size:13.5px;color:#cfcdc7;margin-bottom:4px}
@@ -442,8 +442,11 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
 (function(){
   var veil=document.getElementById("anv");
   if(!veil)return;
+  /* Once per day: the stored value is the local calendar date it was last shown.
+     Local parts, not toISOString(), which is UTC and would flip the day at 6 PM Denver. */
   var KEY="bt_announce_2026_fall";
-  try{if(sessionStorage.getItem(KEY)==="1")return;}catch(e){}
+  function stamp(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+  try{if(localStorage.getItem(KEY)===stamp())return;}catch(e){}
 
   /* Hide anything already past. Dates are built from parts so they stay local-midnight —
      new Date("2026-08-19") would parse as UTC and roll back a day in Denver. */
@@ -483,7 +486,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
     veil.hidden=false;
     void veil.offsetWidth;
     veil.classList.add("open");
-    try{sessionStorage.setItem(KEY,"1");}catch(e){}
+    try{localStorage.setItem(KEY,stamp());}catch(e){}
     setTimeout(function(){closeBtn.focus();},60);
     document.addEventListener("keydown",onKey);
   }
