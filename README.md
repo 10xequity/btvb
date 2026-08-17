@@ -5,6 +5,82 @@ tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
 _Site version: **v0.29.0** · 2026-08-07_
 
+---
+
+## Where things stand — verified 2026-08-17
+
+**Read this first if you are picking the project up cold.** Everything below was re-checked
+against the live site and the live sheet on 2026-08-17, not carried over from a document.
+
+**Shipped and live.** PRs #1 (v0.28.0) and #2 (v0.29.0) both merged 2026-08-07. The live site
+serves `v0.29.0` on line 1, the home-page announcement modal is present with all five
+registration links intact, and the women's hero button reads **League Registration** → `#schedule`.
+
+### ⚠️ Dated action item — the popup headline goes stale on 2026-08-27
+
+The five items inside the popup expire on their own. **The headline and the sentence under it
+do not.** They are static text reading *"4s Season Starts August 11"* and *"Two weeks of mixers
+… then pre-season 4s."*
+
+| Date | What the popup shows |
+|---|---|
+| through Aug 18 | all five items — correct |
+| Aug 19 | Kings Club Mixer drops off by itself |
+| Aug 20 | Queens Club Mixer drops off by itself |
+| Aug 26 | Kings Club Pre-Season drops off |
+| **Aug 27 onward** | **only the Showdown is left, under a headline that still announces mixers starting August 11** |
+
+**Before Aug 27, the headline needs rewriting** — or the popup needs its next set of events.
+It is a two-minute edit to `index.html`; the text sits directly above the first `.anitem`.
+Nothing breaks if it is missed, but the home page will be advertising a date three weeks gone.
+
+### Still open — owner decisions, unchanged since 2026-08-07
+
+- **The Queens Club Pre-Season Qualifier date still contradicts itself.** `start_date` =
+  Tue 2026-8-25, `day` = "Tues & Wed", but `end_date` = *"Sunday, August 23, 2026"* — two days
+  before it starts. The popup and the league table both show **Aug 25**. Unresolved.
+- **`Qualifer` is still misspelled** in the sheet (should be `Qualifier`). The site spells it
+  correctly; the sheet does not.
+- **`womens-league.html` still has a second CTA**, *"Create your player profile"*, pointing at
+  the old `forms.gle/1sfPSZhbVEifFrct6` player form. Only the hero button was changed. Decide
+  whether this one should also point at the schedule.
+- Partner logo PNGs, high-res originals ×3, placement of 4 team photos — see
+  `docs/HANDOFF_v0.28.0_2026-08-06.md` §4.
+
+### `[FACT]` New this check — `end_date` prose is spreading in the sheet
+
+Four Events rows gained `end_date` values between 2026-08-07 and 2026-08-17, written as prose
+rather than ISO dates. Three are **impossible** — they fall before their own start:
+
+| Event | start_date | end_date now reads |
+|---|---|---|
+| Sally's Fundraiser RevCo 4s | 2026-09-19 | Monday, **August 31**, 2026 |
+| USAV: Boomtown Showdown 2026 | 2026-09-27 | Tuesday, **September 1**, 2026 |
+| 2026 Mile High Classic | 2026-08-28 | Sunday, August 30, 2026 *(valid, but prose)* |
+
+**Nothing is visibly broken** — the renderer ignores any `end_date` that is not ISO, which is
+why this has gone unnoticed. But the column is drifting from a data field into a notes field,
+and a future change that starts trusting it would print nonsense. Clear these cells or write
+them as `YYYY-MM-DD`. **Read `CLAUDE.md` §6c before editing any date cell in that sheet.**
+
+Also new: **Sally's Fundraiser RevCo 4s (Sept 19)** now has a registration link and a time. It
+is not in the popup — a candidate to add when the mixers drop off.
+
+### Running the checks
+
+```bash
+bash scripts/validate.sh     # 77 checks · currently 77/77 on main
+```
+
+**Requires Python 3 and Node on PATH.** Python 3.12.10 is installed on the owner's Windows
+machine at `%LOCALAPPDATA%\Programs\Python\Python312` with a `python3.exe` shim. If you see a
+wall of failures, run `python3 --version` before believing any of them — see `CLAUDE.md` §3.
+
+Local checkout: `C:\Users\vv58\Documents\btvb`. Two merged branches (`v0.28.0-tooling`,
+`v0.29.0-announce`) are still present locally and safe to delete.
+
+---
+
 ## Hosting & deploy
 - **Origin:** GitHub Pages — repo `10xequity/btvb` (`https://10xequity.github.io/btvb`).
 - **Custom domain:** `www.boomtownathletics.com` via `CNAME`, fronted by **Cloudflare** (DNS + CDN/proxy). `www` is canonical.
