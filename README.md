@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.30.0** · 2026-08-18_
+_Site version: **v0.31.0** · 2026-08-18_
 
 ---
 
@@ -100,6 +100,77 @@ Local checkout: `C:\Users\vv58\Documents\btvb`. Two merged branches (`v0.28.0-to
 Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`; v0.28.0 removed 4 orphaned partner logos). As of v0.23.1 those 11 library files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright). Full inventory with dimensions and per-page usage: `docs/ASSET-LIBRARY_v0.28.0_2026-08-06.md`.
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.31.0 (2026-08-18)
+**Your seven revisions, plus Queens Club opened up to Google.**
+Files changed: `index.html`, `schedule.html`, `queens-club.html`, `robots.txt`, `sitemap.xml`,
+`scripts/validate.sh`, `CLAUDE.md`, `README.md`, `design.md`.
+
+**1. Leagues button now matches Tournaments.** Both are solid gold and identical — I checked the
+computed colours rather than eyeballing them. I also renamed it *View leagues* so it reads as a
+pair with *View tournaments*; say the word if you want it back to just "Leagues."
+
+**2. Drop-In button has a yellow outline.** Transparent inside, gold border. The two grey-outlined
+*Facility* buttons lower down are untouched — I confirmed they still use the old white border, so
+the change didn't leak anywhere else.
+
+**3. Queens Club is now open to Google.** Removed the "hide from search" tag, wrote a real page
+title and description, added the Facebook/Twitter share tags, added structured data (its nights
+and 7:15–9:15 PM times taken from the page's own table), removed the block in `robots.txt`, and
+added it to the sitemap.
+
+**The thing that actually mattered here wasn't any of that.** The page was also telling Google
+*"the real version of this page lives at queensclubvb.com"* — a different domain, which I checked
+and found parked on a placeholder. Google obeys that instruction over everything else, so
+un-hiding the page on its own would have achieved **nothing**. That pointer now correctly points
+at your own page. Nobody had noticed this.
+
+**Two honest notes on Queens Club:**
+- **The tags are done; the page still has about 25 words on it.** Google needs something to read.
+  As it stands it won't rank for anything competitive like "women's volleyball league Denver."
+  Worth adding real copy — happy to write it.
+- It still says **"You have been invited / Tap the crest to enter."** That made sense when the page
+  was private. To a stranger arriving from a Google search it reads strangely. I left your words
+  alone rather than rewriting them for you.
+- I did **not** add the Facebook tracking pixel that your other 11 pages carry. You asked for
+  search tags, not tracking, and I'd rather ask than quietly add it. Say if you want it.
+
+**4. Both photos re-cropped — and I measured it rather than guessing.** I had the browser report
+exactly which slice of each photo file was visible on screen.
+
+- **Tournaments was genuinely clipping heads, and here's the proof:** the visible slice started
+  1½ inches *below* the top of the tallest player's head. Lowered it, and there is now clear space
+  above every head at every normal screen size.
+- **Leagues is back to dead centre.** I tried nudging it up, but that brought back a sliced-off
+  strip of the BOOMTOWN banner along the top edge on smaller laptops — worse than the problem it
+  solved. Centred, the whole group fits with room above their heads and nothing cut off the bottom.
+
+One limit worth knowing: the Leagues photo is a tall-ish group shot inside a very wide letterbox
+strip. On an unusually wide monitor (think 32-inch and up) the back row's heads graze the top edge.
+I tuned for normal laptop and desktop sizes, including the one you're on.
+
+**5. The league link now scrolls you down to the board.** Previously it filtered but left you at
+the top of the page — you asked for the scroll, so it now lands directly on the list with Leagues
+already selected, positioned so the sticky header doesn't cover it. The tournaments link now does
+the same, since you said both matter equally. It respects "reduce motion" accessibility settings.
+
+**6. Volo is off the home page.** Removed from the partner wall; that row now shows Match Point
+Social only. The logo file stays because your *schedule* page still lists it from your Google
+Sheet — tell me if you want it gone from there too. I also caught the word surviving in a hidden
+source comment and reworded that, so it now appears nowhere on the page.
+
+**7. Tile order is now Tournaments → Leagues → Drop-In.** Leagues moved up to second. I also
+flipped which side the text sits on so the three tiles still alternate left–right–left; without
+that you'd have had two left-aligned tiles in a row.
+
+**Mobile re-checked after every change:** no sideways scrolling, nothing hanging off the edge, all
+three hero buttons a comfortable 55px tall.
+
+**Validation:** `bash scripts/validate.sh` → **79 passed, 0 failed**. The count rose from 77
+because Queens Club is now checked as a real public page — including that its new structured data
+actually parses.
+
+---
 
 ## What's new in v0.30.0 (2026-08-18)
 **Leagues now have a front door on the home page: a hero button and a full-width photo tile.**

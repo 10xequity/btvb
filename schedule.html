@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.27.0 · 2026-07-28 · header/dead-code hygiene: removed stale duplicate version comments (line 1 is the single canonical header); no rendered change -->
+<!DOCTYPE html><!-- v0.31.0 · 2026-08-18 · a #tournaments/#leagues/#events/#partners link now scrolls the board into view as well as preselecting its filter -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>What's On — Live Volleyball Schedule | Boomtown Athletics</title><meta name="description" content="Live Boomtown Athletics schedule — volleyball tournaments, leagues and events in the Denver metro, updated in real time. Filter and register in one tap."><link rel="canonical" href="https://www.boomtownathletics.com/schedule.html">
 <meta property="og:type" content="website"><meta property="og:title" content="What's On — Live Volleyball Schedule | Boomtown Athletics"><meta property="og:description" content="Tournaments, leagues and events at Boomtown FieldhouseUSA, Aurora — live schedule, updated as it changes."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/schedule.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -139,7 +139,7 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
 <p class="lead" style="margin-top:14px">Every bracket, league night and event on one board &mdash; straight from the live schedule. <span class="detail">Find yours and register in one tap.</span></p>
 <div class="chips" style="margin-top:22px"><a class="chip" href="#whats-on">Jump to the board</a><a class="chip" href="tournaments.html#formats">Formats &amp; Rules</a></div></div></section><div class="topbar"><b>Denver, Colorado’s Official Volleyball Company</b> &nbsp;·&nbsp; Sanctioned by USAV · AVP · AAU</div>
 
-<section class="section" id="whats-on"><div class="wrap">
+<section class="section" id="whats-on" style="scroll-margin-top:90px"><div class="wrap">
 <style>
   :root{
     --ink:#0a0a0b; --ink-2:#141417; --gold:#eec51d; --gold-2:#f6c733;
@@ -301,6 +301,11 @@ const listEl=document.querySelector("[data-btw-list]");
 let EVENTS=null, PARTNERS=null, current="all";
 const HASHMAP={tournaments:"tournament",tournament:"tournament",leagues:"league",league:"league",events:"event",event:"event",partners:"partner",partner:"partner"};
 const h0=(location.hash||"").slice(1).toLowerCase();if(HASHMAP[h0])current=HASHMAP[h0];
+/* v0.31.0: a filter hash has no matching element id, so the browser cannot scroll to it.
+   Remember that one was used and bring the board into view ourselves once rows exist. */
+const HASH_PICKED_FILTER=!!HASHMAP[h0];
+function focusBoard(){const el=document.getElementById("whats-on");if(!el)return;
+  el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});}
 
 /* robust CSV parser: quoted fields, embedded commas/quotes/newlines */
 function parseCSV(text){
@@ -412,7 +417,7 @@ function skeleton(){listEl.innerHTML="";for(let k=0;k<4;k++){const s=document.cr
 async function fetchCSV(url){const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw new Error("HTTP "+res.status);return parseCSV(await res.text());}
 
 async function init(){
-  if(!EVENTS_CSV_URL && !PARTNERS_CSV_URL){ EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render(); return; }
+  if(!EVENTS_CSV_URL && !PARTNERS_CSV_URL){ EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render(); if(HASH_PICKED_FILTER)requestAnimationFrame(focusBoard); return; }
   skeleton();
   try{
     let [ev,pt]=await Promise.all([
@@ -421,9 +426,9 @@ async function init(){
     ]);
     // v0.17.0: gid order auto-detect — if feeds arrived swapped (Events lacks `type` but has `tier`), swap them
     if(ev.length&&pt.length&&!("type" in ev[0])&&("tier" in ev[0])&&("type" in pt[0])){const t=ev;ev=pt;pt=t;}
-    EVENTS=ev.length?ev:SAMPLE_EVENTS; PARTNERS=pt.length?pt:SAMPLE_PARTNERS; render();
+    EVENTS=ev.length?ev:SAMPLE_EVENTS; PARTNERS=pt.length?pt:SAMPLE_PARTNERS; render(); if(HASH_PICKED_FILTER)requestAnimationFrame(focusBoard);
   }catch(e){
-    EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render();
+    EVENTS=SAMPLE_EVENTS; PARTNERS=SAMPLE_PARTNERS; render(); if(HASH_PICKED_FILTER)requestAnimationFrame(focusBoard);
     const n=document.createElement("div");n.className="btw__note";
     n.textContent="Showing the last known schedule — live list is updating. Refresh in a few minutes.";
     listEl.prepend(n);

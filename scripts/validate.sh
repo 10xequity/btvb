@@ -18,8 +18,8 @@ ok()    { PASS=$((PASS+1)); printf '  \033[32mPASS\033[0m  %s\n' "$*"; }
 bad()   { FAIL=$((FAIL+1)); printf '  \033[31mFAIL\033[0m  %s\n' "$*"; }
 head_() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
-INDEXABLE="index schedule tournaments drop-in womens-league mens-league co-ed-leagues training skill-levels contact facility-rules"
-ALLPAGES="$INDEXABLE queens-club library 404"
+INDEXABLE="index schedule tournaments drop-in womens-league mens-league co-ed-leagues training skill-levels contact facility-rules queens-club"
+ALLPAGES="$INDEXABLE library 404"
 
 # ---------------------------------------------------------------- 1. version headers
 head_ "1. Version header (exactly one comment, on line 1)"
@@ -167,7 +167,7 @@ IGPAGES=$(grep -l 'feeds.behold.so' *.html | wc -l | tr -d ' ')
 # ---------------------------------------------------------------- 7. constants
 head_ "7. Frozen constants"
 PIX=$(grep -l '120232615176120623' *.html 2>/dev/null | wc -l | tr -d ' ')
-[ "$PIX" = "11" ] && ok "Meta Pixel on exactly 11 pages" || bad "Meta Pixel on $PIX pages (expected 11: indexable only)"
+[ "$PIX" = "11" ] && ok "Meta Pixel on exactly 11 pages (queens-club indexable since v0.31.0 but deliberately untracked)" || bad "Meta Pixel on $PIX pages (expected 11 — the indexable pages except queens-club, which carries no tracker by decision)"
 
 GIDS=$(grep -ohE 'gid=[0-9]+' *.html | sort -u | tr '\n' ' ')
 EXPECT="gid=1645496886 gid=1824462476 gid=2097603747 gid=454802271 "

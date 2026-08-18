@@ -40,6 +40,7 @@ Read it fully before touching anything.
 | **v0.28.0** | `molten.png`/`team-evo-black.png` live on 3 pages | 2 real pages; the 3rd is the stale widget file |
 | **v0.28.0** | the `boomtownvb.com` 301 is "deferred until transfer" | **already live** — verified `301` on 2026-08-06 |
 | **v0.28.0** | "the v0.28.0 tooling was delivered" | authored, never committed — `main` sat at v0.27.0 until this commit |
+| **v0.31.0** | `queens-club.html` is "just noindex + an invite gate" | its `<link rel=canonical>` also pointed **off-domain** at `https://www.queensclubvb.com/`, which 302s to a parked `l.ink` placeholder — removing `noindex` alone would have indexed nothing |
 | **v0.28.0** | "`validate.sh` passes 77/77" | true only where Python 3 is installed — 5 unguarded `python3` calls |
 
 You are in a real checkout. **Check the file. Never restate a prior document's claim as fact
@@ -70,8 +71,15 @@ visitors into registrations and mailing-list signups, and ranking locally.
 - **`box-sizing:border-box` is global.** Inherited padding can floor an element's box above its
   declared width/height — this is what distorted the IG reel badge in v0.26.0.
 
-Pages: 11 indexable + `queens-club.html` (noindex, invite gate) + `library.html`
-(noindex, unlinked, internal photo reference) + `404.html`.
+Pages: **12 indexable as of v0.31.0** — the original 11 plus `queens-club.html`, which was opened to
+search in v0.31.0 (noindex removed, self-referential canonical, description/OG/Twitter/JSON-LD added,
+un-disallowed in `robots.txt`, added to `sitemap.xml`). Plus `library.html` (noindex, unlinked, internal
+photo reference) + `404.html`.
+
+`[FACT]` **`queens-club.html` is indexable but its body is ~25 words** ("You have been invited / Tap the
+crest to enter" plus a three-row facts table). The metadata is complete; the *content* is not. It will not
+rank for a competitive query until real copy exists, and the "you have been invited" framing now reads
+oddly to a stranger arriving from search — flagged to the owner in v0.31.0, not silently rewritten.
 
 ## 3. Workflow
 
@@ -124,7 +132,7 @@ version comment at all**. The "one comment per page" rule has only ever been enf
 
 | Thing | Value |
 |---|---|
-| Meta Pixel ID | `120232615176120623` — on the 11 indexable pages only |
+| Meta Pixel ID | `120232615176120623` — on **11** pages. Those are the original 11 indexable pages; `queens-club.html` became the 12th indexable page in v0.31.0 but was **deliberately left untracked** (the owner asked for search metadata, not analytics). `validate.sh` check 7 still expects exactly 11 and says why. |
 | Waiver URL | `https://forms.gle/vwEY2aC4SA9SrZPQA` |
 | Sheet publish token | `https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7LfAZ_IHxc3cntV3yGVJtFa5vlCADbHrcq_Mc-yKj-EEt4X2pXrlpWgPH18eZPvoLA19NvHwPpds/pub?gid=<GID>&single=true&output=csv` |
 | Raw sheet ID (Drive MCP) | `1UFsYrtD1pf27f6D0m3O45oA3MUtfG2wiV9x1zyl-H4w` |
@@ -132,7 +140,7 @@ version comment at all**. The "one comment per page" rule has only ever been enf
 | Behold feed | `feeds.behold.so/JgI7koDkWULorgLXnzkz` |
 | Behold image host | **`behold.pictures`** — *not* `hop.behold.pictures` |
 | CNAME | `www.boomtownathletics.com` |
-| robots.txt exclusions | `/queens-club`, `/library` |
+| robots.txt exclusions | `/library` only — `/queens-club` was removed in v0.31.0 |
 
 The sheet's `Leagues` and `Tournaments` tabs are **legacy — consumed by nothing.**
 
