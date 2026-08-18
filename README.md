@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.29.0** · 2026-08-07_
+_Site version: **v0.30.0** · 2026-08-18_
 
 ---
 
@@ -100,6 +100,68 @@ Local checkout: `C:\Users\vv58\Documents\btvb`. Two merged branches (`v0.28.0-to
 Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub limits; v0.23.0 added 10 team photos + one derived hero under `/assets/img/library/`; v0.28.0 removed 4 orphaned partner logos). As of v0.23.1 those 11 library files carry embedded IPTC/XMP/EXIF metadata (title, caption, keywords, credit/copyright). Full inventory with dimensions and per-page usage: `docs/ASSET-LIBRARY_v0.28.0_2026-08-06.md`.
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
+
+## What's new in v0.30.0 (2026-08-18)
+**Leagues now have a front door on the home page: a hero button and a full-width photo tile.**
+Files changed: `index.html`, `README.md`, `design.md`.
+
+**Hero — a third button.** The hero had *View tournaments* and *Drop-in: Thu–Mon*. It now has
+**Leagues** in the middle, outlined rather than solid gold so the page still has one obvious
+primary button.
+
+**The button doesn't just go to the schedule — it arrives with Leagues already switched on.**
+The schedule page reads the `#leagues` part of the link as it loads and preselects the Leagues
+filter, so the visitor lands on a board showing leagues only, with the Leagues chip lit.
+
+**This was checked against the real schedule data before the button was built,** because a
+button that lands on "Nothing on the calendar yet" is worse than no button. Clicking it on a
+phone produced **5 league cards** — the two Queens Club mixers, Queens Club Sunday RP, the
+Queens Club Pre-Season Qualifier and the two Kings Club dates — read live from your Google
+Sheet, not from the built-in placeholder rows.
+
+One thing worth knowing: the link switches the filter but does **not** scroll down the page.
+That is exactly how the existing *View tournaments* button has always behaved, so the two now
+match. Say the word if you'd rather both jumped straight to the board.
+
+**New Leagues photo tile.** The home page had two big edge-to-edge photo panels — Tournaments
+and Drop-In Volleyball. There is now a third, **Leagues**, sitting directly below Drop-In and
+above *Find your game*. It uses the same panel design as the other two and alternates sides
+with them, so it looks like it was always there. Its buttons are *See leagues* (to the filtered
+schedule) and *How to qualify* (to the Women's League page, which does genuinely explain
+qualifying).
+
+**The photo** is the big indoor group shot on the Boomtown court — roughly 45 players, with the
+BOOMTOWN ATHLETICS banner behind them. It was already in your library but had never been used
+on a real page, so this also puts a good photo to work. Two things to flag honestly:
+
+- It is a **women's-division photo on a tile titled "Leagues."** That is representative rather
+  than exact — your league rows run 4 women's, 2 men's, 1 co-ed — but if you'd prefer a mixed
+  or co-ed group shot there, it's a one-line swap.
+- The tile's small print reads *Queens & Kings Club 4s · Rolling registration · Boomtown
+  Fieldhouse*. An earlier draft also said *Co-Ed 6s with Volo*; that was **cut**, because the
+  only co-ed row in the sheet is marked `past` and the schedule board hides it. Advertising a
+  division the linked board doesn't show is the kind of small lie that costs trust.
+
+**Mobile was measured, not eyeballed.** At both 390px and 320px wide there is **no sideways
+scrolling** and nothing hangs off the edge; both new buttons are 55px tall, comfortably above
+the 44px minimum for a thumb; no console errors.
+
+One honest note on the hero: on narrow phones the three buttons stack into three rows, slightly
+ragged on the left. **The two old buttons were already stacking into two such rows** — they were
+too wide to share a line long before this change — so the third continues an existing look
+rather than breaking a tidy one. Tightening it would mean editing the shared button styling,
+which is copy-pasted into all 11 pages, so it wasn't worth the risk for a cosmetic gain. Easy to
+revisit on its own.
+
+**Also flagged, not changed:** the home page now offers **three different destinations** for
+"Leagues" — the nav menu goes to the Queens Club page (which is hidden from Google on purpose),
+while the *Find your game* card and the footer both go to the Women's League page. Worth picking
+one, but it's outside what was asked for here.
+
+**Validation:** `bash scripts/validate.sh` → **77 passed, 0 failed** (and 77/0 before the change
+too, so that's a genuine pass rather than the Python-missing false alarm described above).
+
+---
 
 ## What's new in v0.29.0 (2026-08-07)
 **An announcement popup on the home page, and the Queens Club code prompt removed.**
