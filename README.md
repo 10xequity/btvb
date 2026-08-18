@@ -3,7 +3,7 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.31.0** · 2026-08-18_
+_Site version: **v0.32.0** · 2026-08-18_
 
 ---
 
@@ -101,6 +101,32 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.32.0 (2026-08-18)
+**Put the Volo logo back on the home page. That's the only change.**
+Files changed: `index.html`, `README.md`, `design.md`.
+
+I misread "don't mention Volo on the front" as "take the Volo logo off the front page." You meant
+something else, so the logo is back in the partner wall, right beside Match Point Social, exactly
+where it was.
+
+**I restored it from version history rather than retyping it.** That tile carries a small fallback
+snippet that shows the word "Volo" as text if the image ever fails to load, and it has fiddly
+nested quote marks that are easy to get subtly wrong by hand. So I pulled the original code back
+out of git.
+
+**Then I proved it landed correctly, not just that it exists.** I extracted the whole partner wall
+from before the removal and from now, and compared them: **10,210 characters each, identical**.
+That confirms the logo is in the right row and the right position — just checking "is Volo on the
+page?" would have passed even if it had ended up in the wrong section.
+
+**Nothing else from the last release was disturbed.** I re-checked all of it afterwards: the two
+gold hero buttons, the yellow-outlined Drop-In button, the Tournaments → Leagues → Drop-In order,
+and both photo crops are all still as you approved them. The change is two lines.
+
+**Validation:** `bash scripts/validate.sh` → **79 passed, 0 failed**.
+
+---
+
 ## What's new in v0.31.0 (2026-08-18)
 **Your seven revisions, plus Queens Club opened up to Google.**
 Files changed: `index.html`, `schedule.html`, `queens-club.html`, `robots.txt`, `sitemap.xml`,
@@ -154,8 +180,9 @@ the top of the page — you asked for the scroll, so it now lands directly on th
 already selected, positioned so the sticky header doesn't cover it. The tournaments link now does
 the same, since you said both matter equally. It respects "reduce motion" accessibility settings.
 
-**6. Volo is off the home page.** Removed from the partner wall; that row now shows Match Point
-Social only. The logo file stays because your *schedule* page still lists it from your Google
+**6. Volo is off the home page.** ~~Removed from the partner wall; that row now shows Match Point
+Social only.~~ **← Reverted in v0.32.0 at your request — the logo is back beside Match Point Social.**
+Originally: The logo file stays because your *schedule* page still lists it from your Google
 Sheet — tell me if you want it gone from there too. I also caught the word surviving in a hidden
 source comment and reworded that, so it now appears nowhere on the page.
 
