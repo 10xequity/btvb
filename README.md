@@ -101,6 +101,55 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.33.0 (2026-08-20)
+**Two things: the pop-up now sells leagues and tournaments, and finished events stop showing up.**
+Files changed: `index.html`, `schedule.html`, `womens-league.html`, `mens-league.html`,
+`scripts/validate.sh`, `README.md`, `design.md`.
+
+**1. The mixers are out of the pop-up.** Both *Mixer & Open Gym* entries are deleted. What's left
+is three things people can sign up for right now: Queens Club Pre-Season Qualifier, Kings Club
+Pre-Season, and the USAV Boomtown Showdown. The headline changed from *4s Season Starts August 11*
+to *4s Leagues & Tournaments*, and the paragraph under it no longer talks about mixers — it names
+the Aug 25 pre-season and the Sep 27 tournament and tells people to claim a spot.
+
+**2. The gold buttons now have a shine.** A soft band of light sweeps across each one every few
+seconds, and they lift slightly when you hover and press down when you click. It's the same shine
+already used on the gold bars elsewhere on the site, so it looks like it belongs. The wording stays
+sharp while the light passes behind it. Anyone who has "reduce motion" switched on in their
+phone or computer settings sees a plain button with no movement, which is the accessible thing to do.
+
+**3. Finished events were still on the site. They're gone now.** On the morning of Aug 20 the
+schedule page was still advertising the Aug 11 mixers and the Aug 16 session with live **Register**
+buttons, and both league pages were doing the same. Three separate faults were causing it:
+
+- Any row marked *open (rolling)* in your sheet skipped the date check completely — and every
+  league row is marked that way.
+- The `end_date` column holds text like "Tuesday, August 11, 2026" rather than a date, and the
+  code was comparing that text letter-by-letter. "T" sorts after "2", so those rows always looked
+  like they were in the future. That is also why the board was listing Sep 19 before Sep 2.
+- Dates written as `2026-8-11` (single-digit month) compared wrong too — "8" beats "0", so a past
+  August date read as later than August 20.
+
+All three pages now read the date properly and hide anything before today. An event dated today
+stays up all day and disappears overnight. I checked this against your real live sheet: the
+schedule went from 9 cards to 6 and is now in correct date order, the women's table from 6 rows to
+4, the men's from 2 to 1. I also fast-forwarded the clock to confirm the Aug 25 sessions are still
+there on Aug 25 and gone by Aug 26.
+
+**One thing needs you, not me.** In the Events tab, the `end_date` column contains written-out
+dates instead of real ones, and four of the five are wrong — the Showdown starts Sep 27 but its
+end date says September 1, Sally's Fundraiser starts Sep 19 but says August 31, and the Queens
+Club Pre-Season says it ends two days *before* it starts. Because that column can't be trusted,
+the site falls back to the start date, which means a **multi-day tournament drops off a day
+early**. Right now that affects one event: the Mile High Classic runs Aug 28–30 but will vanish
+from the board on Aug 29. To fix it, retype those `end_date` cells as `2026-08-30` style dates —
+and set the column to **Plain text** before you do, or Sheets will convert them and break the
+Date column (see CLAUDE.md §6c). I can't do it from here; the Drive connection is read-only.
+
+**4. Added a guard so this can't come back quietly.** `validate.sh` has a new check that fails the
+build if any of the three pages loses its date filter. I confirmed the check actually works by
+running it against the old broken files — all six of its assertions correctly fail there.
+
 ## What's new in v0.32.0 (2026-08-18)
 **Put the Volo logo back on the home page. That's the only change.**
 Files changed: `index.html`, `README.md`, `design.md`.

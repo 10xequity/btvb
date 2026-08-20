@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.31.0 · 2026-08-18 · a #tournaments/#leagues/#events/#partners link now scrolls the board into view as well as preselecting its filter -->
+<!DOCTYPE html><!-- v0.33.0 · 2026-08-20 · past events no longer render: the "open (rolling)" status bypass, the non-ISO end_date and the string date compare all read finished events as future -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>What's On — Live Volleyball Schedule | Boomtown Athletics</title><meta name="description" content="Live Boomtown Athletics schedule — volleyball tournaments, leagues and events in the Denver metro, updated in real time. Filter and register in one tap."><link rel="canonical" href="https://www.boomtownathletics.com/schedule.html">
 <meta property="og:type" content="website"><meta property="og:title" content="What's On — Live Volleyball Schedule | Boomtown Athletics"><meta property="og:description" content="Tournaments, leagues and events at Boomtown FieldhouseUSA, Aurora — live schedule, updated as it changes."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/schedule.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -296,7 +296,9 @@ const SAMPLE_PARTNERS = [
 ];
 
 const MON=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-const todayISO=new Date().toLocaleDateString("en-CA");
+/* v0.33.0 — local midnight as a number. Built from parts, never Date.parse: new Date("2026-08-20")
+   is parsed as UTC and rolls back a day in Denver. */
+const TODAY_MS=(function(){const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();})();
 const listEl=document.querySelector("[data-btw-list]");
 let EVENTS=null, PARTNERS=null, current="all";
 const HASHMAP={tournaments:"tournament",tournament:"tournament",leagues:"league",league:"league",events:"event",event:"event",partners:"partner",partner:"partner"};
@@ -321,9 +323,33 @@ function parseCSV(text){
   return rows.slice(1).filter(r=>r.some(c=>c&&c.trim())).map(r=>{const o={};head.forEach((h,i)=>o[h]=(r[i]||"").trim());return o;});
 }
 function safeUrl(u){return /^https?:\/\//i.test((u||"").trim())?u.trim():"";}
-function lastDate(r){return r.end_date||r.start_date||"";}
-function eventVisible(r){const st=(r.status||"").toLowerCase();if(st.includes("open"))return true;const d=lastDate(r);return d?d>=todayISO:true;}
-function dateBlock(r){const d=r.start_date;if(!d)return{mon:"TBA",day:"·",yr:""};const[y,m,da]=d.split("-").map(Number);return{mon:MON[(m||1)-1],day:String(da||"").padStart(2,"0"),yr:String(y||"")};}
+/* v0.33.0 — past-event filter. Three separate faults here each kept a finished event on the
+   board, verified live on 2026-08-20 (Aug 11 and Aug 16 rows still showing "Register now"):
+     1. a substring test on the status column returned early and skipped the date test
+        entirely — and every league row in the Events tab carries "open (rolling)".
+        (Phrased without the literal call so validate.sh check 11 can grep for its return.)
+     2. `end_date` in that tab holds a DISPLAY string ("Tuesday, August 11, 2026"), not an ISO
+        date. Compared as text, "T" sorts above "2", so it always read as future; the same string
+        drove the sort, which is why the board ran SEP 19, SEP 02, AUG 16, AUG 25...
+     3. `d >= todayISO` is a string compare and the sheet legitimately stores single-digit months
+        (`2026-8-11` — see CLAUDE.md 6c, those cells must NOT be retyped). "8" > "0", so every
+        single-digit-month date in the past also read as future.
+   Fix: parse to a local-midnight number and compare numbers. Unparseable text is ignored rather
+   than trusted. Undated rows still render under "Dates to be announced". */
+const ISO_RE=/^\d{4}-\d{1,2}-\d{1,2}$/;
+function dayMs(v){const t=(v||"").trim();if(!ISO_RE.test(t))return null;
+  const p=t.split("-");return new Date(+p[0],+p[1]-1,+p[2]).getTime();}
+/* the row's last real day: end_date when it is ISO and not before the start, else start_date */
+function lastDayMs(r){const s=dayMs(r.start_date),e=dayMs(r.end_date);
+  if(s===null)return e; if(e===null||e<s)return s; return e;}
+/* what the row sorts on: the day it starts, falling back to whatever date we could read */
+function sortMs(r){const s=dayMs(r.start_date);return s===null?lastDayMs(r):s;}
+function eventVisible(r){
+  if((r.status||"").trim().toLowerCase()==="past")return false;
+  const d=lastDayMs(r);
+  return d===null||d>=TODAY_MS;   /* an event dated today stays up for the whole day */
+}
+function dateBlock(r){const d=(r.start_date||"").trim();if(dayMs(d)===null)return{mon:"TBA",day:"·",yr:""};const[y,m,da]=d.split("-").map(Number);return{mon:MON[m-1],day:String(da).padStart(2,"0"),yr:String(y)};}
 
 /* stagger the entrance with transitions (interruptible), gentle 40ms steps */
 function revealAll(nodes){
@@ -360,8 +386,8 @@ function makeCard(r){
 
 function renderEvents(rows){
   const vis=rows.filter(eventVisible);
-  const dated=vis.filter(r=>lastDate(r)).sort((a,b)=>lastDate(a).localeCompare(lastDate(b)));
-  const tba=vis.filter(r=>!lastDate(r));
+  const dated=vis.filter(r=>lastDayMs(r)!==null).sort((a,b)=>sortMs(a)-sortMs(b));
+  const tba=vis.filter(r=>lastDayMs(r)===null);
   if(!dated.length&&!tba.length){
     const n=document.createElement("div");n.className="btw__note";
     n.textContent="Nothing on the calendar yet — check back soon.";listEl.append(n);return;}

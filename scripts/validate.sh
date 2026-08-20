@@ -209,6 +209,26 @@ else ok "no placeholders"; fi
 head_ "10. Date parser guard"
 grep -q '\\d{4}-\\d{1,2}-\\d{1,2}' womens-league.html && ok "_isISO regex intact (accepts 2026-8-25)" || bad "_isISO regex changed — 2026-8-25 style dates will break"
 
+# ---------------------------------------------------------------- 11. past-event filter guard
+head_ "11. Past-event filter"
+# v0.33.0. Every sheet-driven renderer must compare a row's date against TODAY at LOCAL
+# midnight. Anchored on the thing the design guarantees — a today-constant built from
+# getFullYear/getMonth/getDate parts — rather than on a helper name, because Date.parse on a
+# bare "2026-08-20" is UTC and silently rolls back a day in Denver. Verified 2026-08-20: before
+# this check existed, all three pages were still advertising finished events.
+for f in schedule womens-league mens-league; do
+  if grep -q 'getFullYear(),[[:space:]]*d\.getMonth(),[[:space:]]*d\.getDate()' "$f.html"; then
+    ok "$f.html builds today at local midnight from parts"
+  else
+    bad "$f.html — no local-midnight today constant; past events will render"
+  fi
+done
+for f in womens-league mens-league; do
+  grep -q 'filter(isCurrent)' "$f.html"     && ok "$f.html render() filters out past rows"     || bad "$f.html — render() no longer filters past rows"
+done
+# the v0.33.0 defect itself: an "open (rolling)" status short-circuiting the date test
+grep -q 'includes("open")' schedule.html   && bad 'schedule.html — the status-contains-"open" bypass is back; it skips the date test entirely'   || ok 'schedule.html has no status-based bypass of the date test'
+
 # ---------------------------------------------------------------- summary
 printf '\n\033[1mResult: %d passed, %d failed\033[0m\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ] || { printf '\033[31mDO NOT COMMIT.\033[0m\n'; exit 1; }

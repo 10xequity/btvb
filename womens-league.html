@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.29.0 · 2026-08-07 · hero CTA now "League Registration" → #schedule; FAQ no longer claims Queens Club needs an invitation code -->
+<!DOCTYPE html><!-- v0.33.0 · 2026-08-20 · league table now hides rows whose date has passed (there was no date filter at all) -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics</title><meta name="description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — indoor 4s & 6s, qualifiers and the Queens Club pathway. Register today."><link rel="canonical" href="https://www.boomtownathletics.com/womens-league.html">
 <meta property="og:type" content="website"><meta property="og:title" content="Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics"><meta property="og:description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — competitive indoor 6s, 4s and 2s plus seasonal grass, and the elite Queens Club. Serving Aurora, Denver, Centennial, Lakewood, Littleton, Englewood, Parker &amp; Highlands Ranch."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/womens-league.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -227,8 +227,28 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
     if(!cap){cap=document.createElement("p");cap.className="sub lr-note";MOUNT.closest("table").parentNode.appendChild(cap);}
     cap.textContent=txt; cap.dataset.k=cls||"";
   }
+  /* v0.33.0 — hide leagues whose date has already passed. There was no date filter here at
+     all: on 2026-08-20 this table still offered a live "Register" button for the Aug 11 mixer
+     and the Aug 16 session. Reuses _isISO/_pISO, so single-digit sheet dates (2026-8-11) work
+     and parsing stays at LOCAL midnight — new Date("2026-08-11") is UTC and rolls back a day
+     in Denver. A row whose dates are unreadable is left visible rather than silently dropped;
+     an explicit status of "past" is dropped whatever the date says. */
+  var _TODAY=(function(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();})();
+  function _lastDay(r){
+    var s=_isISO(r.start_date)?_pISO(r.start_date).getTime():null;
+    var e=_isISO(r.end_date)?_pISO(r.end_date).getTime():null;
+    if(s===null)return e;
+    if(e===null||e<s)return s;
+    return e;
+  }
+  function isCurrent(r){
+    if(String(r.status||"").trim().toLowerCase()==="past")return false;
+    var d=_lastDay(r);
+    return d===null||d>=_TODAY;   /* a session dated today stays up for the whole day */
+  }
   function render(rows){
     MOUNT.innerHTML="";
+    rows=rows.filter(isCurrent);
     if(!rows.length){paintNote("No leagues listed right now — check back soon.");return;}
     rows.forEach(function(r){MOUNT.appendChild(rowEl(r));});
   }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.32.0 · 2026-08-18 · revert of one v0.31.0 change only: the co-ed league partner tile removed from the partner wall is restored to its original position beside Match Point Social. Owner clarified the v0.31.0 instruction was misread. Nothing else from v0.31.0 is reverted. -->
+<!DOCTYPE html><!-- v0.33.0 · 2026-08-20 · announcement modal drops the mixers and sells leagues + tournaments; CTA buttons get the house shine sweep -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -209,19 +209,36 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .antxt b{display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
 .antxt .andesc{display:block;font-size:13.5px;color:#cfcdc7;margin-bottom:4px}
 .antxt .anmeta{display:block;font-size:12.5px;color:#9a988f}
-.ancta{flex:0 0 auto;background:#F8C400;color:#111;border:2px solid #F8C400;border-radius:3px;
+.ancta{flex:0 0 auto;position:relative;overflow:hidden;background:#F8C400;color:#111;border:2px solid #F8C400;border-radius:3px;
  font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
- padding:10px 18px;transition:background .18s ease,border-color .18s ease}
-@media(hover:hover) and (pointer:fine){.ancta:hover{background:#ffd633;border-color:#ffd633}}
+ padding:10px 18px;transition:background .18s ease,border-color .18s ease,transform .18s var(--ease-out),box-shadow .18s ease}
+/* v0.33.0 CTA shine. Same sweep the .sband/.ctaband bands already use: a translucent white
+   band travelling left-to-right inside a clipped, position:relative parent. The label sits in
+   .anctal at z-index 1 so the gloss passes BEHIND the word — over the gold, never over the
+   text — which is how .sband b handles it. Staggered so the buttons glint in sequence.
+   nth-of-type counts div children of .anm, and .anitem is the only div in there; add another
+   and the delays shift (harmless — they are decorative). */
+.anctal{position:relative;z-index:1}
+.ancta::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 48%,transparent 58%);
+ transform:translateX(-130%);animation:anShine 4.6s var(--ease-io) 1.4s infinite}
+.anitem:nth-of-type(2) .ancta::after{animation-delay:1.9s}
+.anitem:nth-of-type(3) .ancta::after{animation-delay:2.4s}
+@keyframes anShine{0%{transform:translateX(-130%)}55%,100%{transform:translateX(130%)}}
+@media(hover:hover) and (pointer:fine){.ancta:hover{background:#ffd633;border-color:#ffd633;transform:translateY(-1px);box-shadow:0 6px 18px rgba(248,196,0,.34)}}
+.ancta:active{transform:translateY(0) scale(.97)}
 .ancta:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .anall{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:700;letter-spacing:.04em;
- text-transform:uppercase;color:#e6a92b;text-decoration:none}
-@media(hover:hover) and (pointer:fine){.anall:hover{color:#F8C400}}
+ text-transform:uppercase;color:#e6a92b;text-decoration:none;transition:color .18s ease,transform .18s var(--ease-out)}
+@media(hover:hover) and (pointer:fine){.anall:hover{color:#F8C400;transform:translateX(3px)}}
 .anall:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
 @media(max-width:560px){.ancta{width:100%;text-align:center}}
 @media(prefers-reduced-motion:reduce){
  .anv,.anm{transition:opacity .2s ease}
  .anm{transform:none}
+ .ancta::after{animation:none;opacity:0}
+ .ancta{transition:background .18s ease,border-color .18s ease}
+ .ancta:hover,.ancta:active,.anall:hover{transform:none;box-shadow:none}
 }
 </style><link rel="icon" type="image/png" href="assets/img/favicon.png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"Boomtown Athletics","description":"Denver, Colorado's official volleyball company — tournaments, women's, men's & co-ed leagues, training and nightly drop-in at Boomtown FieldhouseUSA, Aurora.","url":"https://www.boomtownathletics.com/","image":"https://www.boomtownathletics.com/assets/img/og-cover.jpg","logo":"https://www.boomtownathletics.com/assets/img/boom-logo.png","email":"admin@boomtownathletics.com","sport":"Volleyball","address":{"@type":"PostalAddress","streetAddress":"14200 E Alameda Ave","addressLocality":"Aurora","addressRegion":"CO","postalCode":"80012","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":39.7036,"longitude":-104.8253},"areaServed":[{"@type":"City","name":"Aurora"},{"@type":"City","name":"Denver"},{"@type":"City","name":"Centennial"},{"@type":"City","name":"Lakewood"},{"@type":"City","name":"Littleton"},{"@type":"City","name":"Englewood"},{"@type":"City","name":"Parker"},{"@type":"City","name":"Highlands Ranch"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"17:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"19:00","closes":"23:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"16:00","closes":"23:00"}],"sameAs":["https://www.instagram.com/boomtownvb","https://www.facebook.com/groups/boomtownvb"]}</script>
 <!-- Meta Pixel · ACTIVE · ID 120232615176120623 · activated v0.22.0 2026-07-28 -->
@@ -386,7 +403,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
 })();
 </script>
 
-<!-- v0.29.0 announcement modal. Each .anitem carries data-until = the last date it should be
+<!-- v0.33.0 announcement modal. Leagues and tournaments only. Each .anitem carries data-until = the last date it should be
      shown; the script hides expired items, drops empty group headings, and does not open the
      modal at all once every item has passed. Update the dates and links here when the season
      turns over. -->
@@ -394,43 +411,27 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
  <div class="anm" role="dialog" aria-modal="true" aria-labelledby="antitle" aria-describedby="ansub">
   <button class="anx" id="anx" type="button" aria-label="Close announcement">&#10005;</button>
   <p class="ey">Registration open</p>
-  <h2 id="antitle">4s Season Starts August&nbsp;11</h2>
-  <p class="ansub" id="ansub">Two weeks of mixers to meet players and find a team, then pre-season 4s. All indoors at Boomtown Fieldhouse.</p>
+  <h2 id="antitle">4s Leagues &amp; Tournaments</h2>
+  <p class="ansub" id="ansub">Pre-season 4s starts August&nbsp;25 at Boomtown Fieldhouse, and the USAV Boomtown Showdown is September&nbsp;27 at Eisenhower Park. Claim your spot.</p>
 
   <p class="angrp first">Women&rsquo;s 4s</p>
-  <div class="anitem" data-until="2026-08-19">
-   <div class="antxt">
-    <b>Queens Club Mixer &amp; Open Gym</b>
-    <span class="andesc">Two weeks of open 4s. Come solo &mdash; meet players, find a team.</span>
-    <span class="anmeta">Tue &amp; Wed &middot; From Aug 11 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
-   </div>
-   <a class="ancta" href="https://forms.gle/ictnJgtT7TwkR82Y7" target="_blank" rel="noopener">Register</a>
-  </div>
   <div class="anitem" data-until="2026-08-26">
    <div class="antxt">
     <b>Queens Club Pre-Season Qualifier</b>
     <span class="andesc">Qualify for the women&rsquo;s 4s season.</span>
     <span class="anmeta">Tue &amp; Wed &middot; From Aug 25 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
    </div>
-   <a class="ancta" href="https://forms.gle/JWm9ns6rhDzL9ucC9" target="_blank" rel="noopener">Sign up</a>
+   <a class="ancta" href="https://forms.gle/JWm9ns6rhDzL9ucC9" target="_blank" rel="noopener"><span class="anctal">Sign up</span></a>
   </div>
 
   <p class="angrp">Men&rsquo;s 4s</p>
-  <div class="anitem" data-until="2026-08-18">
-   <div class="antxt">
-    <b>Kings Club Mixer &amp; Open Gym</b>
-    <span class="andesc">Two weeks of open 4s. Come solo &mdash; meet players, build a roster.</span>
-    <span class="anmeta">Tuesdays &middot; From Aug 11 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
-   </div>
-   <a class="ancta" href="https://forms.gle/jWJfuUynMaXen8Wm7" target="_blank" rel="noopener">Register</a>
-  </div>
   <div class="anitem" data-until="2026-08-25">
    <div class="antxt">
     <b>Kings Club Pre-Season</b>
     <span class="andesc">Men&rsquo;s 4s pre-season ahead of the Kings Club season.</span>
     <span class="anmeta">Tuesdays &middot; From Aug 25 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
    </div>
-   <a class="ancta" href="https://forms.gle/8H61cZH25gUqL3qy8" target="_blank" rel="noopener">Sign up</a>
+   <a class="ancta" href="https://forms.gle/8H61cZH25gUqL3qy8" target="_blank" rel="noopener"><span class="anctal">Sign up</span></a>
   </div>
 
   <p class="angrp">Tournament</p>
@@ -440,7 +441,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card.hot').forEach(
     <span class="andesc">Sanctioned women&rsquo;s and men&rsquo;s 4s. One day, outdoors.</span>
     <span class="anmeta">Sun, Sep 27 &middot; 8 AM&ndash;3 PM &middot; Eisenhower Park</span>
    </div>
-   <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSceHQWa7nv882uAHzSSyBigD4PTE2tA7u0-hv-EaFkq0P58Xw/viewform" target="_blank" rel="noopener">Enter</a>
+   <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSceHQWa7nv882uAHzSSyBigD4PTE2tA7u0-hv-EaFkq0P58Xw/viewform" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
   </div>
 
   <a class="anall" href="schedule.html">See the full schedule &rarr;</a>
