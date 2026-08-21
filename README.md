@@ -101,6 +101,23 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.34.1 (2026-08-20)
+**The "almost full" note is now a proper stamp.** File changed: `index.html`.
+
+It was a small gold pill sitting on a gold-outlined box, so it blended into the very thing it
+was supposed to stand out from. It's now a green angled stamp with a dark green edge, a soft
+glow, and a slow breathing pulse — tilted like something stamped on rather than printed in. It
+sits on its own line right under the Queens Club title.
+
+Green works here precisely because it's the one colour that appears nowhere else on the site —
+against all that gold and black, your eye goes straight to it. **One thing worth knowing:** green
+usually means "space available" to people, while amber or red is the normal way to say "hurry."
+I built it green as you asked, and switching it is a one-word change if you'd rather it read as
+urgent.
+
+I checked it on desktop and phone — it doesn't get cut off by the box edge and doesn't push the
+page sideways. It stops moving for anyone who has reduced-motion turned on.
+
 ## What's new in v0.34.0 (2026-08-20)
 **Your six items, all done.** Files changed: `index.html` and the 10 other pages that carry the
 nav, `schedule.html`, `scripts/validate.sh`, the two icon files, a new `favicon.ico`, two new

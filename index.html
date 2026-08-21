@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.34.0 · 2026-08-20 · favicon on black; modal reordered (Showdown 2026 first, Women’s featured + stamp); nav Leagues 2nd; Find-your-game alternating outlines; Retail Partners tier + LMNT/Rhone logos -->
+<!DOCTYPE html><!-- v0.34.1 · 2026-08-20 · the almost-full note becomes a green angled stamp with a slow breathe, on its own line under the title -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -232,9 +232,14 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .anitem.feat .ancta{background:#0a0a0b;color:#F8C400;border-color:#F8C400}
 .anitem.feat .ancta::after{background:linear-gradient(105deg,transparent 38%,rgba(248,196,0,.55) 48%,transparent 58%)}
 @media(hover:hover) and (pointer:fine){.anitem.feat .ancta:hover{background:#F8C400;color:#111;border-color:#ffd633;box-shadow:0 6px 18px rgba(248,196,0,.34)}}
-.anstamp{display:inline-block;margin-left:8px;vertical-align:2px;background:#F8C400;color:#111;
- border-radius:2px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;font-weight:700;
- letter-spacing:.09em;text-transform:uppercase;padding:3px 7px;white-space:nowrap}
+.anstamp{display:inline-block;margin:3px 0 9px;padding:6px 12px;
+ background:#12d16b;color:#04240f;border:2px solid #0a7c3f;border-radius:3px;
+ box-shadow:0 0 0 2px rgba(18,209,107,.16),0 5px 16px rgba(18,209,107,.28);
+ font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11.5px;font-weight:700;
+ letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;
+ transform:rotate(-3.5deg);transform-origin:left center;
+ animation:anStamp 2.6s var(--ease-io) infinite}
+@keyframes anStamp{0%,100%{transform:rotate(-3.5deg) scale(1)}50%{transform:rotate(-3.5deg) scale(1.05)}}
 .ancta::after{content:"";position:absolute;inset:0;pointer-events:none;
  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 48%,transparent 58%);
  transform:translateX(-130%);animation:anShine 4.6s var(--ease-io) 1.4s infinite}
@@ -253,6 +258,7 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
  .anv,.anm{transition:opacity .2s ease}
  .anm{transform:none}
  .ancta::after,.anitem.feat::after{animation:none;opacity:0}
+ .anstamp{animation:none}
  .ancta{transition:background .18s ease,border-color .18s ease}
  .ancta:hover,.ancta:active,.anall:hover{transform:none;box-shadow:none}
 }
@@ -443,7 +449,8 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
   <p class="angrp">Women&rsquo;s 4s</p>
   <div class="anitem feat" data-until="2026-08-26">
    <div class="antxt">
-    <b>Queens Club Pre-Season Qualifier <span class="anstamp">Tues almost full</span></b>
+    <b>Queens Club Pre-Season Qualifier</b>
+    <span class="anstamp" role="status">Tues almost full</span>
     <span class="andesc">Qualify for the women&rsquo;s 4s season.</span>
     <span class="anmeta">Tue &amp; Wed &middot; From Aug 25 &middot; 7&ndash;9 PM &middot; Boomtown Fieldhouse</span>
    </div>
