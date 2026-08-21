@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.34.1 · 2026-08-20 · the almost-full note becomes a green angled stamp with a slow breathe, on its own line under the title -->
+<!DOCTYPE html><!-- v0.34.2 · 2026-08-20 · featured modal box is now gold-filled with black text and a black button; the almost-full stamp goes red for contrast on gold -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -224,17 +224,24 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
    gold sweep as well as the button one, which is what makes it read as the priority sign-up.
    Its button inverts (black fill, gold rule + gold label) so it still reads as a button
    against a gold-outlined box instead of dissolving into it. */
-.anitem.feat{position:relative;overflow:hidden;border:2px solid #F8C400;background:#0a0a0b}
+.anitem.feat{position:relative;overflow:hidden;border:2px solid #e0a312;background:#F8C400}
+/* v0.34.2: the middle item is a GOLD-FILLED box with black text (owner change from the
+   v0.34.0 gold-outline). Its sweep is WHITE — a gold sweep on a gold box is invisible; this
+   is the same white-on-gold sweep .sband uses. The button inverts to black-fill/gold-label so
+   it still reads as a button on gold, which is the "black button" the original brief named. */
 .anitem.feat::after{content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(105deg,transparent 42%,rgba(248,196,0,.17) 50%,transparent 58%);
+ background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.5) 50%,transparent 58%);
  transform:translateX(-130%);animation:anShine 5.2s var(--ease-io) .9s infinite}
 .anitem.feat .antxt,.anitem.feat .ancta{position:relative;z-index:1}
-.anitem.feat .ancta{background:#0a0a0b;color:#F8C400;border-color:#F8C400}
+.anitem.feat .antxt b{color:#0a0a0b}
+.anitem.feat .antxt .andesc{color:#2a2100}
+.anitem.feat .antxt .anmeta{color:#55471a}
+.anitem.feat .ancta{background:#0a0a0b;color:#F8C400;border-color:#0a0a0b}
 .anitem.feat .ancta::after{background:linear-gradient(105deg,transparent 38%,rgba(248,196,0,.55) 48%,transparent 58%)}
-@media(hover:hover) and (pointer:fine){.anitem.feat .ancta:hover{background:#F8C400;color:#111;border-color:#ffd633;box-shadow:0 6px 18px rgba(248,196,0,.34)}}
+@media(hover:hover) and (pointer:fine){.anitem.feat .ancta:hover{background:#1a1a1d;color:#ffd633;border-color:#1a1a1d;box-shadow:0 6px 18px rgba(0,0,0,.45)}}
 .anstamp{display:inline-block;margin:3px 0 9px;padding:6px 12px;
- background:#12d16b;color:#04240f;border:2px solid #0a7c3f;border-radius:3px;
- box-shadow:0 0 0 2px rgba(18,209,107,.16),0 5px 16px rgba(18,209,107,.28);
+ background:#e11d2e;color:#fff;border:2px solid #7d0d18;border-radius:3px;
+ box-shadow:0 0 0 2px rgba(0,0,0,.14),0 5px 16px rgba(0,0,0,.32);
  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11.5px;font-weight:700;
  letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;
  transform:rotate(-3.5deg);transform-origin:left center;

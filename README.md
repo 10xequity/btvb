@@ -101,6 +101,24 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.34.2 (2026-08-20)
+**The middle pop-up box is now a solid gold box with black writing, and the stamp is red.** File
+changed: `index.html`.
+
+You wanted the featured (Women's) box filled gold with black text rather than the black box with a
+gold edge it had been. Done — gold box, black title and details, and the SIGN UP button is now
+black with gold lettering so it still stands out against the gold.
+
+You were right about the stamp: green on gold barely showed (I measured it — about 1.24 to 1, which
+is close to invisible). It's now **red with white text**, which is about three times the contrast
+and reads instantly as "hurry." I checked all the text is easily readable on the gold and that
+nothing gets cut off on phone or desktop.
+
+**On "there's no pop-up":** that's working as intended, not broken. The pop-up shows once per day
+per visitor — after you've seen it once, it stays hidden for the rest of the day so it doesn't nag
+returning visitors. That's been the behaviour since v0.29.0. To see it again, open the site in a
+private/incognito window. I confirmed it still opens and all three listings are current.
+
 ## What's new in v0.34.1 (2026-08-20)
 **The "almost full" note is now a proper stamp.** File changed: `index.html`.
 
