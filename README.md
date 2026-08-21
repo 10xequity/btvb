@@ -101,6 +101,59 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.34.0 (2026-08-20)
+**Your six items, all done.** Files changed: `index.html` and the 10 other pages that carry the
+nav, `schedule.html`, `scripts/validate.sh`, the two icon files, a new `favicon.ico`, two new
+partner logos, `README.md`, `design.md`.
+
+**1. The tab icon is fixed, and I found why it looked white.** The icon was a gold player on a
+*see-through* background — so it took the colour of whatever was behind it, and on a light
+browser tab that's gold on white, which is nearly invisible. It's now the same gold player on a
+solid black square. I also added a `favicon.ico` at the site root, because some apps and search
+engines go looking for that file by name and there wasn't one.
+
+**2. Pop-up re-ordered.** Top to bottom it's now **USAV Boomtown Showdown 2026** (renamed with
+the year), then **Women's 4s**, then **Men's 4s**. The boxes alternate exactly as you asked:
+black box, then a gold-outlined box with a black button, then black again. The Women's box is the
+featured one — as well as the shine on its button, the whole tile has a gold shine sweeping
+across it, so it's the thing your eye lands on. Its button is black with a gold edge and gold
+lettering, which keeps it looking like a button instead of disappearing into the gold outline.
+The **TUES ALMOST FULL** stamp sits right under the Queens Club title. No mixers anywhere.
+
+**3. Header order** is now Tournaments, Leagues, Training, Drop-In, Store, Contact — on all 11
+pages that have a menu, all identical.
+
+**4. Find your game** is now Tournaments, Leagues, Drop-In, Training, and the outlines alternate
+gold, grey, gold, grey. One fix you didn't ask for but would have noticed: only the gold cards
+used to lift when you hovered them. With the colours now alternating, that made the two grey
+cards look broken, so all four behave the same.
+
+**5. Retail Partners.** "Gear" is renamed **Retail Partners** everywhere it appears. LMNT is
+added with the logo you sent, and Rhone now uses your logo file too. I removed the white
+backgrounds where the logo genuinely reads on black, and I measured rather than guessed —
+lululemon, Molten, adidas, Special Olympics, Rhone and LMNT all sit on black now. Denver Nuggets
+and Team Evo stayed on white because too much of those logos is dark and would disappear. Volo,
+Colorado Boom and the Athletics Foundation have white baked into the image itself, so a black tile
+would just show a white rectangle — they stayed white too. Shoot360 was the interesting one: by
+the numbers it looked fine on black, but the words "SHOOT" and "DENVER" are black and vanish, so
+I kept it white.
+
+**Something you should know about — 14 of your 28 partner logos aren't loading at all.** Thirteen
+of them are pulled live from a service called Clearbit, and that service has stopped responding —
+every single request comes back empty. This is not new and it isn't your network: another
+hotlinked logo on the same page loads fine. Those tiles quietly fall back to showing the partner's
+name as text instead of their logo, which is why AVP, AAU, Match Point Social, Alo, Wilson, Bella+
+Canvas, Park & Sun, Bogg Bags, Texas Roadhouse and others look like plain wordmarks. I've made
+those tiles black with white text so the wall at least looks deliberate instead of half-finished,
+and I wrote it so that if a logo ever starts loading again that tile goes back to normal by
+itself. **The real fix is to send me those 13 logo files** so they can live in the repo like Volo,
+adidas and Molten already do. That's a job for you and me together, not something I can do alone.
+
+**6. Added a guard.** `validate.sh` now fails if the menu order drifts on any page, or if someone
+replaces the tab icon with a see-through one again. I proved the guard works by running it against
+the old files — it correctly flags all 11 pages and reports the exact number of see-through pixels
+in the old icons.
+
 ## What's new in v0.33.0 (2026-08-20)
 **Two things: the pop-up now sells leagues and tournaments, and finished events stop showing up.**
 Files changed: `index.html`, `schedule.html`, `womens-league.html`, `mens-league.html`,

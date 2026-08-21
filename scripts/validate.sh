@@ -229,6 +229,55 @@ done
 # the v0.33.0 defect itself: an "open (rolling)" status short-circuiting the date test
 grep -q 'includes("open")' schedule.html   && bad 'schedule.html — the status-contains-"open" bypass is back; it skips the date test entirely'   || ok 'schedule.html has no status-based bypass of the date test'
 
+# ---------------------------------------------------------------- 12. nav order + tab icon
+head_ "12. Nav order and tab icon"
+# v0.34.0. Owner-specified top-level order. The nav is copy-pasted into every page (see
+# CLAUDE.md 2), so the real risk is one page drifting -- assert all of them agree AND that
+# what they agree on is the required order, not just that they match each other.
+NAVRES=$(python3 - <<'PYNAV'
+import io,re,glob,sys
+WANT=['Tournaments','Leagues','Training','Drop-In','Store','Contact']
+seen={}
+for f in sorted(glob.glob('*.html')):
+    s=io.open(f,encoding='utf-8').read()
+    m=re.search(r'<ul class="nav-links" id="m">([\s\S]*?)</ul></nav>',s)
+    if not m: continue
+    top=[t.strip().replace('▾','').replace('↗','').strip()
+         for _,t in re.findall(r'<li(?: class="has-sub")?><a href="([^"]+)"[^>]*>([^<]+)</a>',m.group(1))]
+    seen[f]=[x for x in top if x in WANT]
+bad=[f for f,o in seen.items() if o!=WANT]
+print('OK %d'%len(seen) if not bad else 'BAD '+','.join(bad))
+PYNAV
+)
+case "$NAVRES" in
+  OK\ *) ok "nav order Tournaments>Leagues>Training>Drop-In>Store>Contact on ${NAVRES#OK } pages" ;;
+  *)     bad "nav order wrong or inconsistent: $NAVRES" ;;
+esac
+
+# The tab icon must be a BLACK plate, not a transparent cut-out -- transparent is what made it
+# look white on light browser chrome. Pillow is optional here: skip loudly rather than fail
+# for an environmental reason (the python3-without-guard trap from CLAUDE.md 3).
+if python3 -c "import PIL" 2>/dev/null; then
+  ICORES=$(python3 - <<'PYICO'
+from PIL import Image
+out=[]
+for f in ('assets/img/favicon.png','assets/img/apple-touch-icon.png'):
+    im=Image.open(f).convert('RGBA')
+    px=list(im.convert('RGBA').tobytes())  # raw RGBA bytes; avoids the getdata deprecation
+    clear=sum(1 for i in range(3,len(px),4) if px[i]<250)
+    corner=im.getpixel((0,0))
+    out.append('%s:%s' % (f.split('/')[-1], 'OPAQUE' if clear==0 and sum(corner[:3])<90 else 'TRANSPARENT_OR_LIGHT'))
+print(' '.join(out))
+PYICO
+)
+  case "$ICORES" in
+    *TRANSPARENT_OR_LIGHT*) bad "tab icon is not a solid dark plate: $ICORES" ;;
+    *) ok "tab icon opaque on a dark plate ($ICORES)" ;;
+  esac
+else
+  note "Pillow not installed - skipped the tab-icon opacity check (not a failure)"
+fi
+
 # ---------------------------------------------------------------- summary
 printf '\n\033[1mResult: %d passed, %d failed\033[0m\n' "$PASS" "$FAIL"
 [ "$FAIL" -eq 0 ] || { printf '\033[31mDO NOT COMMIT.\033[0m\n'; exit 1; }
