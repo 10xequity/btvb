@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.34.0 · 2026-08-20 · nav order (Leagues 2nd); partner tier label Gear → Retail Partners -->
+<!DOCTYPE html><!-- v0.35.0 · 2026-08-26 · leagues are standing on the board: type=league rows show unless marked past (no start_date age-out) -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>What's On — Live Volleyball Schedule | Boomtown Athletics</title><meta name="description" content="Live Boomtown Athletics schedule — volleyball tournaments, leagues and events in the Denver metro, updated in real time. Filter and register in one tap."><link rel="canonical" href="https://www.boomtownathletics.com/schedule.html">
 <meta property="og:type" content="website"><meta property="og:title" content="What's On — Live Volleyball Schedule | Boomtown Athletics"><meta property="og:description" content="Tournaments, leagues and events at Boomtown FieldhouseUSA, Aurora — live schedule, updated as it changes."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/schedule.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -346,8 +346,9 @@ function lastDayMs(r){const s=dayMs(r.start_date),e=dayMs(r.end_date);
 function sortMs(r){const s=dayMs(r.start_date);return s===null?lastDayMs(r):s;}
 function eventVisible(r){
   if((r.status||"").trim().toLowerCase()==="past")return false;
+  if((r.type||"").trim().toLowerCase()==="league")return true;   /* leagues are standing — shown unless marked past; they do not age out on a past start_date (v0.35.0) */
   const d=lastDayMs(r);
-  return d===null||d>=TODAY_MS;   /* an event dated today stays up for the whole day */
+  return d===null||d>=TODAY_MS;   /* dated events (tournaments/events) still drop after their last day */
 }
 function dateBlock(r){const d=(r.start_date||"").trim();if(dayMs(d)===null)return{mon:"TBA",day:"·",yr:""};const[y,m,da]=d.split("-").map(Number);return{mon:MON[m-1],day:String(da).padStart(2,"0"),yr:String(y)};}
 
