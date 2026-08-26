@@ -3,9 +3,13 @@
 Static marketing site for **boomtownathletics.com** (Denver/Aurora volleyball —
 tournaments, women's/men's/co-ed leagues, training, and nightly drop-in).
 
-_Site version: **v0.32.0** · 2026-08-18_
+_Site version: **v0.35.0** · 2026-08-26_
 
 ---
+
+## What's new
+
+- **v0.35.0 (2026-08-26)** — Leagues stay on the What's On board instead of dropping off the day after their listed start date. `type=league` rows show unless you mark them `past`; dated tournaments/events still expire after they finish. Full detail in the `design.md` Change Log.
 
 ## Where things stand — verified 2026-08-17
 

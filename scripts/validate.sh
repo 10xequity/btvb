@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Boomtown Athletics — pre-commit validator
-# v0.28.0 · 2026-08-06
+# v0.35.0 · 2026-08-26
 #
 # Run from repo root:  bash scripts/validate.sh
 # Exit 0 = safe to commit. Exit 1 = something is broken; DO NOT commit.
@@ -210,24 +210,35 @@ head_ "10. Date parser guard"
 grep -q '\\d{4}-\\d{1,2}-\\d{1,2}' womens-league.html && ok "_isISO regex intact (accepts 2026-8-25)" || bad "_isISO regex changed — 2026-8-25 style dates will break"
 
 # ---------------------------------------------------------------- 11. past-event filter guard
-head_ "11. Past-event filter"
-# v0.33.0. Every sheet-driven renderer must compare a row's date against TODAY at LOCAL
-# midnight. Anchored on the thing the design guarantees — a today-constant built from
-# getFullYear/getMonth/getDate parts — rather than on a helper name, because Date.parse on a
-# bare "2026-08-20" is UTC and silently rolls back a day in Denver. Verified 2026-08-20: before
-# this check existed, all three pages were still advertising finished events.
-for f in schedule womens-league mens-league; do
-  if grep -q 'getFullYear(),[[:space:]]*d\.getMonth(),[[:space:]]*d\.getDate()' "$f.html"; then
-    ok "$f.html builds today at local midnight from parts"
-  else
-    bad "$f.html — no local-midnight today constant; past events will render"
-  fi
-done
+head_ "11. Date filter (dated events drop) + standing-league rule"
+# v0.35.0. Two behaviours, both of which have broken this site:
+#  (a) DATED events (tournaments/events) still drop after their last day, compared at LOCAL
+#      midnight — Date.parse on a bare "2026-08-20" is UTC and rolls back a day in Denver.
+#      schedule.html keeps a today-constant built from getFullYear/getMonth/getDate parts.
+#  (b) LEAGUES are standing: shown unless the owner marks them "past". They must NOT age out on
+#      a past start_date. v0.33.0's date filter did exactly that and hid the entire women's/men's
+#      board the day after each session's listed date. schedule.html now exempts type=league;
+#      the league-only pages drop the date test and key on "past".
+grep -q 'getFullYear(),[[:space:]]*d\.getMonth(),[[:space:]]*d\.getDate()' schedule.html \
+  && ok "schedule.html builds today at local midnight from parts (dated events still filtered)" \
+  || bad "schedule.html — no local-midnight today constant; dated events will mis-filter"
+grep -q 'toLowerCase()==="league")return true' schedule.html \
+  && ok "schedule.html — type=league rows are standing (shown unless past)" \
+  || bad "schedule.html — standing-league rule missing; leagues will age out on the board"
+grep -q 'includes("open")' schedule.html \
+  && bad 'schedule.html — the status-contains-"open" bypass is back; it would skip the date test for EVERY type, resurrecting finished tournaments' \
+  || ok 'schedule.html has no status-based bypass — dated events drop by date, not status'
 for f in womens-league mens-league; do
-  grep -q 'filter(isCurrent)' "$f.html"     && ok "$f.html render() filters out past rows"     || bad "$f.html — render() no longer filters past rows"
+  grep -q 'filter(isCurrent)' "$f.html" \
+    && ok "$f.html render() runs rows through isCurrent" \
+    || bad "$f.html — render() no longer calls filter(isCurrent)"
+  grep -q 'toLowerCase()!=="past"' "$f.html" \
+    && ok "$f.html isCurrent shows standing leagues (drops only explicit past)" \
+    || bad "$f.html — isCurrent lost its past check"
+  grep -q '>=_TODAY' "$f.html" \
+    && bad "$f.html — a start_date age-out (>=_TODAY) is back; standing leagues would drop" \
+    || ok "$f.html no start_date age-out — standing leagues stay up"
 done
-# the v0.33.0 defect itself: an "open (rolling)" status short-circuiting the date test
-grep -q 'includes("open")' schedule.html   && bad 'schedule.html — the status-contains-"open" bypass is back; it skips the date test entirely'   || ok 'schedule.html has no status-based bypass of the date test'
 
 # ---------------------------------------------------------------- 12. nav order + tab icon
 head_ "12. Nav order and tab icon"
