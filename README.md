@@ -101,6 +101,16 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.34.3 (2026-09-04)
+**Adult training card: Friday time confirmed, and a clear way to sign up.** File changed: `training.html`.
+
+You asked for Friday adult training to show 5:30–7 PM. It already did — the live card read
+"Fri & Sun · 5:30–7 PM" before this change, so the time itself is unchanged (Sunday was left
+in place; say so if it should go). What was missing was a way to reach someone: the card and the
+FAQ now say "To join, fill out the form below or email zhu@boomtownvball.com", with the email as a
+tappable link, and the card button now reads **Fill out the form →** instead of "Learn more" so it
+is obvious the form is the sign-up. The form link itself is unchanged.
+
 ## What's new in v0.34.2 (2026-08-20)
 **The middle pop-up box is now a solid gold box with black writing, and the stamp is red.** File
 changed: `index.html`.
