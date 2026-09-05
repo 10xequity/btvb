@@ -101,6 +101,12 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.34.4 (2026-09-04)
+**Friday adult training is now 7–8:30 PM. Sunday stays 5:30–7 PM.** File changed: `training.html`.
+
+The Adult Indoor card now reads "Fri 7–8:30 PM · Sun 5:30–7 PM", and the FAQ answer says the
+same. Price, form link and the zhu@boomtownvball.com contact line are unchanged.
+
 ## What's new in v0.34.3 (2026-09-04)
 **Adult training card: Friday time confirmed, and a clear way to sign up.** File changed: `training.html`.
 
