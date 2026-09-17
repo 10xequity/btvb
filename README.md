@@ -101,6 +101,15 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.36.0 (2026-09-17)
+**League pages now read the sheet's main Events tab, split by the division column, and say "Rolling" when there is no date.** Files changed: `womens-league.html`, `mens-league.html`, `training.html`, `scripts/validate.sh`, `CLAUDE.md`, `README.md`, `design.md`.
+
+- **One source of truth.** The women's and men's schedule tables used to read their own WomensLeagues / MensLeagues tabs, which had drifted from the Events tab that drives the What's On board and the home pop-up. Both tables now read Events and keep only League rows whose division names them. "Womens" rows show on the women's page, "Mens" on the men's, a "Womens & Mens" row on both, "coed" on neither. The old tabs are no longer used by the site.
+- **Type, don't just date.** If start_date is blank, or says rolling / on-going, the Date column reads "Rolling". Any other text you type (say "TBD") shows as typed. The same goes for the Register column: a link becomes a Register button, other text shows as typed, blank shows "Coming soon". A row with no readable date stays listed; set its status to "past" to retire it.
+- **Men's page** hero button now says League Registration and jumps to the schedule table instead of opening the mailing-list form. The schedule caption no longer says "Tuesday nights", since the sheet now says Wednesday.
+- **Junior card** on the training page adds: official times are on the Colorado Boom page.
+- **Validator** expects two GIDs instead of four, checks both league pages read Events with a division filter, and runs a small self-check of the division and Rolling rules.
+
 ## What's new in v0.35.0 (2026-09-17)
 **Facility rules brought in line with the RMR handout, an Events menu, corrected waiver links, a refreshed pop-up, and cleaner Instagram tiles.** Files changed: all 11 nav-bearing pages, `scripts/validate.sh`, `CLAUDE.md`, `README.md`, `design.md`.
 

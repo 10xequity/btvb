@@ -138,13 +138,13 @@ version comment at all**. The "one comment per page" rule has only ever been enf
 | Drop-in digital sign-in URL | `https://forms.gle/vwEY2aC4SA9SrZPQA` — "Boomtown Sports Drop-In Digital Sign-In"; asks whether you've read the waiver and links to it. On `index.html` (drop-in card) and `drop-in.html`. Docs through v0.34.4 called this the waiver. |
 | Sheet publish token | `https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7LfAZ_IHxc3cntV3yGVJtFa5vlCADbHrcq_Mc-yKj-EEt4X2pXrlpWgPH18eZPvoLA19NvHwPpds/pub?gid=<GID>&single=true&output=csv` |
 | Raw sheet ID (Drive MCP) | `1UFsYrtD1pf27f6D0m3O45oA3MUtfG2wiV9x1zyl-H4w` |
-| GIDs (the only four in the repo) | Events `2097603747` · Partners `454802271` · WomensLeagues `1645496886` · MensLeagues `1824462476` |
+| GIDs (the only two in the repo) | Events `2097603747` · Partners `454802271`. Since v0.36.0 both league pages read **Events** filtered by `division`; WomensLeagues `1645496886` / MensLeagues `1824462476` are no longer consumed. |
 | Behold feed | `feeds.behold.so/JgI7koDkWULorgLXnzkz` |
 | Behold image host | **`behold.pictures`** — *not* `hop.behold.pictures` |
 | CNAME | `www.boomtownathletics.com` |
 | robots.txt exclusions | `/library` only — `/queens-club` was removed in v0.31.0 |
 
-The sheet's `Leagues` and `Tournaments` tabs are **legacy — consumed by nothing.**
+The sheet's `Leagues` and `Tournaments` tabs are **legacy — consumed by nothing.** Since v0.36.0 so are `WomensLeagues` / `MensLeagues`: `womens-league.html` and `mens-league.html` read the **Events** tab, keep `type=League` rows, and match `division` by token (womens/women, mens/men — "Womens & Mens" lands on both; "coed" on neither). A blank or rolling/on-going `start_date` renders **Rolling**; other typed text renders as typed; a non-URL `registration_link` renders as typed (blank → "Coming soon"). A row whose dates are unreadable stays visible — set `status` to `past` to retire it.
 
 ## 6. The three invariants that have caused live bugs
 

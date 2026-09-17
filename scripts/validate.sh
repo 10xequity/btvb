@@ -170,8 +170,8 @@ PIX=$(grep -l '120232615176120623' *.html 2>/dev/null | wc -l | tr -d ' ')
 [ "$PIX" = "11" ] && ok "Meta Pixel on exactly 11 pages (queens-club indexable since v0.31.0 but deliberately untracked)" || bad "Meta Pixel on $PIX pages (expected 11 — the indexable pages except queens-club, which carries no tracker by decision)"
 
 GIDS=$(grep -ohE 'gid=[0-9]+' *.html | sort -u | tr '\n' ' ')
-EXPECT="gid=1645496886 gid=1824462476 gid=2097603747 gid=454802271 "
-[ "$GIDS" = "$EXPECT" ] && ok "exactly the 4 known gids present" || bad "gid set changed: [$GIDS]"
+EXPECT="gid=2097603747 gid=454802271 "
+[ "$GIDS" = "$EXPECT" ] && ok "exactly the 2 known gids present (Events, Partners) — league pages read Events since v0.36.0" || bad "gid set changed: [$GIDS]"
 
 grep -q 'feeds.behold.so/JgI7koDkWULorgLXnzkz' index.html && ok "Behold feed URL unchanged" || bad "Behold feed URL changed"
 grep -rq 'hop.behold.pictures' *.html && bad "hop.behold.pictures is WRONG — host is behold.pictures" || ok "no hop.behold.pictures"
@@ -228,6 +228,18 @@ done
 for f in womens-league mens-league; do
   grep -q 'filter(isCurrent)' "$f.html"     && ok "$f.html render() filters out past rows"     || bad "$f.html — render() no longer filters past rows"
 done
+# v0.36.0 — both league pages read the Events tab filtered by division; blank/rolling dates say "Rolling".
+for f in womens-league mens-league; do
+  grep -q 'gid=2097603747' "$f.html" && grep -q '__LEAGUE_DIVISION__="' "$f.html" && ok "$f.html reads the Events tab with a division filter" || bad "$f.html — not reading the Events tab with a division filter"
+done
+if command -v node >/dev/null 2>&1; then
+  LEAGUE_FN=$(grep -E '^[[:space:]]*function (_tokens|inDivision|_typedDate)\(' womens-league.html | tr -d '\r')
+  if node -e "$LEAGUE_FN
+var DIV='mens';
+var ok=inDivision({type:'League',division:'Mens'})&&inDivision({type:'League',division:'Womens & Mens'})&&!inDivision({type:'League',division:'Womens'})&&!inDivision({type:'Tournament',division:'Mens'})&&inDivision({division:'men\\'s'})
+&&_typedDate('','')==='Rolling'&&_typedDate('on-going','')==='Rolling'&&_typedDate('Ongoing','')==='Rolling'&&_typedDate('TBD','')==='TBD'&&_typedDate('','Sunday, August 16, 2026')==='Sunday, August 16, 2026';
+process.exit(ok?0:1);" 2>/dev/null; then ok "league division filter + Rolling date rule behave (node self-check)"; else bad "league division filter / Rolling rule broken (node self-check failed)"; fi
+fi
 # the v0.33.0 defect itself: an "open (rolling)" status short-circuiting the date test
 grep -q 'includes("open")' schedule.html   && bad 'schedule.html — the status-contains-"open" bypass is back; it skips the date test entirely'   || ok 'schedule.html has no status-based bypass of the date test'
 
