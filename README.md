@@ -101,6 +101,16 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.35.0 (2026-09-17)
+**Facility rules brought in line with the RMR handout, an Events menu, corrected waiver links, a refreshed pop-up, and cleaner Instagram tiles.** Files changed: all 11 nav-bearing pages, `scripts/validate.sh`, `CLAUDE.md`, `README.md`, `design.md`.
+
+- **Facility rules** (`facility-rules.html`). Added from the RMR handout: every RMR coach signs the facility agreement and answers for their players and families; chairs are free but become paid rentals if not returned; these rules are the only warning; no littering in the lot; team-area tables are first come. Court etiquette now sits under Courts & equipment. The floor-plan button is gone because its PDF was a dead Wix link; send the new PDF and it comes back. The service-animal rule now asks you to let us know before you arrive so we can plan a reasonable accommodation, and states the off-court rule as animal and player safety. The old "12 hours' written notice" read as a condition of entry, which the ADA does not allow.
+- **Events menu** on every page: FieldhouseUSA, Facility Rules, Upcoming Events. Seven items no longer fit on a narrow laptop, so the menu collapses to the Menu button below 1024px instead of 900px and the spacing is tighter. Every nav also linked a "tournaments" anchor that no page defines; those links now land on the What's On board.
+- **Training menu: Club Volleyball** opens coloradoboom.com. The junior card and the Colorado Boom band on `training.html` say junior skills training runs under Colorado Boom and link to its Skills Training Membership.
+- **Waivers.** The men's league FAQ and the tournaments page said "sign the waiver" but opened the drop-in digital sign-in form. They now open the liability waiver. Drop-in buttons keep the digital sign-in, which links the waiver inside it, and read "Sign in & waiver".
+- **Pop-up** (`index.html`): Sally's Fundraiser RevCo 4s (Sat Sep 19), the USAV Boomtown Showdown (Sun Sep 27), then the 2026–27 Queens Club Tuesday and Wednesday seasons and the Kings Club Wednesday season, each with its sign-up form from the sheet's Events tab. Items hide themselves after their date as before.
+- **Instagram**: the "@boomtownvb" badge is off every tile; the section title "Follow us @boomtownvb" is now the follow link.
+
 ## What's new in v0.34.4 (2026-09-04)
 **Friday adult training is now 7–8:30 PM. Sunday stays 5:30–7 PM.** File changed: `training.html`.
 

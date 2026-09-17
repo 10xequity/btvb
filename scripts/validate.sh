@@ -175,7 +175,9 @@ EXPECT="gid=1645496886 gid=1824462476 gid=2097603747 gid=454802271 "
 
 grep -q 'feeds.behold.so/JgI7koDkWULorgLXnzkz' index.html && ok "Behold feed URL unchanged" || bad "Behold feed URL changed"
 grep -rq 'hop.behold.pictures' *.html && bad "hop.behold.pictures is WRONG — host is behold.pictures" || ok "no hop.behold.pictures"
-grep -q 'forms.gle/vwEY2aC4SA9SrZPQA' index.html && ok "waiver URL present on index" || note "waiver URL not on index — check if expected"
+grep -q 'forms.gle/vwEY2aC4SA9SrZPQA' index.html && ok "drop-in digital sign-in URL present on index" || note "drop-in sign-in URL not on index — check if expected"
+grep -q 'forms.gle/4vAwn3prUqkBDKqVA' facility-rules.html && ok "liability waiver URL present on facility-rules" || bad "liability waiver URL missing from facility-rules (vwEY… is the drop-in SIGN-IN, not the waiver)"
+grep -lq 'schedule.html#tournaments' *.html && bad "schedule.html#tournaments is a dangling anchor — use #whats-on" || ok "no dangling schedule.html#tournaments links"
 [ "$(cat CNAME 2>/dev/null | tr -d '[:space:]')" = "www.boomtownathletics.com" ] && ok "CNAME correct" || bad "CNAME is not www.boomtownathletics.com"
 
 # ---------------------------------------------------------------- 8. links & images
@@ -236,7 +238,7 @@ head_ "12. Nav order and tab icon"
 # what they agree on is the required order, not just that they match each other.
 NAVRES=$(python3 - <<'PYNAV'
 import io,re,glob,sys
-WANT=['Tournaments','Leagues','Training','Drop-In','Store','Contact']
+WANT=['Tournaments','Leagues','Training','Drop-In','Events','Store','Contact']
 seen={}
 for f in sorted(glob.glob('*.html')):
     s=io.open(f,encoding='utf-8').read()
@@ -250,7 +252,7 @@ print('OK %d'%len(seen) if not bad else 'BAD '+','.join(bad))
 PYNAV
 )
 case "$NAVRES" in
-  OK\ *) ok "nav order Tournaments>Leagues>Training>Drop-In>Store>Contact on ${NAVRES#OK } pages" ;;
+  OK\ *) ok "nav order Tournaments>Leagues>Training>Drop-In>Events>Store>Contact on ${NAVRES#OK } pages" ;;
   *)     bad "nav order wrong or inconsistent: $NAVRES" ;;
 esac
 

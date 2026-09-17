@@ -42,6 +42,7 @@ Read it fully before touching anything.
 | **v0.28.0** | "the v0.28.0 tooling was delivered" | authored, never committed — `main` sat at v0.27.0 until this commit |
 | **v0.31.0** | `queens-club.html` is "just noindex + an invite gate" | its `<link rel=canonical>` also pointed **off-domain** at `https://www.queensclubvb.com/`, which 302s to a parked `l.ink` placeholder — removing `noindex` alone would have indexed nothing |
 | **v0.28.0** | "`validate.sh` passes 77/77" | true only where Python 3 is installed — 5 unguarded `python3` calls |
+| **v0.35.0** | "Waiver URL = `forms.gle/vwEY…`" (frozen constant since v0.28.0) | that form is the **Drop-In Digital Sign-In** (title verified by fetch); the liability waiver is `forms.gle/4vAw…`, which only `facility-rules.html` used — 5 "sign the waiver" links on 4 pages opened the sign-in |
 
 You are in a real checkout. **Check the file. Never restate a prior document's claim as fact
 without re-running the check.** If you catch a new one, record it in the table above and in
@@ -133,7 +134,8 @@ version comment at all**. The "one comment per page" rule has only ever been enf
 | Thing | Value |
 |---|---|
 | Meta Pixel ID | `120232615176120623` — on **11** pages. Those are the original 11 indexable pages; `queens-club.html` became the 12th indexable page in v0.31.0 but was **deliberately left untracked** (the owner asked for search metadata, not analytics). `validate.sh` check 7 still expects exactly 11 and says why. |
-| Waiver URL | `https://forms.gle/vwEY2aC4SA9SrZPQA` |
+| Liability waiver URL | `https://forms.gle/4vAwn3prUqkBDKqVA` — the form titled "BOOMTOWN LIABLITY WAIVER" (sic). On `facility-rules.html`, `mens-league.html`, `tournaments.html`. |
+| Drop-in digital sign-in URL | `https://forms.gle/vwEY2aC4SA9SrZPQA` — "Boomtown Sports Drop-In Digital Sign-In"; asks whether you've read the waiver and links to it. On `index.html` (drop-in card) and `drop-in.html`. Docs through v0.34.4 called this the waiver. |
 | Sheet publish token | `https://docs.google.com/spreadsheets/d/e/2PACX-1vRH7LfAZ_IHxc3cntV3yGVJtFa5vlCADbHrcq_Mc-yKj-EEt4X2pXrlpWgPH18eZPvoLA19NvHwPpds/pub?gid=<GID>&single=true&output=csv` |
 | Raw sheet ID (Drive MCP) | `1UFsYrtD1pf27f6D0m3O45oA3MUtfG2wiV9x1zyl-H4w` |
 | GIDs (the only four in the repo) | Events `2097603747` · Partners `454802271` · WomensLeagues `1645496886` · MensLeagues `1824462476` |
