@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.36.0 · 2026-09-17 · league table reads the sheet's Events tab filtered to womens; blank/rolling dates say Rolling; typed text allowed in date and register cells -->
+<!DOCTYPE html><!-- v0.38.0 · 2026-10-01 · league table: hardcoded August sample rows removed (sheet is the only source); typed register text shows emails as links -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics</title><meta name="description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — indoor 4s & 6s, qualifiers and the Queens Club pathway. Register today."><link rel="canonical" href="https://www.boomtownathletics.com/womens-league.html">
 <meta property="og:type" content="website"><meta property="og:title" content="Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics"><meta property="og:description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — competitive indoor 6s, 4s and 2s plus seasonal grass, and the elite Queens Club. Serving Aurora, Denver, Centennial, Lakewood, Littleton, Englewood, Parker &amp; Highlands Ranch."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/womens-league.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -204,11 +204,14 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
   }
 
   function cell(txt){var td=document.createElement("td");td.textContent=(txt==null?"":String(txt)).trim();return td;}
+  /* v0.38.0 — owner types e.g. "Invitational. Email admin@boomtownvb.com." in registration_link; the address becomes a mailto link. */
+  function typedText(el,t){var parts=String(t).split(/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/);
+    parts.forEach(function(x,i){if(i%2){var a=document.createElement("a");a.href="mailto:"+x;a.textContent=x;el.appendChild(a);}else if(x)el.appendChild(document.createTextNode(x));});}
   function linkCell(url){
     var td=document.createElement("td");
     url=(url||"").trim();
     if(/^https?:\/\//i.test(url)){var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.className="btn btn-sm";a.textContent="Register";td.appendChild(a);}
-    else {var s=document.createElement("span");s.className="mut";s.textContent=url||"Coming soon";td.appendChild(s);}
+    else {var s=document.createElement("span");s.className="mut";typedText(s,url||"Coming soon");td.appendChild(s);}
     return td;
   }
   function rowEl(r){
@@ -284,20 +287,17 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
       return o;
     });
   }
-    var PLACEHOLDER=[
-    {title:"Queens Club Pre-Season Qualifier",day:"Tues & Wed",format:"4s",time:"7 PM \u2013 9 PM",start_date:"2026-08-25",end_date:"",registration_link:"https://forms.gle/JWm9ns6rhDzL9ucC9"},
-    {title:"Queens Club Mixer & Open Gym",day:"Tues & Wed",format:"4s",time:"7 PM \u2013 9 PM",start_date:"2026-08-11",end_date:"",registration_link:"https://forms.gle/ictnJgtT7TwkR82Y7"},
-    {title:"Queens Club Sunday Rotating Pairs",day:"Sunday",format:"4s",time:"5 PM \u2013 7 PM",start_date:"2026-08-16",end_date:"",registration_link:"https://forms.gle/sShNzPf4jEnCRQpy7"}
-  ];
+  /* v0.38.0 — no hardcoded sample rows. The sheet is the only source; if it cannot load, say so. */
+  function unavailable(){MOUNT.textContent="";paintNote("The schedule could not load. Refresh the page, or email admin@boomtownathletics.com.");}
   skeleton();
-  if(!CSV){ render(PLACEHOLDER); return; }
+  if(!CSV){ unavailable(); return; }
   fetch(CSV).then(function(r){if(!r.ok)throw new Error(r.status);return r.text();})
     .then(function(t){
       var rows=parseCSV(t);
       var head=(rows[0]||[]).map(function(h){return h.trim().toLowerCase();});
-      if(head.indexOf("title")<0 || head.indexOf("start_date")<0){ console.warn("[league feed] wrong tab/headers ("+head.join(",")+"); using samples"); render(PLACEHOLDER); return; }
+      if(head.indexOf("title")<0 || head.indexOf("start_date")<0){ console.warn("[league feed] wrong tab/headers ("+head.join(",")+"); no schedule shown"); unavailable(); return; }
       render(toObjects(rows));
     })
-    .catch(function(e){console.warn("[league feed] falling back to sample:",e);render(PLACEHOLDER);});
+    .catch(function(e){console.warn("[league feed] could not load:",e);unavailable();});
 })();
 </script></body></html>

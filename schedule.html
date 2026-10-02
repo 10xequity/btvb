@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.35.0 · 2026-09-17 · Events menu + Club Volleyball under Training; nav collapses at 1024px; #tournaments → #whats-on -->
+<!DOCTYPE html><!-- v0.38.0 · 2026-10-01 · What's On: text typed in registration_link shows as typed (was "Details soon"), emails become links -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>What's On — Live Volleyball Schedule | Boomtown Athletics</title><meta name="description" content="Live Boomtown Athletics schedule — volleyball tournaments, leagues and events in the Denver metro, updated in real time. Filter and register in one tap."><link rel="canonical" href="https://www.boomtownathletics.com/schedule.html">
 <meta property="og:type" content="website"><meta property="og:title" content="What's On — Live Volleyball Schedule | Boomtown Athletics"><meta property="og:description" content="Tournaments, leagues and events at Boomtown FieldhouseUSA, Aurora — live schedule, updated as it changes."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/schedule.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -380,8 +380,12 @@ function makeCard(r){
   if(link){act=document.createElement("a");act.className="btn";act.href=link;act.target="_blank";act.rel="noopener";
     act.textContent="Register now →";act.setAttribute("aria-label","Register for "+(r.title||"event"));}
   else{act=document.createElement("span");act.className="btn--muted";
+    const typed=(r.registration_link||"").trim();
     const inv=((r.status||"")+(r.notes||"")).toLowerCase().includes("invit");
-    act.textContent=inv?"Invite only":"Details soon";}
+    /* v0.38.0 — text typed in registration_link shows as typed; an email address in it becomes a mailto link */
+    if(typed){typed.split(/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/).forEach((x,i)=>{
+      if(i%2){const m=document.createElement("a");m.href="mailto:"+x;m.textContent=x;act.append(m);}else if(x)act.append(x);});}
+    else act.textContent=inv?"Invite only":"Details soon";}
   el.append(dt,body,act);return el;
 }
 
