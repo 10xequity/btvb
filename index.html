@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.40.0 · 2026-10-14 · pop-up: pinned "Close & go to website" bar + larger close X for phones; Halloween Party labelled adult -->
+<!DOCTYPE html><!-- v0.41.0 · 2026-10-14 · pop-up: tabs on phones, two columns on desktop, compact rows; Register buttons; Queens Sunday 5-7 PM -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -187,7 +187,7 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
  opacity:0;pointer-events:none;transition:opacity .22s var(--ease-out)}
 .anv[hidden]{display:none}
 .anv.open{opacity:1;pointer-events:auto}
-.anm{width:100%;max-width:560px;max-height:calc(100svh - 48px);overflow-y:auto;
+.anm{width:100%;max-width:600px;max-height:calc(100svh - 48px);overflow-y:auto;
  background:#000;border:1px solid rgba(255,255,255,.18);border-radius:6px;
  --anp:clamp(24px,4vw,34px);padding:var(--anp);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.9);
  opacity:0;transform:translateY(8px);transition:opacity .24s var(--ease-out),transform .24s var(--ease-out)}
@@ -203,15 +203,15 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .angrp{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#e6a92b;
  padding-top:16px;margin:0 0 10px;border-top:1px solid rgba(255,255,255,.12)}
 .angrp.first{padding-top:0;border-top:0}
-.anitem{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;
- background:#000;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:14px;margin-bottom:10px}
-.antxt{flex:1 1 250px;min-width:0}
+.anitem{display:flex;align-items:center;gap:12px;
+ background:#000;border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:10px 12px;margin-bottom:8px}
+.antxt{flex:1 1 auto;min-width:0}
 .antxt b{display:block;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
 .antxt .andesc{display:block;font-size:13.5px;color:#cfcdc7;margin-bottom:4px}
 .antxt .anmeta{display:block;font-size:12.5px;color:#9a988f}
 .ancta{flex:0 0 auto;position:relative;overflow:hidden;background:#F8C400;color:#111;border:2px solid #F8C400;border-radius:3px;
- font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
- padding:10px 18px;transition:background .18s ease,border-color .18s ease,transform .18s var(--ease-out),box-shadow .18s ease}
+ font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;white-space:nowrap;
+ display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;transition:background .18s ease,border-color .18s ease,transform .18s var(--ease-out),box-shadow .18s ease}
 /* v0.33.0 CTA shine. Same sweep the .sband/.ctaband bands already use: a translucent white
    band travelling left-to-right inside a clipped, position:relative parent. The label sits in
    .anctal at z-index 1 so the gloss passes BEHIND the word — over the gold, never over the
@@ -270,7 +270,39 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
  font:inherit;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 @media(hover:hover) and (pointer:fine){.anclose:hover{background:#F8C400;border-color:#F8C400}}
 .anclose:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
-@media(max-width:560px){.ancta{width:100%;text-align:center}.anclose{width:100%;order:-1}.anfoot{justify-content:center}}
+/* v0.41.0 - ten items stacked full-width meant a long scroll before anyone saw the leagues.
+   Rows are now one line each (title + date left, button right); descriptions only on the featured item.
+   Desktop: the three groups sit side by side (Halloween + Leagues left, Tournaments right).
+   Phones: a sticky tab bar shows one group at a time, so every option is one tap away and each
+   group fits on screen without scrolling. Tabs are a real ARIA tablist (arrow keys move between them). */
+.antxt .andesc{display:none}
+.anitem.feat .antxt .andesc{display:block}
+.ansoon{flex:0 0 auto;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9a988f;white-space:nowrap}
+.anpanel:focus{outline:none}
+.antabs{display:none}
+@media(min-width:900px){
+ .anm{max-width:980px}
+ .anpanels{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"ev tr" "lg tr";gap:0 28px;align-items:start}
+ #anp-ev{grid-area:ev}#anp-lg{grid-area:lg;margin-top:14px}#anp-tr{grid-area:tr}
+ .anpanel .angrp.first{padding-top:0;border-top:0}
+}
+@media(max-width:899px){
+ .antabs{display:flex;gap:6px;position:sticky;top:calc(-1 * var(--anp));z-index:2;background:#000;
+  margin:0 calc(-1 * var(--anp)) 14px;padding:10px var(--anp);border-bottom:1px solid rgba(255,255,255,.16)}
+ .antab{flex:1 1 0;min-width:0;min-height:44px;padding:6px 4px;line-height:1.15;border:1px solid rgba(255,255,255,.28);border-radius:3px;background:#000;color:#fff;
+  font:inherit;font-size:13px;font-weight:800;letter-spacing:0;cursor:pointer}
+ .antab[aria-selected="true"]{background:#F8C400;border-color:#F8C400;color:#0a0a0b}
+ .antab:focus-visible{outline:2px solid #fff;outline-offset:2px}
+ .ancount{display:block;font-size:11px;opacity:.75}
+ .anpanel:not(.on){display:none}
+ .anpanel .angrp:first-child{padding-top:0;border-top:0}
+ .anm h2{font-size:clamp(24px,7vw,30px)}
+ .ansub,.anm .ey,#anp-ev .angrp,#anp-tr .angrp{display:none}
+ .anm h2{margin-bottom:12px}
+ .ancta{padding:8px 12px;font-size:12px}
+ .antxt b{font-size:14.5px}
+}
+@media(max-width:560px){.anclose{width:100%;order:-1}.anfoot{justify-content:center}}
 @media(prefers-reduced-motion:reduce){
  .anv,.anm{transition:opacity .2s ease}
  .anm{transform:none}
@@ -452,94 +484,91 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
   <button class="anx" id="anx" type="button" aria-label="Close announcement">&#10005;</button>
   <p class="ey">Registration open</p>
   <h2 id="antitle">Halloween Weekend &amp; Fall Tournaments</h2>
-  <p class="ansub" id="ansub">Queens &amp; Kings Club Season&nbsp;1 starts October&nbsp;18&ndash;21. Halloween weekend brings the Pacific Slam 6s and the Halloween Party on October&nbsp;31, then Halloween RevCo on November&nbsp;1.</p>
-
-  <p class="angrp first">Events</p>
-  <div class="anitem feat" data-until="2026-10-31">
-   <div class="antxt">
-    <b>Boomtown Halloween Party</b>
-    <span class="andesc">Adult costume party at Club Boom.</span>
-    <span class="anmeta">Sat, Oct 31 &middot; 8 PM&ndash;1 AM &middot; Club Boom</span>
+  <p class="ansub" id="ansub">Halloween weekend, fall tournaments and Season&nbsp;1 leagues. All at Boomtown Fieldhouse unless noted.</p>
+  <div class="antabs" role="tablist" aria-label="What&rsquo;s open"><button class="antab" role="tab" type="button" id="ant-ev" aria-controls="anp-ev" aria-selected="true">Halloween</button><button class="antab" role="tab" type="button" id="ant-tr" aria-controls="anp-tr" aria-selected="false" tabindex="-1">Tournaments <span class="ancount"></span></button><button class="antab" role="tab" type="button" id="ant-lg" aria-controls="anp-lg" aria-selected="false" tabindex="-1">Leagues <span class="ancount"></span></button></div>
+  <div class="anpanels">
+  <section class="anpanel" id="anp-ev" role="tabpanel" aria-labelledby="ant-ev" tabindex="-1">
+   <p class="angrp">Halloween</p>
+   <div class="anitem feat" data-until="2026-10-31">
+    <div class="antxt">
+     <b>Boomtown Halloween Party</b>
+     <span class="andesc">Adult costume party at Club Boom.</span>
+     <span class="anmeta">Sat, Oct 31 &middot; 8 PM&ndash;1 AM &middot; Club Boom</span>
+    </div>
+    <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSdRhsFmsrC5EgBWtpw_esErKz7fFgy_HMsi7oQhLxMJIRVXdA/viewform" target="_blank" rel="noopener"><span class="anctal">RSVP</span></a>
    </div>
-   <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSdRhsFmsrC5EgBWtpw_esErKz7fFgy_HMsi7oQhLxMJIRVXdA/viewform" target="_blank" rel="noopener"><span class="anctal">RSVP</span></a>
-  </div>
-
-  <p class="angrp">Tournaments</p>
-  <div class="anitem" data-until="2026-10-31">
-   <div class="antxt">
-    <b>Mile High Pacific Slam &middot; Men&rsquo;s &amp; Women&rsquo;s 6s</b>
-    <span class="andesc">One day, indoors.</span>
-    <span class="anmeta">Sat, Oct 31 &middot; 9 AM&ndash;7 PM &middot; Boomtown Fieldhouse</span>
+  </section>
+  <section class="anpanel" id="anp-lg" role="tabpanel" aria-labelledby="ant-lg" tabindex="-1">
+   <p class="angrp">Women&rsquo;s 4s &middot; Season&nbsp;1</p>
+   <div class="anitem" data-until="2026-10-18">
+    <div class="antxt">
+     <b>Queens Club Sunday &middot; A/BB/B</b>
+     <span class="anmeta">From Oct 18 &middot; 5&ndash;7 PM</span>
+    </div>
+    <span class="ansoon">Link soon</span>
    </div>
-   <a class="ancta" href="https://pci.jotform.com/form/261944247807061" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
-  </div>
-  <div class="anitem" data-until="2026-11-01">
-   <div class="antxt">
-    <b>Halloween RevCo &middot; 4s</b>
-    <span class="andesc">Reverse co-ed 4s.</span>
-    <span class="anmeta">Sun, Nov 1 &middot; 10 AM&ndash;5 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-10-20">
+    <div class="antxt">
+     <b>Queens Club Tuesday &middot; A/BB</b>
+     <span class="anmeta">From Oct 20 &middot; 7&ndash;9:30 PM</span>
+    </div>
+    <a class="ancta" href="https://forms.gle/BRH2tSA1RULpoDRg6" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-   <a class="ancta" href="https://forms.gle/n7XdYgVvvnHQNRNM9" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
-  </div>
-  <div class="anitem" data-until="2026-11-08">
-   <div class="antxt">
-    <b>USAV Qualifier #2 &middot; Men&rsquo;s &amp; Women&rsquo;s 6s</b>
-    <span class="andesc">Sanctioned men&rsquo;s and women&rsquo;s 6s.</span>
-    <span class="anmeta">Sun, Nov 8 &middot; 9 AM&ndash;5 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-10-21">
+    <div class="antxt">
+     <b>Queens Club Wednesday &middot; AA</b>
+     <span class="anmeta">From Oct 21 &middot; 7&ndash;9:30 PM</span>
+    </div>
+    <span class="ansoon">Link soon</span>
    </div>
-   <a class="ancta" href="https://forms.gle/ez6GD53H9N9U63ii7" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
-  </div>
-  <div class="anitem" data-until="2026-11-15">
-   <div class="antxt">
-    <b>Men&rsquo;s &amp; Women&rsquo;s 4s Tournament</b>
-    <span class="andesc">One day, indoors.</span>
-    <span class="anmeta">Sun, Nov 15 &middot; 9 AM&ndash;5 PM &middot; Boomtown Fieldhouse</span>
+   <p class="angrp">Men&rsquo;s 4s &middot; Season&nbsp;1</p>
+   <div class="anitem" data-until="2026-10-21">
+    <div class="antxt">
+     <b>Kings Club Wednesday &middot; A/AA</b>
+     <span class="anmeta">From Oct 21 &middot; 7&ndash;9:30 PM</span>
+    </div>
+    <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLScMupIStuBRRuooS2zxib9dDlOZLa1YiGbGEE8QGubTuwzW_g/viewform" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-   <a class="ancta" href="https://forms.gle/D5sQ731MSSiYsUjNA" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
-  </div>
-  <div class="anitem" data-until="2026-11-22">
-   <div class="antxt">
-    <b>Thanksgiving RevCo &middot; 4s</b>
-    <span class="andesc">Reverse co-ed 4s.</span>
-    <span class="anmeta">Sun, Nov 22 &middot; 9 AM&ndash;5 PM &middot; Boomtown Fieldhouse</span>
+  </section>
+  <section class="anpanel" id="anp-tr" role="tabpanel" aria-labelledby="ant-tr" tabindex="-1">
+   <p class="angrp">Tournaments</p>
+   <div class="anitem" data-until="2026-10-31">
+    <div class="antxt">
+     <b>Mile High Pacific Slam &middot; M &amp; W 6s</b>
+     <span class="anmeta">Sat, Oct 31 &middot; 9 AM&ndash;7 PM</span>
+    </div>
+    <a class="ancta" href="https://pci.jotform.com/form/261944247807061" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-   <a class="ancta" href="https://forms.gle/fdvWU2ZmF6uHR1996" target="_blank" rel="noopener"><span class="anctal">Enter</span></a>
-  </div>
-
-  <p class="angrp">Women&rsquo;s 4s &middot; Season&nbsp;1</p>
-  <div class="anitem" data-until="2026-10-18">
-   <div class="antxt">
-    <b>Queens Club Sunday &middot; A/BB/B</b>
-    <span class="andesc">Women&rsquo;s 4s league.</span>
-    <span class="anmeta">Sundays &middot; Starts Oct 18 &middot; 7&ndash;9:30 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-11-01">
+    <div class="antxt">
+     <b>Halloween RevCo &middot; 4s</b>
+     <span class="anmeta">Sun, Nov 1 &middot; 10 AM&ndash;5 PM</span>
+    </div>
+    <a class="ancta" href="https://forms.gle/n7XdYgVvvnHQNRNM9" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-  </div>
-  <div class="anitem" data-until="2026-10-20">
-   <div class="antxt">
-    <b>Queens Club Tuesday &middot; A/BB</b>
-    <span class="andesc">Women&rsquo;s 4s league.</span>
-    <span class="anmeta">Tuesdays &middot; Starts Oct 20 &middot; 7&ndash;9:30 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-11-08">
+    <div class="antxt">
+     <b>USAV Qualifier #2 &middot; M &amp; W 6s</b>
+     <span class="anmeta">Sun, Nov 8 &middot; 9 AM&ndash;5 PM</span>
+    </div>
+    <a class="ancta" href="https://forms.gle/ez6GD53H9N9U63ii7" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-   <a class="ancta" href="https://forms.gle/BRH2tSA1RULpoDRg6" target="_blank" rel="noopener"><span class="anctal">Sign up</span></a>
-  </div>
-  <div class="anitem" data-until="2026-10-21">
-   <div class="antxt">
-    <b>Queens Club Wednesday &middot; AA</b>
-    <span class="andesc">Women&rsquo;s 4s league.</span>
-    <span class="anmeta">Wednesdays &middot; Starts Oct 21 &middot; 7&ndash;9:30 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-11-15">
+    <div class="antxt">
+     <b>Men&rsquo;s &amp; Women&rsquo;s 4s</b>
+     <span class="anmeta">Sun, Nov 15 &middot; 9 AM&ndash;5 PM</span>
+    </div>
+    <a class="ancta" href="https://forms.gle/D5sQ731MSSiYsUjNA" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-  </div>
-
-  <p class="angrp">Men&rsquo;s 4s &middot; Season&nbsp;1</p>
-  <div class="anitem" data-until="2026-10-21">
-   <div class="antxt">
-    <b>Kings Club Wednesday &middot; A/AA</b>
-    <span class="andesc">Men&rsquo;s 4s league.</span>
-    <span class="anmeta">Wednesdays &middot; Starts Oct 21 &middot; 7&ndash;9:30 PM &middot; Boomtown Fieldhouse</span>
+   <div class="anitem" data-until="2026-11-22">
+    <div class="antxt">
+     <b>Thanksgiving RevCo &middot; 4s</b>
+     <span class="anmeta">Sun, Nov 22 &middot; 9 AM&ndash;5 PM</span>
+    </div>
+    <a class="ancta" href="https://forms.gle/fdvWU2ZmF6uHR1996" target="_blank" rel="noopener"><span class="anctal">Register</span></a>
    </div>
-   <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLScMupIStuBRRuooS2zxib9dDlOZLa1YiGbGEE8QGubTuwzW_g/viewform" target="_blank" rel="noopener"><span class="anctal">Sign up</span></a>
+  </section>
   </div>
-
   <footer class="anfoot"><a class="anall" href="schedule.html">See the full schedule &rarr;</a><button class="anclose" id="anclose" type="button">Close &amp; go to website</button></footer>
  </div>
 </div>
@@ -578,8 +607,31 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
     }
     if(!any)groups[i].hidden=true;
   }
-  var vis=veil.querySelectorAll(".angrp:not([hidden])");
-  if(vis.length)vis[0].classList.add("first");
+  /* v0.41.0 - each panel's first visible heading loses its rule; tabs count live items and
+     disappear when their panel has none; the first non-empty tab opens. */
+  var panels=veil.querySelectorAll(".anpanel"),tabs=[],pi;
+  for(pi=0;pi<panels.length;pi++){
+    var pv=panels[pi].querySelectorAll(".angrp:not([hidden])");
+    if(pv.length)pv[0].classList.add("first");
+    var cnt=panels[pi].querySelectorAll(".anitem:not([hidden])").length;
+    var tb=document.getElementById(panels[pi].getAttribute("aria-labelledby"));
+    if(!cnt){panels[pi].hidden=true;tb.hidden=true;continue;}
+    var cs=tb.querySelector(".ancount");if(cs)cs.textContent="("+cnt+")";
+    tabs.push(tb);
+  }
+  function pick(t,focus){
+    tabs.forEach(function(x){var on=x===t;x.setAttribute("aria-selected",on?"true":"false");x.tabIndex=on?0:-1;
+      document.getElementById(x.getAttribute("aria-controls")).classList.toggle("on",on);});
+    if(focus)t.focus();
+  }
+  tabs.forEach(function(t,k){
+    t.addEventListener("click",function(){pick(t);});
+    t.addEventListener("keydown",function(e){
+      var j=e.key==="ArrowRight"?k+1:e.key==="ArrowLeft"?k-1:e.key==="Home"?0:e.key==="End"?tabs.length-1:null;
+      if(j===null)return;e.preventDefault();pick(tabs[(j+tabs.length)%tabs.length],true);
+    });
+  });
+  if(tabs.length)pick(tabs[0]);
 
   var card=veil.querySelector(".anm"),closeBtn=document.getElementById("anx"),last=null;
   function focusable(){
