@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.38.1 · 2026-10-01 · email standardised to admin@boomtownathletics.com (boomtownvb.com is an alias) -->
+<!DOCTYPE html><!-- v0.40.0 · 2026-10-14 · worded end dates ("Sunday, August 16, 2026") now retire finished leagues -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics</title><meta name="description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — indoor 4s & 6s, qualifiers and the Queens Club pathway. Register today."><link rel="canonical" href="https://www.boomtownathletics.com/womens-league.html">
 <meta property="og:type" content="website"><meta property="og:title" content="Women’s Volleyball League in Denver &amp; Aurora | Boomtown Athletics"><meta property="og:description" content="Denver's premier women's volleyball league at Boomtown FieldhouseUSA, Aurora — competitive indoor 6s, 4s and 2s plus seasonal grass, and the elite Queens Club. Serving Aurora, Denver, Centennial, Lakewood, Littleton, Englewood, Parker &amp; Highlands Ranch."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/womens-league.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -242,9 +242,14 @@ src="https://www.facebook.com/tr?id=120232615176120623&ev=PageView&noscript=1"><
      in Denver. A row whose dates are unreadable is left visible rather than silently dropped;
      an explicit status of "past" is dropped whatever the date says. */
   var _TODAY=(function(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();})();
+  /* v0.40.0 - the sheet also types end dates as words ("Sunday, August 16, 2026"). Those used to be
+     unreadable, so finished pre-season rows stayed up forever. Read "Month D, YYYY" (weekday optional). */
+  function _wordDay(v){var m=/([A-Za-z]{3,})\.?\s+(\d{1,2}),?\s+(\d{4})\s*$/.exec(String(v||"").trim());if(!m)return null;
+    var i=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"].indexOf(m[1].slice(0,3).toLowerCase());
+    return i<0?null:new Date(+m[3],i,+m[2]).getTime();}
   function _lastDay(r){
     var s=_isISO(r.start_date)?_pISO(r.start_date).getTime():null;
-    var e=_isISO(r.end_date)?_pISO(r.end_date).getTime():null;
+    var e=_isISO(r.end_date)?_pISO(r.end_date).getTime():_wordDay(r.end_date);
     if(s===null)return e;
     if(e===null||e<s)return s;
     return e;

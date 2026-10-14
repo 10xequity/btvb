@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.38.1 · 2026-10-01 · email standardised to admin@boomtownathletics.com (boomtownvb.com is an alias) -->
+<!DOCTYPE html><!-- v0.40.0 · 2026-10-14 · worded end dates ("Sunday, August 16, 2026") now retire finished rows -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a0b">
 <title>What's On — Live Volleyball Schedule | Boomtown Athletics</title><meta name="description" content="Live Boomtown Athletics schedule — volleyball tournaments, leagues and events in the Denver metro, updated in real time. Filter and register in one tap."><link rel="canonical" href="https://www.boomtownathletics.com/schedule.html">
 <meta property="og:type" content="website"><meta property="og:title" content="What's On — Live Volleyball Schedule | Boomtown Athletics"><meta property="og:description" content="Tournaments, leagues and events at Boomtown FieldhouseUSA, Aurora — live schedule, updated as it changes."><meta property="og:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg"><meta property="og:url" content="https://www.boomtownathletics.com/schedule.html"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Boomtown Athletics — Denver metro volleyball at Boomtown FieldhouseUSA, Aurora"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.boomtownathletics.com/assets/img/og-cover.jpg">
@@ -341,7 +341,12 @@ const ISO_RE=/^\d{4}-\d{1,2}-\d{1,2}$/;
 function dayMs(v){const t=(v||"").trim();if(!ISO_RE.test(t))return null;
   const p=t.split("-");return new Date(+p[0],+p[1]-1,+p[2]).getTime();}
 /* the row's last real day: end_date when it is ISO and not before the start, else start_date */
-function lastDayMs(r){const s=dayMs(r.start_date),e=dayMs(r.end_date);
+/* v0.40.0 - the sheet also types end dates as words ("Sunday, August 16, 2026"). Those used to be
+   unreadable, so finished pre-season rows stayed up forever. Read "Month D, YYYY" (weekday optional). */
+const MON3=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+function wordMs(v){const m=/([A-Za-z]{3,})\.?\s+(\d{1,2}),?\s+(\d{4})\s*$/.exec((v||"").trim());if(!m)return null;
+  const i=MON3.indexOf(m[1].slice(0,3).toLowerCase());return i<0?null:new Date(+m[3],i,+m[2]).getTime();}
+function lastDayMs(r){const s=dayMs(r.start_date);let e=dayMs(r.end_date);if(e===null)e=wordMs(r.end_date);
   if(s===null)return e; if(e===null||e<s)return s; return e;}
 /* what the row sorts on: the day it starts, falling back to whatever date we could read */
 function sortMs(r){const s=dayMs(r.start_date);return s===null?lastDayMs(r):s;}

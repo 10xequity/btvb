@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- v0.39.0 · 2026-10-14 · home pop-up matched to the Events sheet: Halloween Party Sat Oct 31 8 PM-1 AM at Club Boom with RSVP; Oct 31-Nov 22 tournaments; QC Sunday Season 1 -->
+<!DOCTYPE html><!-- v0.40.0 · 2026-10-14 · pop-up: pinned "Close & go to website" bar + larger close X for phones; Halloween Party labelled adult -->
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boomtown Athletics | Denver, Colorado’s Official Volleyball Company</title>
 <meta name="description" content="Denver metro's home for competitive volleyball — tournaments, women's & men's leagues, training and nightly drop-in at Boomtown FieldhouseUSA in Aurora, CO.">
@@ -189,11 +189,11 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
 .anv.open{opacity:1;pointer-events:auto}
 .anm{width:100%;max-width:560px;max-height:calc(100svh - 48px);overflow-y:auto;
  background:#000;border:1px solid rgba(255,255,255,.18);border-radius:6px;
- padding:clamp(24px,4vw,34px);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.9);
+ --anp:clamp(24px,4vw,34px);padding:var(--anp);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.9);
  opacity:0;transform:translateY(8px);transition:opacity .24s var(--ease-out),transform .24s var(--ease-out)}
 .anv.open .anm{opacity:1;transform:none}
-.anx{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:6px;background:none;
- color:#9a988f;font-size:18px;line-height:1;cursor:pointer;transition:color .15s ease,background .15s ease}
+.anx{position:absolute;top:8px;right:8px;width:44px;height:44px;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(255,255,255,.1);
+ color:#fff;font-size:20px;line-height:1;cursor:pointer;transition:color .15s ease,background .15s ease}
 @media(hover:hover) and (pointer:fine){.anx:hover{color:#fff;background:rgba(255,255,255,.06)}}
 .anx:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
 .anm .ey{margin-bottom:6px}
@@ -260,7 +260,17 @@ p{margin:0 0 1em;color:#fff}.w{color:#fff}
  text-transform:uppercase;color:#e6a92b;text-decoration:none;transition:color .18s ease,transform .18s var(--ease-out)}
 @media(hover:hover) and (pointer:fine){.anall:hover{color:#F8C400;transform:translateX(3px)}}
 .anall:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
-@media(max-width:560px){.ancta{width:100%;text-align:center}}
+/* v0.40.0 - on a phone the card fills the screen and the 94% backdrop leaves nothing obvious to tap,
+   and the corner X scrolls away with the list. This bar stays pinned to the card's bottom edge. */
+.anfoot{position:sticky;bottom:calc(-1 * var(--anp));z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;
+ margin:18px calc(-1 * var(--anp)) calc(-1 * var(--anp));padding:14px var(--anp) calc(14px + env(safe-area-inset-bottom,0px));
+ background:#000;border-top:1px solid rgba(255,255,255,.16)}
+.anfoot .anall{margin-top:0}
+.anclose{min-height:44px;padding:10px 18px;border:2px solid #fff;border-radius:3px;background:#fff;color:#0a0a0b;
+ font:inherit;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+@media(hover:hover) and (pointer:fine){.anclose:hover{background:#F8C400;border-color:#F8C400}}
+.anclose:focus-visible{outline:2px solid #F8C400;outline-offset:2px}
+@media(max-width:560px){.ancta{width:100%;text-align:center}.anclose{width:100%;order:-1}.anfoot{justify-content:center}}
 @media(prefers-reduced-motion:reduce){
  .anv,.anm{transition:opacity .2s ease}
  .anm{transform:none}
@@ -448,7 +458,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
   <div class="anitem feat" data-until="2026-10-31">
    <div class="antxt">
     <b>Boomtown Halloween Party</b>
-    <span class="andesc">Costumes on. The party is at Club Boom.</span>
+    <span class="andesc">Adult costume party at Club Boom.</span>
     <span class="anmeta">Sat, Oct 31 &middot; 8 PM&ndash;1 AM &middot; Club Boom</span>
    </div>
    <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLSdRhsFmsrC5EgBWtpw_esErKz7fFgy_HMsi7oQhLxMJIRVXdA/viewform" target="_blank" rel="noopener"><span class="anctal">RSVP</span></a>
@@ -530,7 +540,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
    <a class="ancta" href="https://docs.google.com/forms/d/e/1FAIpQLScMupIStuBRRuooS2zxib9dDlOZLa1YiGbGEE8QGubTuwzW_g/viewform" target="_blank" rel="noopener"><span class="anctal">Sign up</span></a>
   </div>
 
-  <a class="anall" href="schedule.html">See the full schedule &rarr;</a>
+  <footer class="anfoot"><a class="anall" href="schedule.html">See the full schedule &rarr;</a><button class="anclose" id="anclose" type="button">Close &amp; go to website</button></footer>
  </div>
 </div>
 
@@ -602,6 +612,7 @@ document.querySelectorAll('.cine, #partners .ptier, #about, .card').forEach(func
     else if(!e.shiftKey&&idx===f.length-1){e.preventDefault();f[0].focus();}
   }
   closeBtn.addEventListener("click",shut);
+  document.getElementById("anclose").addEventListener("click",shut);
   veil.addEventListener("click",function(e){if(e.target===veil)shut();});
   setTimeout(open,700);
 })();
