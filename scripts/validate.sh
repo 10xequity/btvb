@@ -18,7 +18,7 @@ ok()    { PASS=$((PASS+1)); printf '  \033[32mPASS\033[0m  %s\n' "$*"; }
 bad()   { FAIL=$((FAIL+1)); printf '  \033[31mFAIL\033[0m  %s\n' "$*"; }
 head_() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
-INDEXABLE="index schedule tournaments drop-in womens-league mens-league co-ed-leagues training skill-levels contact facility-rules queens-club"
+INDEXABLE="index schedule tournaments drop-in womens-league mens-league co-ed-leagues training skill-levels contact facility-rules queens-club legal"
 ALLPAGES="$INDEXABLE library 404"
 
 # ---------------------------------------------------------------- 1. version headers

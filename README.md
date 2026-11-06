@@ -101,6 +101,14 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.44.0 (2026-11-06)
+**New Privacy, Terms & Accessibility page (`legal.html`), linked from every page's footer.** Files changed: `legal.html` (new), the 11 pages with the standard footer, `sitemap.xml`, `scripts/validate.sh`, `README.md`, `design.md`.
+
+- **Privacy Policy** says plainly what the site collects: form entries (Google Forms), the Meta Pixel for ad measurement, and the services pages load from (Google Fonts, Behold, Google Sheets, Square, GitHub Pages, Cloudflare). No selling data; parents handle youth sign-ups; email admin@ to see or delete your data.
+- **Terms of Use** cover registration, the liability waiver, Facility Rules, outside links and Colorado law.
+- **Accessibility** commits to WCAG 2.1 AA and gives an email for reporting problems.
+- The page has no Meta Pixel. It is a template, not legal advice.
+
 ## What's new in v0.36.0 (2026-09-17)
 **League pages now read the sheet's main Events tab, split by the division column, and say "Rolling" when there is no date.** Files changed: `womens-league.html`, `mens-league.html`, `training.html`, `scripts/validate.sh`, `CLAUDE.md`, `README.md`, `design.md`.
 
