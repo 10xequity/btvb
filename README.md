@@ -101,6 +101,16 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.46.0 (2026-11-13)
+**Pop-up fixed and refreshed; new Facility Layout page under Events.** Files changed: `index.html`, `facility-layout.html` (new), `assets/js/fieldhouse-plan.js` (new), `assets/img/fieldhouse/` (new: 2 photos, floor-plan PNG + SVG), the 11 other pages with the Events menu (nav link only), `sitemap.xml`, `scripts/validate.sh`, `README.md`, `design.md`.
+
+- **Pop-up spacing bug:** the desktop grid reserved a row for an "events" panel that does not exist, so the Leagues column started part-way down. Removed the empty row; both columns now start at the top.
+- **Next tournament featured top-centre:** the first tournament that has not passed is lifted into a gold box under the title, stamped "This Sunday"/"This Saturday" when it is 6 days out or less, "Next up" otherwise. It moves on by itself as dates pass. Queens Club Tuesday is no longer gold so there is one priority item. The expired Nov 8 row was removed.
+- **Facility Layout page** (`facility-layout.html`): panorama header that drifts slowly side to side, a 3D map you can drag/arrow-key to turn and a Flat toggle, a zone list that highlights each zone, the floor plan as a black-background image (PNG download + SVG), and a 10-photo gallery where every photo opens full size.
+- Geometry is copied from the FieldhouseUSA site (`10xequity/afh` `assets/plan.js`, v3.3). If that plan changes, re-copy it and re-render the PNG.
+- **Home page:** "Facility map →" button in the Boomtown FieldhouseUSA section; the section now has `id="fieldhouse"`.
+- No Meta Pixel on the new page (validator expects exactly 11 tracked pages). Add it and bump check 7 if you want it tracked.
+
 ## What's new in v0.44.0 (2026-11-06)
 **New Privacy, Terms & Accessibility page (`legal.html`), linked from every page's footer.** Files changed: `legal.html` (new), the 11 pages with the standard footer, `sitemap.xml`, `scripts/validate.sh`, `README.md`, `design.md`.
 

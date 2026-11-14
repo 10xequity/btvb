@@ -4,6 +4,10 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.46.0 · 2026-11-13 — pop-up next-tournament slot; Facility Layout page
+- Pop-up: removed the phantom `ev` grid area (no `#anp-ev` panel has existed since the events group was dropped) — it pushed `#anp-lg` down. One `.feat` item only: the next live tournament, moved by script into `.annext`.
+- Facility Layout: the plan is drawn on black with the site gold for zone numbers and zone outlines; courts stay wood. 3D is a CSS `rotateX/rotateZ` tilt on the SVG with three stacked slabs for depth — no 3D library. Reduced motion stops the panorama drift and tilt transition.
+
 ## Source of truth
 `design.md` is canonical for **design** decisions. The **GitHub repo** is canonical for **code**.
 On context doubt: re-read this file, re-ground, then proceed.
