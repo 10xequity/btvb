@@ -1,0 +1,38 @@
+# Boomtown Athletics
+
+> Boomtown Athletics is a volleyball company in the Denver metro area. It runs tournaments, women's and men's leagues, training for adults and juniors, and drop-in volleyball. Everything takes place at Boomtown FieldhouseUSA, 14200 E Alameda Ave, Aurora, CO 80012. It serves adult and youth players, from people new to the sport to competitive teams.
+
+Dates, times and registration links change often. The schedule page is the source of truth for anything dated. Do not rely on this file for current event dates.
+
+## Key facts
+
+- Location: Boomtown FieldhouseUSA, 14200 E Alameda Ave, Aurora, CO 80012. On-site parking is free. There is a bar and cafe on site.
+- Courts: 8 hardwood volleyball courts and 5 sport courts.
+- Sanctioning: events run under USAV, AVP and AAU. Boomtown hosts USAV-sanctioned qualifier play.
+- Tournaments: one-day events. Formats are Reverse Co-Ed 4s, gendered 6s, women's and gendered 4s, and short-court doubles. There are no membership fees. Teams register per event through the schedule.
+- Drop-in: Thursday through Monday, 7:00 to 11:00 PM. $10 per person plus fees for a one-day membership. Ages 14 and up, all levels. A waiver is required.
+- Women's league: Queens Club, a women's 4s league. The season runs October to April, with a pre-season qualifier from August through October.
+- Men's league: men's 4s. No qualifying. Teams sign up, and spots are limited.
+- Co-ed leagues: run at the facility by partners Match Point Social and Volo.
+- Adult training: Friday 7:00 to 8:30 PM and Sunday 5:30 to 7:00 PM, $35 per person, which includes the drop-in fee.
+- Junior training: runs through the partner club Colorado Boom (https://coloradoboom.com/).
+- Skill levels used for divisions: B, BB, A, AA and Open.
+- Level of play: leagues and tournaments are competitive, not recreational.
+- Contact: admin@boomtownathletics.com. Instagram: @boomtownvb.
+
+## Pages
+
+- [Home](https://www.boomtownathletics.com/): overview of tournaments, leagues, drop-in, training and the facility.
+- [Schedule](https://www.boomtownathletics.com/schedule.html): live board of tournaments, leagues and events with registration links.
+- [Tournaments](https://www.boomtownathletics.com/tournaments.html): tournament formats, rules, scoring and how to enter.
+- [Drop-In](https://www.boomtownathletics.com/drop-in.html): days, time, cost, age limit and house rules for drop-in volleyball.
+- [Women's League](https://www.boomtownathletics.com/womens-league.html): Queens Club seasons, how to qualify and the league schedule.
+- [Queens Club](https://www.boomtownathletics.com/queens-club.html): short landing page for the Queens Club women's 4s league.
+- [Men's League](https://www.boomtownathletics.com/mens-league.html): men's 4s league details, schedule and FAQ.
+- [Co-Ed Leagues](https://www.boomtownathletics.com/co-ed-leagues.html): co-ed leagues run by Match Point Social and Volo.
+- [Training](https://www.boomtownathletics.com/training.html): adult and junior training sessions.
+- [Skill Levels](https://www.boomtownathletics.com/skill-levels.html): what each rating from B to Open means and how to pick a division.
+- [Facility Rules](https://www.boomtownathletics.com/facility-rules.html): safety policies, waiver, bags, food and drink, and court rules.
+- [Facility Layout](https://www.boomtownathletics.com/facility-layout.html): floor plan and photos of the court zones and rooms.
+- [Contact](https://www.boomtownathletics.com/contact.html): address, email, social links and lost and found policy.
+- [Privacy and Terms](https://www.boomtownathletics.com/legal.html): privacy policy, terms of use and accessibility statement.

@@ -4,6 +4,11 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.46.1 · 2026-11-16 — llms.txt; AI crawlers named in robots.txt
+- `llms.txt` at the site root: H1, one blockquote summary, Key facts, Pages (the 14 sitemap URLs). Facts come only from the live pages. No event dates in it: the schedule is sheet-driven and would go stale, so the file points to `schedule.html`.
+- `robots.txt`: one multi-agent group (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended) with `Allow: /` and the `/library` disallows repeated, since a named group replaces `*` for that crawler. Exclusions remain `/library` only.
+- No HTML touched, no new page, Meta Pixel count unchanged at 11.
+
 ## v0.46.0 · 2026-11-13 — pop-up next-tournament slot; Facility Layout page
 - Pop-up: removed the phantom `ev` grid area (no `#anp-ev` panel has existed since the events group was dropped) — it pushed `#anp-lg` down. One `.feat` item only: the next live tournament, moved by script into `.annext`.
 - Facility Layout: the plan is drawn on black with the site gold for zone numbers and zone outlines; courts stay wood. 3D is a CSS `rotateX/rotateZ` tilt on the SVG with three stacked slabs for depth — no 3D library. Reduced motion stops the panorama drift and tilt transition.

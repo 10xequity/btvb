@@ -101,6 +101,15 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.46.1 (2026-11-16)
+**AI assistants can now read the site more easily. No page changed.** Files changed: `llms.txt` (new), `robots.txt`, `README.md`, `design.md`.
+
+- **`llms.txt`** (new, site root): a short plain-text summary for AI assistants (ChatGPT, Claude, Perplexity, Google AI): what Boomtown is, where it is, key facts, and a list of the 14 sitemap pages with one-line descriptions. Every fact was copied from the existing pages. It carries no event dates on purpose and points to `schedule.html` for anything dated.
+- **`robots.txt`**: added one group that names GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot and Google-Extended and allows them. The `/library` exclusion is repeated inside that group, because a crawler that matches a named group ignores the `*` group. Existing rules and the sitemap line are unchanged.
+- **Maintenance:** `llms.txt` repeats a few prices and times (drop-in $10, adult training $35 and its days). If those change on the pages, change them here too.
+- `[INFERENCE]` Cloudflare sits in front of this site and can serve its own managed `robots.txt` or block AI bots at the network level, which would override this file. Not checked against the live site in this change.
+- No HTML file was edited, so no line-1 version comment was bumped; pages stay at their current versions. `validate.sh`: 102 passed, 0 failed.
+
 ## What's new in v0.46.0 (2026-11-13)
 **Pop-up fixed and refreshed; new Facility Layout page under Events.** Files changed: `index.html`, `facility-layout.html` (new), `assets/js/fieldhouse-plan.js` (new), `assets/img/fieldhouse/` (new: 2 photos, floor-plan PNG + SVG), the 11 other pages with the Events menu (nav link only), `sitemap.xml`, `scripts/validate.sh`, `README.md`, `design.md`.
 
