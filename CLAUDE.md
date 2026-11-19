@@ -142,7 +142,7 @@ version comment at all**. The "one comment per page" rule has only ever been enf
 | Behold feed | `feeds.behold.so/JgI7koDkWULorgLXnzkz` |
 | Behold image host | **`behold.pictures`** — *not* `hop.behold.pictures` |
 | CNAME | `www.boomtownathletics.com` |
-| robots.txt exclusions | `/library` only — `/queens-club` was removed in v0.31.0 |
+| robots.txt exclusions | `/queens-club-schedule` only (v0.47.0) — `/library` was removed in v0.47.0 (it relies on its `noindex`); `/queens-club` was removed in v0.31.0 |
 
 The sheet's `Leagues` and `Tournaments` tabs are **legacy — consumed by nothing.** Since v0.36.0 so are `WomensLeagues` / `MensLeagues`: `womens-league.html` and `mens-league.html` read the **Events** tab, keep `type=League` rows, and match `division` by token (womens/women, mens/men — "Womens & Mens" lands on both; "coed" on neither). A blank or rolling/on-going `start_date` renders **Rolling**; other typed text renders as typed; a non-URL `registration_link` renders as typed (blank → "Coming soon"). A row whose dates are unreadable stays visible — set `status` to `past` to retire it.
 

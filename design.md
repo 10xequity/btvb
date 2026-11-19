@@ -4,6 +4,13 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.47.0 · 2026-11-19 — audit fixes: WebP, clearbit removed, gray text, SEO
+- WebP derivatives (`boom-logo-200/400/800.webp`, `header-collage-800/1400.webp`, `library/womens-league-hero-800/1400.webp`) sit next to the originals; originals are kept, nothing deleted. No `<picture>` PNG fallback: every browser that runs this site's JS reads WebP.
+- Partner tiles that requested `logo.clearbit.com` now ship as `<span class="wm">`; the v0.34.0 dark-chip sweep on `index.html` already handles wordmarks that ship in the markup.
+- Gray rule applied: dark grounds get `#fff` or bone `#f4f2ec`; the featured (gold) pop-up item's meta goes to `#0a0a0b`. `schedule.html` and `library.html` keep the `--mut` variable name, now set to bone.
+- `robots.txt` exclusions are now `/queens-club-schedule` only (`/library` relies on its `noindex`).
+- Index JSON-LD: `openingHoursSpecification` removed; `queens-club.html` still carries its own (Tue/Wed 7-9:30, Sun 5-7) and was not touched.
+
 ## v0.46.1 · 2026-11-16 — llms.txt; AI crawlers named in robots.txt
 - `llms.txt` at the site root: H1, one blockquote summary, Key facts, Pages (the 14 sitemap URLs). Facts come only from the live pages. No event dates in it: the schedule is sheet-driven and would go stale, so the file points to `schedule.html`.
 - `robots.txt`: one multi-agent group (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended) with `Allow: /` and the `/library` disallows repeated, since a named group replaces `*` for that crawler. Exclusions remain `/library` only.

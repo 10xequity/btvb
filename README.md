@@ -101,6 +101,19 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.47.0 (2026-11-19)
+**Audit fixes: faster images, no broken logo requests, no gray text, cleaner search data.** Not pushed.
+
+- **Logo:** headers now load `boom-logo-200.webp` (17 KB) instead of the 460 KB `boom-logo.png`. Footers and the home hero logo use 200/400/800 px WebP with `srcset`. The PNG stays (JSON-LD logo, `library.html`).
+- **Hero images:** home `header-collage` and the women's league hero now ship as 800 and 1400 px WebP with `srcset`/`sizes`; the home one is preloaded with `fetchpriority="high"`. The original JPGs stay in the repo.
+- **Partner logos:** the 17 `logo.clearbit.com` requests (13 on the home page, 2 each on schedule and tournaments) are gone. Those tiles show their text wordmark directly. No logo was downloaded.
+- **Town Center at Aurora** tile is no longer a link (it pointed at `#`).
+- **No gray text:** footer city line, schedule board details, the pop-up's times and status labels, league "Coming soon", facility map hints, the 404 message, Queens Club exit/hint/table/back text, the image library and the QC schedule tool all render white or cream now. The pop-up tab count no longer uses reduced opacity.
+- **Search:** `queens-club-schedule.html` gets `noindex` and a `robots.txt` Disallow. `/library` is no longer disallowed in `robots.txt` (a blocked crawler can never see its `noindex`). New titles/descriptions on home, drop-in, training and Queens Club. The women's league H1 reads "Women's League: Queens Club" with the same look.
+- **Structured data (home):** removed the opening hours (they were wrong); added a SportsOrganization block and SportsEvent entries for the six upcoming tournaments written in the pop-up. **These event entries do not expire on their own: update them when the pop-up's tournaments change.**
+- **`fieldhouseusa.html`** (new): `cofieldhouse.com` forwards to `/fieldhouseusa`, which was a 404. It now sends visitors straight on to `https://aurorafieldhouseusa.com/` (noindex).
+- FieldhouseUSA links now point to `https://aurorafieldhouseusa.com/` (no `www`). Headings use `text-wrap:balance`. "All levels welcomed" is now "All levels welcome". `sitemap.xml` dates now come from each page's last commit.
+
 ## What's new in v0.46.1 (2026-11-16)
 **AI assistants can now read the site more easily. No page changed.** Files changed: `llms.txt` (new), `robots.txt`, `README.md`, `design.md`.
 
