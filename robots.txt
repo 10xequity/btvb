@@ -1,11 +1,10 @@
 User-agent: *
 Allow: /
-Disallow: /queens-club-schedule
 
 # AI assistants and AI search crawlers are explicitly allowed.
 # A crawler that matches a named group ignores the "*" group above,
-# so the same Disallow line is repeated here on purpose.
-# /library is NOT disallowed: it carries noindex, and a crawler blocked by
+# so keep both groups in step if a Disallow is ever added.
+# /library and /queens-club-schedule are NOT disallowed: they carry noindex, and a crawler blocked by
 # robots.txt never fetches the page, so it would never see that noindex.
 User-agent: GPTBot
 User-agent: OAI-SearchBot
@@ -15,6 +14,5 @@ User-agent: Claude-SearchBot
 User-agent: PerplexityBot
 User-agent: Google-Extended
 Allow: /
-Disallow: /queens-club-schedule
 
 Sitemap: https://www.boomtownathletics.com/sitemap.xml
