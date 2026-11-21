@@ -4,6 +4,9 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.49.1 · 2026-11-21 — $150 both-days rate is Colorado Boom members only
+- Owner clarified: any-club players are welcome, but the $150/mo both-days rate is for Colorado Boom club members only. Updated dlist, recap, club card, two FAQs (+ JSON-LD) and llms.txt.
+
 ## v0.49.0 · 2026-11-21 — training page: reorder, banners, club players, My Spark
 - Page renamed "Volleyball Training" (H1, title, OG) per owner; adult stays first, youth second.
 - Order: Train like you mean it → Who it's for → What you'll work on → How a session runs → Youth → Sign up → Colorado Boom → FAQ. Section backgrounds re-alternated (band on Who, How, Sign up).

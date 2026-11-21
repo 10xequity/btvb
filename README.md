@@ -101,6 +101,10 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.49.1 (2026-11-21)
+
+- Training page: the $150/mo both-days rate now says Colorado Boom club members only.
+
 ## What's new in v0.49.0 (2026-11-21)
 
 - Training page renamed "Volleyball Training", sections reordered with photo banners, club-player pricing ($150/mo both days, any club), My Spark Denver deal ($1,000 for 6 months), and 8 more FAQs.
