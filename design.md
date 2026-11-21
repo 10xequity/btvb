@@ -4,6 +4,11 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.48.1 · 2026-11-21 — training photos: fieldhouse set
+- Owner picked the photos: `sportcourt-adult-league`, `court3-boom-huddle`, `court3-boom-huddle-pink`, `court-6`, `court-7` from the fieldhouse site (`afh`), copied as-is into `assets/img/training/`. Three of them are only on the live aurorafieldhouseusa.com, not in the local `afh` checkout.
+- `.gal` is now 3 columns (2fr 1fr 1fr) at a fixed 340px height so portrait and landscape shots line up; stacks to one column under 700px as before.
+- Removed `adult-training-net.webp` and `youth-training-wall-drill.webp` (unused after the swap). Hero and OG image unchanged (`adult-training-block`) — none of the picked photos is a landscape adult shot.
+
 ## v0.48.0 · 2026-11-21 — training page: adult-first, youth to Colorado Boom
 - Adult training leads the page (H1, hero, first section): that is the market being built. Youth is a summary that hands off to Colorado Boom, which owns youth sign-up.
 - New inline CSS on `training.html` only: `.steps` (numbered session flow), `.gal` (2:1 photo row), `.flyer` (4:5 card image), `.recap` (gold left rule). Not copied to other pages; nothing else uses them.

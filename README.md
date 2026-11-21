@@ -101,6 +101,10 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.48.1 (2026-11-21)
+
+- Training page photos swapped to the fieldhouse set the owner chose: adult league on the sport court, Court 3 huddles (two), Court 6 team huddle, wall setting drill.
+
 ## What's new in v0.48.0 (2026-11-21)
 **Training page rebuilt around adult training, with a youth section that sends parents to Colorado Boom by age group.** Not pushed. Files: `training.html`, `assets/img/training/` (7 new images), `llms.txt`, `README.md`, `design.md`.
 
