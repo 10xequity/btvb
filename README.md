@@ -101,6 +101,15 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.48.0 (2026-11-21)
+**Training page rebuilt around adult training, with a youth section that sends parents to Colorado Boom by age group.** Not pushed. Files: `training.html`, `assets/img/training/` (7 new images), `llms.txt`, `README.md`, `design.md`.
+
+- **Adult training:** new copy (what you'll work on, how a session runs, who it's for, private and small-group lessons), built from the existing facts ($35, Fri 7-8:30, Sun 5:30-7, drop-in included) plus email history (beginners welcome; high-school players can join with an OK first).
+- **SEO:** title and description now target "adult volleyball training Denver/Aurora"; FAQ grew from 3 to 7 questions; JSON-LD is now a `Service` (price, location, cities served) plus the matching `FAQPage`. Hero and OG image are an adult training photo.
+- **Youth:** summary copied from the Colorado Boom programs page, a one-line recap, then four sign-up cards that deep-link to `coloradoboom.com/programs.html#s-littles / #s-dev / #s-adv / #s-club`. The old junior times (Tue/Thu 5-6:30, ages 9+) are replaced by Colorado Boom's current schedule.
+- **Photos:** 3 from the fieldhouse (`afh`) site and 3 from the Colorado Boom site, re-saved as WebP in `assets/img/training/`, plus a 1200x630 JPG for social shares.
+- `validate.sh`: 102 passed, 0 failed.
+
 ## What's new in v0.47.0 (2026-11-19)
 **Audit fixes: faster images, no broken logo requests, no gray text, cleaner search data.** Not pushed.
 

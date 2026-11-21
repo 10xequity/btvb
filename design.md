@@ -4,6 +4,11 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.48.0 · 2026-11-21 — training page: adult-first, youth to Colorado Boom
+- Adult training leads the page (H1, hero, first section): that is the market being built. Youth is a summary that hands off to Colorado Boom, which owns youth sign-up.
+- New inline CSS on `training.html` only: `.steps` (numbered session flow), `.gal` (2:1 photo row), `.flyer` (4:5 card image), `.recap` (gold left rule). Not copied to other pages; nothing else uses them.
+- Training images live in `assets/img/training/`, sourced from `afh` and `colorado-boom-site`, re-encoded WebP.
+
 ## v0.47.0 · 2026-11-19 — audit fixes: WebP, clearbit removed, gray text, SEO
 - WebP derivatives (`boom-logo-200/400/800.webp`, `header-collage-800/1400.webp`, `library/womens-league-hero-800/1400.webp`) sit next to the originals; originals are kept, nothing deleted. No `<picture>` PNG fallback: every browser that runs this site's JS reads WebP.
 - Partner tiles that requested `logo.clearbit.com` now ship as `<span class="wm">`; the v0.34.0 dark-chip sweep on `index.html` already handles wordmarks that ship in the markup.
