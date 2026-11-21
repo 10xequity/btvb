@@ -4,6 +4,15 @@
 **Version:** 0.36.0 *(league pages read the Events tab by division; Rolling for undated rows; typed text allowed)*
 **Prompt version:** 2.0.0
 
+## v0.49.0 · 2026-11-21 — training page: reorder, banners, club players, My Spark
+- Page renamed "Volleyball Training" (H1, title, OG) per owner; adult stays first, youth second.
+- Order: Train like you mean it → Who it's for → What you'll work on → How a session runs → Youth → Sign up → Colorado Boom → FAQ. Section backgrounds re-alternated (band on Who, How, Sign up).
+- "On the court" gallery removed; its photos became full-width `.banner` images (3:1, 2:1 under 600px, CSS object-fit crop): `court-6` under Who it's for (focus on the players), `court-7` under What you'll work on. `.gal` CSS deleted.
+- Train like you mean it now stacks two photos (`.ph-stack`): sport-court league + `adult-training-net` (restored from git).
+- Advanced Skills card uses `court3-boom-huddle-card.webp` (880x1100, top ceiling cropped off); Advanced Club Training card took the old `youth-training-set` photo.
+- Youth: Colorado Boom coaches named; club players from any club welcome; club players both days $150/mo; My Spark Denver box (`.spark`, logo copied from shoot360-denver-site) with "$1,000 paid in full = 6 months".
+- FAQ 7 → 15; FAQPage JSON-LD is now generated from the visible FAQ so the two match.
+
 ## v0.48.1 · 2026-11-21 — training photos: fieldhouse set
 - Owner picked the photos: `sportcourt-adult-league`, `court3-boom-huddle`, `court3-boom-huddle-pink`, `court-6`, `court-7` from the fieldhouse site (`afh`), copied as-is into `assets/img/training/`. Three of them are only on the live aurorafieldhouseusa.com, not in the local `afh` checkout.
 - `.gal` is now 3 columns (2fr 1fr 1fr) at a fixed 340px height so portrait and landscape shots line up; stacks to one column under 700px as before.
