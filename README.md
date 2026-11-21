@@ -101,6 +101,10 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.49.2 (2026-11-21)
+
+- Training page: the two photo banners now run the full width of the screen and are cropped tight on the players (new files `court-6-banner.webp`, `court-7-banner.webp`; the uncropped originals stay in the folder).
+
 ## What's new in v0.49.1 (2026-11-21)
 
 - Training page: the $150/mo both-days rate now says Colorado Boom club members only.
