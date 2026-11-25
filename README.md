@@ -101,6 +101,13 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.50.1 (2026-11-25)
+
+- **Youth ages:** training, drop-in FAQ, chat and llms.txt now say ages 6–16, trained in two age groups (roughly 6–11 and 12–16) and then by level. The old per-program ages (6–9, 8–16, 14+, and 9–16 on drop-in) are gone.
+- **No hanging words:** every paragraph, list item and heading on the 13 public pages keeps its last two words together, plus `text-wrap:pretty`. Audited at 1280, 1024, 820 and 375 px.
+- **League tables on phones:** the women's and men's schedule tables were 546px wide on a 375px phone (page scrolled sideways); under 640px each league is now a stacked card with labeled rows.
+- **Photo crops:** the net-action photo on Tournaments and Women's now frames the players instead of the empty wall; fieldhouse background re-centred on the sign.
+
 ## What's new in v0.50.0 (2026-11-25)
 
 - **Help chat on every public page** (`assets/js/chat.js`, loaded on 13 pages). A "Questions?" button bottom-left answers about 30 common questions (tournaments, drop-in, training, youth, leagues, location, food, rules, lost & found, rentals, refunds...). "Next tournament" is answered live from the Events sheet. Anything it can't answer turns into a pre-filled email to admin@boomtownathletics.com; those emails are the log of answers to add. To add an answer, copy a block in the `FAQ` list at the top of the file. No server, no AI service, no tracking; only already-public facts and emails. `node scripts/chat-check.js` checks 27 sample questions route to the right answer.
