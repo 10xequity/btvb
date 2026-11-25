@@ -101,6 +101,11 @@ Local images in `/assets/img/` (**76 files**, ~20 MB total — well under GitHub
 Partner logos in `/assets/img/partners/`. There is no external image CDN dependency;
 all photos are committed to the repo.
 
+## What's new in v0.50.0 (2026-11-25)
+
+- **Help chat on every public page** (`assets/js/chat.js`, loaded on 13 pages). A "Questions?" button bottom-left answers about 30 common questions (tournaments, drop-in, training, youth, leagues, location, food, rules, lost & found, rentals, refunds...). "Next tournament" is answered live from the Events sheet. Anything it can't answer turns into a pre-filled email to admin@boomtownathletics.com; those emails are the log of answers to add. To add an answer, copy a block in the `FAQ` list at the top of the file. No server, no AI service, no tracking; only already-public facts and emails. `node scripts/chat-check.js` checks 27 sample questions route to the right answer.
+- **Pop-up:** the red "Next up / This Saturday" status is now a flat label inside the gold box on the title line, not a tilted stamp above it (standing rule). Nov 15 and Nov 22 removed; Feb 13, Feb 20, Mar 13 and Mar 27 added from the Events sheet, plus the matching search-engine event list. Once-a-day key bumped so returning visitors see it.
+
 ## What's new in v0.49.2 (2026-11-21)
 
 - Training page: the two photo banners now run the full width of the screen and are cropped tight on the players (new files `court-6-banner.webp`, `court-7-banner.webp`; the uncropped originals stay in the folder).
