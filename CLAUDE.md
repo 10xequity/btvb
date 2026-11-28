@@ -1,51 +1,27 @@
-<!-- CLAUDE.md · v0.28.0 · 2026-08-06 · Claude Code operating instructions for the btvb repo -->
+<!-- CLAUDE.md · v0.50.3 · 2026-11-27 · trimmed: operating stance lives in the global file; inherited-claims table moved to docs/VERIFY-LOG.md; state line refreshed -->
 
 # CLAUDE.md — Boomtown Athletics website (`btvb`)
 
-**Version** v0.28.0 · **Created** 2026-08-06 · **Status** Active
-**Supersedes** the chat-session `EXEC-PROMPT` workflow (v0.28.0 and earlier). Those documents
-were written for a sandboxed chat with no repo access. You have the repo. Behave differently.
+**Version** v0.50.3 · **Created** 2026-08-06 · **Updated** 2026-11-27 · **Status** Active
+**Supersedes** v0.28.0 of this file, and the chat-session `EXEC-PROMPT` workflow before it (written
+for a sandboxed chat with no repo access). You have the repo. Behave differently.
+**Companion** `~/.claude/CLAUDE.md` holds the operating stance (advisor voice, plain-English summaries,
+[FACT]/[INFERENCE]/[GUESS] labels, recommendation not menu). This file is repo rules only.
 
 Claude Code loads this file automatically at the start of every session in this directory.
 Read it fully before touching anything.
 
 ---
 
-## 0. Operating stance
-
-- Senior technical advisor. Accuracy over comfort. Lead with the answer, no preamble.
-- The owner is not a coder. Every change needs a plain-English summary: what it does, what
-  it touches (files, network, data). One or two clauses. Scale it to the change. That summary
-  is how the change gets judged, so it is not optional. Keep the code production-grade
-  regardless of how simple the explanation is.
-- Label contestable claims `[FACT]` / `[INFERENCE]` / `[GUESS]`. Skip the label when something
-  is plainly factual — tagging everything is noise. Flag any statistic with no source.
-- Give a recommendation, not a menu. Add one line naming the strongest alternative and why it lost.
-
 ## 1. The one rule that matters most: verify, don't inherit
 
 **Six releases running, a documented "fact" in this project has been wrong.**
 
-| Release | Inherited claim | Reality |
-|---|---|---|
-| v0.24.0 | `spike.jpg` is a broken image | grep artifact; the file is fine (819×868) |
-| v0.25.0 | IG images come from `hop.behold.pictures` | it is `behold.pictures` |
-| v0.25.0 | "the IG feed will populate on its own" | the real defect was a CSS overlay |
-| v0.26.0 | `naturalWidth > 0` proves the image is visible | it proves it decoded; a yellow panel covered 94% of every tile |
-| v0.27.0 | "sheet data can't be verified outside a browser" | false — the Google Drive MCP reads it |
-| v0.27.0 | ~14 logo hotlinks on 2 pages | 22 across 3 pages |
-| v0.27.0 | the exec-prompt's own cleanup step | would have *caused* a regression |
-| **v0.28.0** | "the `.ig-card .t`/`.pl` fix is on all 11 pages" | `.t` yes; **`.pl` is only on `index.html`** |
-| **v0.28.0** | `womens-open-gym-group.jpg` is unplaced | it is placed, on `womens-league.html` |
-| **v0.28.0** | `molten.png`/`team-evo-black.png` live on 3 pages | 2 real pages; the 3rd is the stale widget file |
-| **v0.28.0** | the `boomtownvb.com` 301 is "deferred until transfer" | **already live** — verified `301` on 2026-08-06 |
-| **v0.28.0** | "the v0.28.0 tooling was delivered" | authored, never committed — `main` sat at v0.27.0 until this commit |
-| **v0.31.0** | `queens-club.html` is "just noindex + an invite gate" | its `<link rel=canonical>` also pointed **off-domain** at `https://www.queensclubvb.com/`, which 302s to a parked `l.ink` placeholder — removing `noindex` alone would have indexed nothing |
-| **v0.28.0** | "`validate.sh` passes 77/77" | true only where Python 3 is installed — 5 unguarded `python3` calls |
-| **v0.35.0** | "Waiver URL = `forms.gle/vwEY…`" (frozen constant since v0.28.0) | that form is the **Drop-In Digital Sign-In** (title verified by fetch); the liability waiver is `forms.gle/4vAw…`, which only `facility-rules.html` used — 5 "sign the waiver" links on 4 pages opened the sign-in |
+The log of inherited claims that turned out to be wrong (15 rows, v0.24.0 → v0.35.0) is in
+`docs/VERIFY-LOG.md`. Add a row there when you catch a new one.
 
 You are in a real checkout. **Check the file. Never restate a prior document's claim as fact
-without re-running the check.** If you catch a new one, record it in the table above and in
+without re-running the check.** If you catch a new one, record it in `docs/VERIFY-LOG.md` and in
 the release handoff.
 
 Corollary: **check the tooling before accepting a constraint.** "The sandbox can't read the
@@ -124,10 +100,8 @@ Bump it on every file you edit. Two traps, both of which have bitten:
 - A comment body can contain `>` (e.g. `onerror -> local fallback`), so a `[^>]*` regex
   terminates early. Use a tempered `(?:(?!-->)[\s\S])*?`.
 
-`[FACT]` Current state: the 11 indexable pages are at `v0.27.0 · 2026-07-28`.
-`queens-club.html` is stale at `v0.19.0`, `404.html` at `v0.15.0`, and `library.html` has **no
-version comment at all**. The "one comment per page" rule has only ever been enforced on the
-11 indexable pages.
+`[FACT]` The repo's latest release is v0.50.2 (2026-11-25). Per-page version comments drift; read
+them with `grep -m1 -o '<!--[^>]*-->' *.html` instead of trusting any list in this file.
 
 ## 5. Frozen constants — do not change without asking
 
